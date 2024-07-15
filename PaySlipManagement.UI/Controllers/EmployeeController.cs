@@ -406,10 +406,10 @@ namespace PaySlipManagement.UI.Controllers
 
             while (currentDate >= startDate && (joiningDate == null || currentDate >= joiningDate))
             {
-                payPeriods.Add(currentDate.ToString("MMMM-yyyy"));			
-	            currentDate = currentDate.AddMonths(-1);
-            }
-	        payPeriods.Reverse();
+                payPeriods.Add(currentDate.ToString("yyyy-MMMM"));			
+	              currentDate = currentDate.AddMonths(-1);
+	        }
+	          payPeriods.Reverse();
             return payPeriods;
         }
     }

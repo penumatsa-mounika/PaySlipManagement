@@ -7,6 +7,7 @@ using PaySlipManagement.BAL.Interfaces;
 using PaySlipManagement.UI.Common;
 using PaySlipManagement.UI.Models;
 using System.Text;
+using PaySlipManagement.Common.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,13 @@ builder.Services.AddHttpClient<APIServices>((serviceProvider, client) =>
 });
 builder.Services.AddScoped<IDepartmentBALRepo, DepartmentBALRepo>();
 builder.Services.AddScoped<IEmployeeBALRepo, EmployeeBALRepo>();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
@@ -54,8 +62,13 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.UseSession();
+
+app.UseMiddleware<RoleMiddleware>();
+
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Auth}/{action=Login}/{id?}");
 
 app.Run();

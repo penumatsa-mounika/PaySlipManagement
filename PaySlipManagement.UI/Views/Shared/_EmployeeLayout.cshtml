@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PaySlipManagement.UI</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PaySlipManagement.UI.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container-fluid {
+            flex: 1;
+        }
+
+        .sidebar {
+            min-width: 200px;
+            background-color: #343a40;
+            color: white;
+            height: 92vh;
+            padding-top: 1rem;
+        }
+
+            .sidebar .nav-link {
+                color: rgba(255, 255, 255, 0.8);
+            }
+
+                .sidebar .nav-link:hover,
+                .sidebar .nav-link.active {
+                    background-color: #007bff;
+                    color: white;
+                }
+
+        .content {
+            flex: 1;
+        }
+
+
+        .navbar {
+            padding: 0.5rem 1rem;
+            background-color: #ebebeb;
+        }
+
+        .footer {
+            background-color: #ebebeb;
+        }
+
+        .navbar .nav-link {
+            color: #007bff;
+        }
+
+            .navbar .nav-link:hover {
+                color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="container-fluid d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar p-3">
+            <h2>Whiztek</h2>
+            <hr>
+            <nav class="nav flex-column">
+                <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="GeneratePdf">Employee Details</a>
+            </nav>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Navbar -->
+            <nav class="navbar d-flex justify-content-end">
+                
+                <a class="nav-link text-black" >Hello, @ViewData["empcode"]</a>
+                <form asp-controller="Auth" asp-action="Logout" method="post" class="form-inline">
+                    <button type="submit" class="btn btn-link nav-link">Logout</button>
+                </form>
+            </nav>
+
+            <!-- Main Content -->
+            <main role="main">
+                @RenderBody()
+            </main>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            &copy; @DateTime.Now.Year - Whiztek Private Limited - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,39 +1,34 @@
 ﻿@model IEnumerable<DepartmentViewModel>
 
-@{
-    ViewData["Title"] = "Index";
-}
-@if (ViewData["ToastMessage"] != null)
-{
-    <script>
-        showToast('@ViewData["ToastMessage"]');
-    </script>
-}
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<div class="mt-2">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h3>Department Details</h3>
+            <p>List of Department Details</p>
+        </div>
+        <div>
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        </div>
+    </div>
+</div>
+<table class="table table-striped table-bordered">
+    <thead class="thead-light">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DepartmentName)
-            </th>
-            <th></th>
+            <th>Id</th>
+            <th>Department Name</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var details in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DepartmentName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <td>@details.Id</td>
+                <td>@details.DepartmentName</td>
+                <td class="d-flex justify-content-evenly">
+                    <a asp-action="Edit" asp-route-id="@details.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@details.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@details.Id">Delete</a>
                 </td>
             </tr>
         }
