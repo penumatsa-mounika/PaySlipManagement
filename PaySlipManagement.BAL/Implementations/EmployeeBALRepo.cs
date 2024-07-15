@@ -41,6 +41,10 @@ namespace PaySlipManagement.BAL.Implementations
         {
             return await _employeeDALRepo.GetEmployeeByCodeAsync(empcode);
         }
+        public async Task<EmployeeDetails> GetEmployeeDetailsByCodeAsync(string empcode)
+        {
+            return await _employeeDALRepo.GetEmployeeDetailsByCodeAsync(empcode);
+        }
         public async Task<bool> AddEmployee(Employee _employee)
         {
             return await _employeeDALRepo.AddEmployee(_employee);

@@ -56,6 +56,20 @@ namespace PaySlipManagement.DAL.Implementations
                 throw ex;
             }
         }
+        public async Task<EmployeeDetails> GetEmployeeDetailsByCodeAsync(string empcode)
+        {
+            try
+            {
+                EmployeeDetails e = new EmployeeDetails();
+                e.Emp_Code = empcode;
+                DapperServices<EmployeeDetails> _empDetailsRepo = new DapperServices<EmployeeDetails>();
+                return await _empDetailsRepo.ReadGetByAllCodeAsync(e);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<EmployeeDetails> GetEmployeeByCodeAsync(string empcode, string payperiod)
         {
             try

@@ -40,6 +40,11 @@ namespace PaySlipManagement.API.Controllers
         {
             return await _employeeBALRepo.GetEmployeeByCodeAsync(empcode);
         }
+        [HttpGet("GetEmployeeDetailsByEmpCode/{empcode}")]
+        public async Task<EmployeeDetails> GetEmployeeDetailsByCodeAsync(string empcode)
+        {
+            return await _employeeBALRepo.GetEmployeeDetailsByCodeAsync(empcode);
+        }
         [HttpGet("GetEmployeeByEmpCode/{empcode}/{payperiod}")]
         public async Task<EmployeeDetails> GetEmployeeByidAsync(string empcode, string payperiod)
         {

@@ -1,0 +1,89 @@
+﻿.s1 {
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 8pt;
+}
+
+.s2 {
+    color: black;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 8pt;
+}
+
+.s3 {
+    color: #4F81BC;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 8pt;
+}
+
+.s4 {
+    color: black;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 8pt;
+}
+
+h1 {
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 8.5pt;
+}
+
+.s6 {
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 8.5pt;
+}
+
+.s7 {
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 8.5pt;
+}
+
+p {
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 7.5pt;
+    margin: 0pt;
+}
+
+table,
+tbody {
+    vertical-align: top;
+    overflow: visible;
+}
+
+img {
+    display: right;
+    margin: 0 auto;
+    width: 180px;
+    height: auto;
+}
+
+.red-text {
+    color: red;
+}

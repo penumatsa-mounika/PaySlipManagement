@@ -13,6 +13,9 @@
         <li class="nav-item" role="presentation">
             <a class="nav-link" id="pay-periods-tab" data-bs-toggle="tab" href="#pay-periods" role="tab" aria-controls="pay-periods" aria-selected="false">Pay Periods</a>
         </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="ctc-breakdown-tab" data-bs-toggle="tab" href="#ctc-breakdown" role="tab" aria-controls="ctc-breakdown" aria-selected="false">CTC BreakDown</a>
+        </li>
     </ul>
     <div class="tab-content mt-4" id="employeeTabsContent">
         <!-- Employee Details Tab -->
@@ -63,6 +66,25 @@
                 }
             </div>
         </div>
+        <!-- CTC BreakDown Tab -->
+        <div class="tab-pane fade" id="ctc-breakdown" role="tabpanel" aria-labelledby="ctc-breakdown-tab">
+            <h4 class="text-secondary mb-2">CTC BreakDown</h4>
+            <div class="row">
+                <div class="card m-2" style="width: 18rem;">
+                    <div class="card-body d-flex align-items-center">
+                        <h5 class="card-title flex-grow-1">@Model.Employee.EmployeeName</h5>
+                        <form asp-action="GenerateEmployeeCTCPdf" method="post" class="d-inline-flex mx-2 p-0">
+                            <input type="hidden" name="empCode" value="@Model.Employee.Emp_Code" />
+                            <button type="submit" class="btn btn-primary mr-2"><i class="bi bi-file-earmark-arrow-down"></i></button>
+                        </form>
+                        <form asp-action="ViewEmployeeCTCPdf" method="post" class="d-inline-flex m-0 p-0">
+                            <input type="hidden" name="empCode" value="@Model.Employee.Emp_Code" />
+                            <button type="submit" class="btn btn-secondary"><i class="bi bi-eye"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> 
     </div>
 </div>
 

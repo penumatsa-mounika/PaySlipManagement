@@ -14,7 +14,7 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
 {
     public class DapperServices<T>: IDapperServices<T>
     {
-        private string constring = "Server=LAPTOP-46NPMGS0\\SQLEXPRESS;database=PayslipManagement;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true";
+        private string constring = "Server=localhost\\SQLEXPRESS01;database=PayslipManagement;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true";
         private SqlConnection con;
         public DapperServices()
         {
@@ -72,6 +72,26 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
                     parameters.Add("@" + property.Name, property.GetValue(entity));
                 };
                 var result = await con.QueryAsync<T>(sql, parameters);
+                con.Close();
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<T> ReadGetByAllCodeAsync(T entity)
+        {
+            try
+            {
+                var sql = GetSelectDetailsStoredProcedureName(entity) + " @Emp_Code";
+                var parameters = new DynamicParameters();
+                foreach (var property in entity.GetType().GetProperties())
+                {
+                    parameters.Add("@" + property.Name, property.GetValue(entity));
+                };
+                var result = await con.QueryFirstOrDefaultAsync<T>(sql, parameters);
                 con.Close();
                 return result;
 
@@ -270,7 +290,10 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
         {
             return $"EXEC spSelect{entity.GetType().Name}FullDetails";
         }
-
+        private string GetSelectDetailsStoredProcedureName(T entity)
+        {
+            return $"EXEC spSelect{entity.GetType().Name}CTCDetails";
+        }
         private string GetUpdateStoredProcedureName(T entity)
         {
             return $"EXEC spUpdate{entity.GetType().Name}";

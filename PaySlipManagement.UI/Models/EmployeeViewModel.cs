@@ -1,6 +1,4 @@
-﻿
-
-using PayslipManagement.Common.Models;
+﻿using PayslipManagement.Common.Models;
 namespace PaySlipManagement.UI.Models
 {
     public class EmployeeViewModel

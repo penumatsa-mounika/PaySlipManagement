@@ -16,6 +16,7 @@ namespace PaySlipManagement.BAL.Interfaces
         Task<IEnumerable<EmployeeDetails>> GetAllEmployeesDetailsAsync();
         Task<EmployeeDetails> GetEmployeeByCodeAsync(string empcode, string payperiod);
         Task<EmployeeDetails> GetEmployeeByCodeAsync(string empcode);
+        Task<EmployeeDetails> GetEmployeeDetailsByCodeAsync(string empcode);
         Task<bool> AddEmployee(Employee _employee);
         Task<bool> UpdateEmployee(Employee _employee);
         Task<bool> DeleteEmployee(Employee employee);

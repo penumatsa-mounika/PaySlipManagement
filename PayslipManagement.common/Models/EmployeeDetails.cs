@@ -42,11 +42,22 @@ namespace PayslipManagement.Common.Models
         public decimal EarningTotal { get; set; }
         public decimal TotalDeductions { get; set; }
         public decimal NetPay { get; set; }
-
+        public decimal AnnualCTC { get; set; }
+        public decimal CTCMonth { get; set; }
+        public decimal PFEmployerShare { get; set; }
+        public decimal PFEmployerShareAnnual { get; set; }
+        public decimal AnnualGrossPay { get; set; }
+        public decimal MonthGrossPay { get; set; }
+        public decimal OtherAdditions { get; set; }
+        public decimal OtherDeductions { get; set; }
+        public decimal LossOfPay { get; set; }
         // Account Details
         public string BankName { get; set; }
         public long BankAccountNumber { get; set; }
         public long UANNumber { get; set; }
         public string PFAccountNumber { get; set; }
+        //company details
+        public string CompanyName { get; set; }
+        public string CompanyAddress { get; set; }
     }
 }

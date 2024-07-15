@@ -1,0 +1,376 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Annexure-CTCbreakdown</title>
+    <meta name="author" content="Whiztek" />
+    <style>
+        .content {
+            text-align: center;
+        }
+
+        .s1 {
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 8.5pt;
+        }
+
+        .s2 {
+            color: black;
+            font-family: Arial, sans-serif;
+            font-style: normal;
+            text-decoration: none;
+            font-size: 8.5pt;
+        }
+
+        .s3 {
+            color: #4F81BC;
+            font-family: Arial, sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 8.5pt;
+        }
+
+        .s4 {
+            color: black;
+            font-family: Arial, sans-serif;
+            font-style: normal;
+            font-weight: normal;
+            text-decoration: none;
+            font-size: 8.5pt;
+        }
+
+        h1 {
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 10pt;
+        }
+
+        .s6 {
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 8.5pt;
+        }
+
+        .s7 {
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-style: normal;
+            font-weight: normal;
+            text-decoration: none;
+            font-size: 8.5pt;
+        }
+
+        p {
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-style: normal;
+            font-weight: normal;
+            text-decoration: none;
+            font-size: 7.5pt;
+            margin: 0pt;
+        }
+
+        table,
+        tbody {
+            vertical-align: top;
+            overflow: visible;
+        }
+
+        img {
+            display: right;
+            margin: 0 auto;
+            width: 200px;
+            height: auto;
+        }
+
+        .red-text {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <p style="text-align: left;">
+                <img src="data:image/png;base64,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"
+                     alt="Description of the image">
+            </p>
+            <!--<br />-->
+            
+            <!-- <div style="width: 26pt; display: flex; justify-content: space-around; width: 80%;">
+                <div style="display: flex; justify-content: left; width: 50%;"><h1 style="padding-left: 13px;">Days Paid </h1><span style="padding-top: 7px; padding-left: 13px">{{days}}</span></div>
+                <div style="display: flex; justify-content: right; width: 25%;"><h1 style="padding-right: 13px;">LWP/Absent </h1><span style="padding-top: 7px; padding-right: 13px">{{days}}/{{days}}</span></div>
+            </div> -->
+            <p style="text-align: left;"><br /></p>
+            <p style="text-align: left;"><br /></p>
+            <p style="text-align: left;"><br /></p>
+            <table style="border-collapse:collapse;" cellspacing="0">
+                <tr style="height:37pt">
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="4">
+                        <p class="s6" style="padding-top: 12pt;padding-left: 16pt;text-align: center;">
+                            ANNEXURE-1
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height:23pt">
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="4">
+                        <p class="s6" style="padding-top: 6pt;padding-left: 16pt;text-align: center;">
+                            CTC Break Down
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height:23pt">
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="1">
+                        <p class="s7" style="padding-top: 6pt;padding-left: 3pt;text-align: left;">
+                            Employee Name
+                        </p>
+                    </td>
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="3">
+                        <p class="s6" style="padding-top: 6pt; padding-left: 3pt; text-align: center;">
+                            {{empName}}
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height:23pt">
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="1">
+                        <p class="s7" style="padding-top: 6pt;padding-left: 3pt;text-align: left;">
+                            Designation
+                        </p>
+                    </td>
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="3">
+                        <p class="s7" style="padding-top: 6pt; padding-left: 3pt; text-align: center;">
+                            {{designation}}
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height:23pt">
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="1">
+                        <p class="s7" style="padding-top: 6pt;padding-left: 3pt;text-align: left;">
+                            Department
+                        </p>
+                    </td>
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="3">
+                        <p class="s7" style="padding-top: 6pt; padding-left: 3pt; text-align: center;">
+                            {{department}}
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height:22pt">
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-left: 3pt;text-align: left;">
+                            Gross Salary Per Month
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-right: 3pt;text-align: right;">
+                            {{gsalmon}}
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt; padding-left: 3pt; text-align: left;">
+                            Annual-Gross Salary
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt; padding-right: 3pt; text-align: right;">{{agsal}}</p>
+                    </td>
+                </tr>
+                <tr style="height:22pt">
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt; padding-left: 3pt; text-align: left;">
+                            PF Employer Per Month
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt; padding-right: 3pt; text-align: right;">{{pfersmon}}</p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt; padding-left: 3pt; text-align: left;">
+                            Annual-PF Employer
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt; padding-right: 3pt; text-align: right;">{{apfers}}</p>
+                    </td>
+                </tr>
+                <tr style="height:22pt">
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-left: 3pt;text-align: left;">CTC Per Month</p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-right: 3pt;text-align: right;">
+                            {{ctcmon}}
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-left: 3pt;text-align: left;">
+                            Annual-CTC
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-right: 3pt;text-align: right;">{{actc}}</p>
+                    </td>
+                </tr>
+                <tr style="height:23pt">
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s6" style="padding-top: 6pt;padding-left: 16pt;text-align: center;"></p>
+                    </td>
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s6" style="padding-top: 6pt;padding-left: 16pt;text-align: left;"></p>
+                    </td>
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s6" style="padding-top: 6pt;padding-left: 16pt;text-align: left;"></p>
+                    </td>
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s6" style="padding-top: 6pt;padding-left: 16pt;text-align: left;"></p>
+                    </td>
+                </tr>
+                <tr style="height:23pt">
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="2">
+                        <p class="s6" style="padding-top: 6pt;padding-left: 16pt;text-align: center;">
+                            Earnings for the month
+                        </p>
+                    </td>
+                    <td style="width: 150pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="2">
+                        <p class="s6" style="padding-top: 6pt; padding-left: 3pt; text-align: center;">
+                            Deductions
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height:22pt">
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-left: 3pt;text-align: left;">
+                            Basic Salary
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-right: 3pt;text-align: right;">
+                            {{eb}}
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt; padding-left: 3pt; text-align: left;">
+                            TDS
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt; padding-right: 3pt; text-align: right;">{{tds}}</p>
+                    </td>
+                </tr>
+                <tr style="height:22pt">
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt; padding-left: 3pt; text-align: left;">
+                            House Rent Allowance
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt; padding-right: 3pt; text-align: right;">{{hra}}</p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt; padding-left: 3pt; text-align: left;">
+                            Professional Tax
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt; padding-right: 3pt; text-align: right;">{{pt}}</p>
+                    </td>
+                </tr>
+                <tr style="height:22pt">
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-left: 3pt;text-align: left;">
+                            Special Allowances
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-right: 3pt;text-align: right;">
+                            {{sa}}
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-left: 3pt;text-align: left;">
+                            PF Employee
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-right: 3pt;text-align: right;">{{pfes}}</p>
+                    </td>
+                </tr>
+                <tr style="height:22pt">
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-left: 3pt;text-align: left;">
+                            Incentive/Other Additions
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-right: 3pt;text-align: right;">
+                            {{oadd}}
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-left: 3pt;text-align: left;">
+                            Other Deductions
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-right: 3pt;text-align: right;">{{oded}}</p>
+                    </td>
+                </tr>
+                <tr style="height:22pt">
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-left: 3pt;text-align: left;">
+                            Gross Pay
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-right: 3pt;text-align: right;">
+                            {{gsalmon}}
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-left: 3pt;text-align: left;">
+                            Total Deductions
+                        </p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 5pt;padding-right: 3pt;text-align: right;">{{damounttotal}}</p>
+                    </td>
+                </tr>
+                <tr style="height:22pt">
+
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="3">
+                        <p class="s7" style="padding-top: 5pt; text-align: center; font-weight: bold;">Net Pay for the month</p>
+                    </td>
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 ">
+                        <p class="s7" style="padding-top: 6pt; text-align: right; padding-right: 3pt; font-weight: bold;">{{netpay}}</p>
+                    </td>
+                </tr>
+                <!--<tr style="height:22pt">
+        <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="4">
+            <p class="s7" style="padding-top: 6pt; text-align: left;">Note: No Tax deductions are applicable.</p>
+        </td>
+    </tr>-->
+                <tr style="height:22pt">
+                    <td style="width: 162pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #000000; border-left-style: solid; border-left-width: 1pt; border-left-color: #000000; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #000000; border-right-style: solid; border-right-width: 1pt; border-right-color: #000000 " colspan="4">
+                        <p style="font-style: italic; padding-top: 6pt; text-align: left;">Note: No Tax deductions are applicable.</p>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</body>
+
+</html>

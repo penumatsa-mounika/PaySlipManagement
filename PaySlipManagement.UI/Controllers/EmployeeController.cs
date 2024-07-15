@@ -212,6 +212,38 @@ namespace PaySlipManagement.UI.Controllers
                 return View("Error");
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> GenerateEmployeeCTCPdf(string empCode)
+        {
+            try
+            {
+                // Fetch employee details from API
+                var employee = await _apiServices.GetAsync<EmployeeDetails>($"{_apiSettings.EmployeeEndpoint}/GetEmployeeDetailsByEmpCode/{empCode}");
+
+                if (employee == null)
+                {
+                    return NotFound("Employee not found.");
+                }
+
+                // Create a unique directory to store generated PDFs
+                string directory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+                Directory.CreateDirectory(directory);
+
+                // Generate the PDF
+                string filePath = Path.Combine(directory, $"{employee.Emp_Code}_CTCBreakDown.pdf");
+                GenerateEmployeeCTCPdf(employee, filePath);
+
+                // Provide download link
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                return File(fileBytes, "application/pdf", $"{employee.Emp_Code}_CTCBreakDown.pdf");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred: {ex.Message}");
+                return View("Error");
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> ViewEmployeePdf(string empCode, string payPeriod)
         {
@@ -236,6 +268,42 @@ namespace PaySlipManagement.UI.Controllers
                 // Provide PDF for viewing in browser
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
                 Response.Headers.Add("Content-Disposition", $"inline; filename={employee.Emp_Code}_{employee.PaySlipForMonth}_PaySlip.pdf");
+
+                // Clean up the temporary file after serving it
+                Task.Run(() => System.IO.File.Delete(filePath));
+
+                return File(fileBytes, "application/pdf");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred: {ex.Message}");
+                return View("Error");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> ViewEmployeeCTCPdf(string empCode)
+        {
+            try
+            {
+                // Fetch employee details from API
+                var employee = await _apiServices.GetAsync<EmployeeDetails>($"{_apiSettings.EmployeeEndpoint}/GetEmployeeDetailsByEmpCode/{empCode}");
+
+                if (employee == null)
+                {
+                    return NotFound("Employee not found.");
+                }
+
+                // Create a unique directory to store generated PDFs
+                string directory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+                Directory.CreateDirectory(directory);
+
+                // Generate the PDF
+                string filePath = Path.Combine(directory, $"{employee.Emp_Code}_CTCBreakDown.pdf");
+                GenerateEmployeeCTCPdf(employee, filePath);
+
+                // Provide PDF for viewing in browser
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                Response.Headers.Add("Content-Disposition", $"inline; filename={employee.Emp_Code}_CTCBreakDown.pdf");
 
                 // Clean up the temporary file after serving it
                 Task.Run(() => System.IO.File.Delete(filePath));
@@ -276,8 +344,34 @@ namespace PaySlipManagement.UI.Controllers
                                      .Replace("{{netpay}}", employee.NetPay.ToString("C"))
                                      .Replace("{{location}}", employee.Division)
                                      .Replace("{{netpayword}}", NumberToWordsConverter.ConvertToWords(employee.NetPay) + " Rupees")
-                                     .Replace("{{address}}", employee.Emp_Code);
+                                     .Replace("{{address}}", employee.CompanyAddress);
 
+            // Pass the correct file path
+            Generatepdf(filePath, htmlContent);
+        }
+
+        private void GenerateEmployeeCTCPdf(EmployeeDetails employee, string filePath)
+        {
+            string htmlContent = System.IO.File.ReadAllText("wwwroot/CTCbreakdown.html");
+            htmlContent = htmlContent.Replace("{{empName}}", employee.EmployeeName)
+                                     .Replace("{{designation}}", employee.Designation)
+                                     .Replace("{{department}}", employee.DepartmentName)
+                                     .Replace("{{gsalmon}}", employee.MonthGrossPay.ToString("C"))
+                                     .Replace("{{agsal}}", employee.AnnualGrossPay.ToString("C"))
+                                     .Replace("{{pfersmon}}", employee.PFEmployerShare.ToString("C"))
+                                     .Replace("{{apfers}}", employee.PFEmployerShareAnnual.ToString("C"))
+                                     .Replace("{{ctcmon}}", employee.CTCMonth.ToString("C"))
+                                     .Replace("{{actc}}", employee.AnnualCTC.ToString("C"))
+                                     .Replace("{{eb}}", employee.EarnedBasic.ToString("C"))
+                                     .Replace("{{tds}}", employee.TDS.ToString("C"))
+                                     .Replace("{{hra}}", employee.HRA.ToString("C"))
+                                     .Replace("{{pt}}", employee.ProfessionalTax.ToString("C"))
+                                     .Replace("{{sa}}", employee.SpecialAllowance.ToString("C"))
+                                     .Replace("{{pfes}}", employee.PFEmployeeShare.ToString("C"))
+                                     .Replace("{{oadd}}", employee.OtherAdditions.ToString("C"))
+                                     .Replace("{{oded}}", employee.OtherDeductions.ToString("C"))
+                                     .Replace("{{damounttotal}}", employee.TotalDeductions.ToString("C"))
+                                     .Replace("{{netpay}}", employee.NetPay.ToString("C"));
             // Pass the correct file path
             Generatepdf(filePath, htmlContent);
         }
@@ -313,10 +407,9 @@ namespace PaySlipManagement.UI.Controllers
             while (currentDate >= startDate && (joiningDate == null || currentDate >= joiningDate))
             {
                 payPeriods.Add(currentDate.ToString("yyyy-MMMM"));			
-	            currentDate = currentDate.AddMonths(-1);
-
+	              currentDate = currentDate.AddMonths(-1);
 	        }
-	        payPeriods.Reverse();
+	          payPeriods.Reverse();
             return payPeriods;
         }
     }
