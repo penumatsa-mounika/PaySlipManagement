@@ -1,0 +1,20 @@
+﻿@model ManagerViewModel
+@{
+
+}
+<h1>Insert Manager to the employee</h1>
+
+<div>
+    <form asp-action="Create">
+        <div class="form-group">
+            <label asp-for="Emp_Code"></label>
+            <input asp-for="Emp_Code" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ManagerCode"></label>
+            <input asp-for="ManagerCode" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>

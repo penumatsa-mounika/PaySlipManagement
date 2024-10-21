@@ -18,5 +18,6 @@ namespace PaySlipManagement.UI.Models
         public string LeaveRequestsEndpoint { get; set; }
         public string EmployeeTypeEndpoint { get; set; }
         public string LeavesEndpoint { get; set; }
+        public string ManagerEndPoint { get; set; }
     }
 }

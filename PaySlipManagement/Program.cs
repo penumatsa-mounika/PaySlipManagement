@@ -51,7 +51,7 @@ builder.Services.AddScoped<IHolidayImageBALRepo, HolidayImageBALRepo>();
 builder.Services.AddScoped<IHolidayPdfBALRepo, HolidayPdfBALRepo>();
 builder.Services.AddScoped<IPayslipDetailsBALRepo, PayslipDetailsBALRepo>();
 builder.Services.AddScoped<ICTCDetailsBALRepo, CTCDetailsBALRepo>();
-
+builder.Services.AddScoped<IManagerBALRepo, ManagerBALRepo>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

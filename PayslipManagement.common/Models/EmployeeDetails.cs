@@ -14,6 +14,7 @@ namespace PayslipManagement.Common.Models
         public string DepartmentName { get; set; }
         public string Designation { get; set; }
         public string Role { get; set; }
+        public string ManagerCode { get; set; }
         public string Division { get; set; }
         public string Email { get; set; }
         public string PAN_Number { get; set; }

@@ -6,24 +6,24 @@ using PaySlipManagement.UI.Models;
 
 namespace PaySlipManagement.UI.Controllers
 {
-    public class EmployeeTypeController : Controller
+    public class ManagerController : Controller
     {
         private APIServices _apiServices;
         private readonly ApiSettings _apiSettings;
-        public EmployeeTypeController(APIServices apiServices, IOptions<ApiSettings> apiSettings)
+        public ManagerController(APIServices apiServices, IOptions<ApiSettings> apiSettings)
         {
             this._apiServices = apiServices;
             _apiSettings = apiSettings.Value;
         }
         public async Task<IActionResult> Index()
         {
-            var employeeType = await _apiServices.GetAllAsync<PaySlipManagement.UI.Models.EmployeeTypeViewModel>($"{_apiSettings.EmployeeTypeEndpoint}/GetAllEmployeeType");
-            return View(employeeType);
+            var manager = await _apiServices.GetAllAsync<PaySlipManagement.UI.Models.ManagerViewModel>($"{_apiSettings.ManagerEndPoint}/GetAllManager");
+            return View(manager);
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var response = await _apiServices.GetAsync<EmployeeTypeViewModel>($"{_apiSettings.EmployeeTypeEndpoint}/GetEmployeeTypeByid/{id}");
+            var response = await _apiServices.GetAsync<ManagerViewModel>($"{_apiSettings.ManagerEndPoint}/GetManagerById/{id}");
             return View(response);
         }
 
@@ -34,38 +34,38 @@ namespace PaySlipManagement.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(EmployeeType _employeeType)
+        public async Task<IActionResult> Create(Manager _manager)
         {
             if (ModelState.IsValid)
             {
-                EmployeeTypeViewModel et = new EmployeeTypeViewModel();
-                et.Id = _employeeType.Id;
-                et.EmpType = _employeeType.EmpType;
-                et.LeaveAllocation = _employeeType.LeaveAllocation;
-                var response = await _apiServices.PostAsync<EmployeeType>($"{_apiSettings.EmployeeTypeEndpoint}/CreateEmployeeType", _employeeType);
+                ManagerViewModel m = new ManagerViewModel();
+                m.Id = _manager.Id;
+                m.Emp_Code = _manager.Emp_Code;
+                m.ManagerCode = _manager.ManagerCode;
+                var response = await _apiServices.PostAsync<Manager>($"{_apiSettings.ManagerEndPoint}/CreateManager", _manager);
                 if (response != null && response == "true")
                 {
                     return RedirectToAction("Index");
                 }
-                return View(et);
+                return View(m);
             }
-            return View(_employeeType);
+            return View(_manager);
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            var response = await _apiServices.GetAsync<EmployeeTypeViewModel>($"{_apiSettings.EmployeeTypeEndpoint}/GetEmployeeTypeByid/{id}");
+            var response = await _apiServices.GetAsync<ManagerViewModel>($"{_apiSettings.ManagerEndPoint}/GetManagerById/{id}");
             return View(response);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EmployeeType model)
+        public async Task<IActionResult> Edit(int id, Manager model)
         {
             if (ModelState.IsValid)
             {
-                await _apiServices.PutAsync($"{_apiSettings.EmployeeTypeEndpoint}/UpdateEmployeeType", model);
+                await _apiServices.PutAsync($"{_apiSettings.ManagerEndPoint}/UpdateManager", model);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -73,7 +73,7 @@ namespace PaySlipManagement.UI.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var response = await _apiServices.GetAsync<EmployeeTypeViewModel>($"{_apiSettings.EmployeeTypeEndpoint}/GetEmployeeTypeByid/{id}");
+            var response = await _apiServices.GetAsync<ManagerViewModel>($"{_apiSettings.ManagerEndPoint}/GetManagerById/{id}");
             return View(response);
         }
 
@@ -82,7 +82,7 @@ namespace PaySlipManagement.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var response = await _apiServices.GetAsync<bool>($"{_apiSettings.EmployeeTypeEndpoint}/DeleteEmployeeType/{id}");
+            var response = await _apiServices.GetAsync<bool>($"{_apiSettings.ManagerEndPoint}/DeleteManager/{id}");
             if (response == true)
             {
                 return RedirectToAction(nameof(Index));

@@ -1,0 +1,19 @@
+﻿@model ManagerViewModel
+
+<h1>Employee-Manager</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Id</dt>
+        <dd class="col-sm-10">@Model.Id</dd>
+
+        <dt class="col-sm-2">Employee code</dt>
+        <dd class="col-sm-10">@Model.Emp_Code</dd>
+
+        <dt class="col-sm-2">Manager Code</dt>
+        <dd class="col-sm-10">@Model.ManagerCode</dd>
+    </dl>
+</div>
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a> |
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>

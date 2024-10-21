@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NPOI.SS.Formula.Functions;
+using PayslipManagement.Common.Models;
 using PaySlipManagement.Common.Models;
 using PaySlipManagement.UI.Common;
 using PaySlipManagement.UI.Models;
@@ -52,6 +53,15 @@ namespace PaySlipManagement.UI.Controllers
             Emp_Code = empCode;
             var leaveRequests = await _apiServices.GetAllAsync<PaySlipManagement.UI.Models.LeaveRequestsViewModel>($"{_apiSettings.LeaveRequestsEndpoint}/GetLeaveRequestsByEmpCode/{Emp_Code}");
             return View(leaveRequests);
+        }
+
+        public async Task<IActionResult> ManagerIndex(string ApprovalPerson)
+        {
+            var empCode = Request.Cookies["empCode"];
+            ApprovalPerson = empCode;
+            var leaveRequests = await _apiServices.GetAllAsync<LeaveRequestsViewModel>($"{_apiSettings.LeaveRequestsEndpoint}/GetLeaveRequestsByManager/{ApprovalPerson}");
+            return View(leaveRequests);
+
         }
         public async Task<IActionResult> Details(int id)
         {
@@ -165,18 +175,53 @@ namespace PaySlipManagement.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ApplyLeave(LeaveRequests leaveRequests)
         {
-            var empCode = Request.Cookies["empCode"];
-            leaveRequests.Emp_Code = empCode;
-            leaveRequests.ApprovalPerson = "Admin";
-            leaveRequests.Status = "Pending";
-            var count = 0;
-            if (leaveRequests.FromDate != null && leaveRequests.ToDate != null)
+            try
             {
-                count = (leaveRequests.ToDate - leaveRequests.FromDate).Value.Days + 1;
+                var empCode = Request.Cookies["empCode"];
+                leaveRequests.Emp_Code = empCode;
+
+                // Retrieve the employee details to find their manager
+                var employee = await _apiServices.GetAsync<EmployeeDetails>($"{_apiSettings.EmployeeEndpoint}/GetEmployeeByEmpCode/{empCode}");
+
+                if (employee != null)
+                {
+                    leaveRequests.ApprovalPerson = employee.ManagerCode;
+
+                    leaveRequests.Status = "Pending";
+                    var count = 0;
+                    if (leaveRequests.FromDate != null && leaveRequests.ToDate != null)
+                    {
+                        count = (leaveRequests.ToDate - leaveRequests.FromDate).Value.Days + 1;
+                    }
+                    leaveRequests.LeavesCount = count;
+
+                    var response = await _apiServices.PostAsync<LeaveRequests>($"{_apiSettings.LeaveRequestsEndpoint}/CreateLeaveRequests", leaveRequests);
+
+                    // Check if the response was successful
+                    if (!string.IsNullOrEmpty(response))
+                    {
+                        return RedirectToAction("Index1");
+                    }
+                    else
+                    {
+                        // Handle the case where the API response is empty or failed
+                        ModelState.AddModelError("", "Failed to submit leave request.");
+                    }
+                }
+                else
+                {
+                    // Handle case where employee is null
+                    ModelState.AddModelError("", "Employee not found.");
+                }
             }
-            leaveRequests.LeavesCount = count;
-            var response = await _apiServices.PostAsync<LeaveRequests>($"{_apiSettings.LeaveRequestsEndpoint}/CreateLeaveRequests", leaveRequests);
-            return RedirectToAction("Index1");
+            catch (Exception ex)
+            {
+                // Log the exception and add a model error
+                ModelState.AddModelError("", $"An error occurred: {ex.Message}");
+            }
+
+            // Return the view with errors if any issues occur
+            return View(Index1);
         }
 
     }
