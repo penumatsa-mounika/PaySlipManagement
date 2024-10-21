@@ -48,7 +48,7 @@ namespace PaySlipManagement.DAL.Implementations
             try
             {
                 DapperServices<EmployeeDetails> _employeeDetailsRepo = new DapperServices<EmployeeDetails>();
-                var result = await _employeeDetailsRepo.ReadGetByAllNullCodeAsync(new EmployeeDetails() { Emp_Code = null });
+                var result = await _employeeDetailsRepo.ReadGetCodeByAllAsync(new EmployeeDetails() { Emp_Code = null });
                 return result;
             }
             catch (Exception ex)
