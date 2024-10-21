@@ -25,6 +25,8 @@
             padding-left: var(--bs-gutter-x, 0rem);
         }
 
+        <!-- 
+
         .sidebar {
             min-width: 200px;
             /* background-color: #FFD580; */
@@ -33,6 +35,8 @@
             height: 100%;
             padding-top: 1rem;
         }
+
+        
 
             .sidebar .nav-link {
                 color: rgba(255, 255, 255, 0.8);
@@ -43,6 +47,54 @@
                     background-color: #007bff;
                     color: white;
                 }
+
+        -->
+
+
+        /* Sidebar container */
+        .sidebar {
+            width: 250px; /* Sidebar width */
+            background-color: #ebebeb; /* Light grey background */
+            padding: 20px; /* Padding around the sidebar */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a floating effect */
+        }
+
+            /* Sidebar logo */
+            .sidebar .logo {
+                width: 100%; /* Make the logo responsive */
+                margin-bottom: 20px; /* Space below the logo */
+            }
+
+            /* Sidebar nav link styles */
+            .sidebar .nav-link {
+                font-size: 16px; /* Font size for links */
+                color: #333; /* Dark text color for links */
+                padding: 10px; /* Padding for clickable area */
+                text-decoration: none; /* Remove underline */
+                border-radius: 5px; /* Rounded corners */
+                transition: background-color 0.3s, color 0.3s; /* Smooth transition on hover */
+            }
+
+                /* Hover effect: orange background and white text */
+                .sidebar .nav-link:hover {
+                    background-color: #ff6f00; /* Orange background on hover */
+                    color: white; /* White text on hover */
+                }
+
+                /* Active or focused link state */
+                .sidebar .nav-link.active, .sidebar .nav-link:focus {
+                    background-color: #ff6f00; /* Orange background for active link */
+                    color: white; /* White text */
+                }
+
+            /* Optional: Styling the hr (divider) */
+            .sidebar hr {
+                border-color: #ddd; /* Light grey divider */
+                margin: 20px 0; /* Space around the divider */
+            }
+
+
+
 
         .content {
             flex: 1;
@@ -135,6 +187,29 @@
                 <nav class="nav flex-column">
                     @if (isAdminRole)
                     {
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "AccountDetails" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="AccountDetails" asp-action="Index">Account</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Department" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="Department" asp-action="Index">Department</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "CompanyDetails" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="CompanyDetails" asp-action="Index">Company</a>
+
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Roles" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
+
+
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "SalaryMetadata" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
+                            asp-area="" asp-controller="SalaryMetadata" asp-action="Index">Salary</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "User" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="User" asp-action="Index">User</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Holiday" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="Holiday" asp-action="Index">Holiday </a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Payslip" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="Payslip" asp-action="Index">Payslip Details</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "CTCDetails" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="CTCDetails" asp-action="Index">CTC Details</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "LeaveRequests" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="LeaveRequests" asp-action="Index">Leave Requests</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Leaves" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="Leaves" asp-action="Index">Leaves</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeType" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="EmployeeType" asp-action="Index">Employee Type</a>
+
                         <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
                         <a class="nav-link" asp-area="" asp-controller="AccountDetails" asp-action="Index">Account</a>
                         <a class="nav-link" asp-area="" asp-controller="Department" asp-action="Index">Department</a>
@@ -152,7 +227,8 @@
                     }
                     @if (isEmployeeRole)
                     {
-                        <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="GeneratePdf">Employee Details</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "GeneratePdf" ? "active" : "")"
+                           asp-area="" asp-controller="Employee" asp-action="GeneratePdf">Employee Details</a>
                     }
                 </nav>
             </div>

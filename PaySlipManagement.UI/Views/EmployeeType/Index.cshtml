@@ -3,69 +3,158 @@
 @{
     ViewData["Title"] = "Employee Type";
 }
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <style>
-    .custom-select {
-        width: 250px;
-    }
-
-    .bg-secondary {
-        background-color: #6c757d !important;
-    }
-
     .bg-light-orange {
         background-color: #FF8C00 !important; /* Light Orange Color */
         color: white; /* Optional: Text color */
     }
 
-    .form-inline .form-group {
+    /* Minimalist Styles */
+    .employee-type-heading {
+        font-size: 1.6rem;
+        color: #5dcaff; /* Subtle blue text for a clean look */
+        font-weight: 500; /* Medium weight for simplicity */
+        margin-bottom: 20px; /* Spacing below the heading */
+        padding-bottom: 10px; /* Slight padding to give the heading space */
+        text-align: left; /* Left-aligned for professional appearance */
+        letter-spacing: 0.5px; /* Slight spacing between letters for modern feel */
+    }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .card-header {
+        background-color: #ff9800;
+        border-radius: 12px 12px 0 0;
+        padding: 15px;
+        color: #fff;
+        text-align: center;
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
+
+    .card-body {
+        background-color: #fff8e1;
+        padding: 20px;
+    }
+
+    .table {
+        width: 100%;
+        margin: 0;
+        border-collapse: collapse;
+    }
+
+        .table th,
+        .table td {
+            padding: 10px;
+            text-align: left;
+            font-size: 0.95rem; /* Smaller font size for a modern feel */
+        }
+
+        .table th {
+            background-color: #ff9800;
+            color: white;
+        }
+
+    .text-muted {
+        color: #616161 !important;
+    }
+
+    .action-buttons {
         display: flex;
+        justify-content: space-evenly;
+    }
+
+    button {
+        border-radius: 8px; /* Rounded corners for buttons */
+        padding: 6px 12px; /* Slightly increased padding */
+        font-size: 0.9rem; /* Smaller font size */
+    }
+
+    .d-flex-between {
+        display: flex;
+        justify-content: space-between;
         align-items: center;
     }
 
-        .form-inline .form-group label {
-            margin-right: 10px;
-        }
+    .section-heading {
+        font-size: 1.8rem;
+        color: #5dcaff; /* Subtle blue text for a clean look */
+        font-weight: 500; /* Medium weight for simplicity */
+        padding-top: 20px;
+        padding-bottom: 10px; /* Slight padding to give the heading space */
+        text-align: left; /* Left-aligned for professional appearance */
+        letter-spacing: 0.5px; /* Slight spacing between letters for modern feel */
+    }
+
+    .btn-custom {
+        border-radius: 8px; /* Rounded corners for buttons */
+        padding: 6px 12px; /* Slightly increased padding */
+        font-size: 0.9rem; /* Smaller font size */
+    }
+
+    .styled-hr {
+        border: none;
+        border-bottom: 2px solid #ffa726; /* Subtle, thin orange underline */
+        margin: 20px 0; /* Adjust margins to your liking */
+        opacity: 0.7; /* Slight transparency for a softer look */
+    }
 </style>
-<div class="mt-2">
-    <div class="d-flex justify-content-between align-items-center">
-        <div>
-            <p>List of Employee Type</p>
+
+<div class="container mt-5">
+    <div class="d-flex-between">
+        <h2 class="section-heading">Employee Type</h2>
+        <a asp-action="Create" class="btn btn-primary  btn-custom">Create New</a>
+    </div>
+    <hr class="styled-hr" />
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">List of Employee Types</h5>
         </div>
-        <div>
-            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        <div class="card-body">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Employee Type</th>
+                        <th>Leave Allocation</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var type in Model)
+                    {
+                        <tr>
+                            <td>@type.Id</td>
+                            <td>@type.EmpType</td>
+                            <td>@type.LeaveAllocation</td>
+                            <td class="action-buttons">
+                                <a asp-action="Edit" asp-route-id="@type.Id" class="btn btn-primary btn-sm mr-2">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a asp-action="Details" asp-route-id="@type.Id" class="btn btn-info btn-sm mr-2">
+                                    <i class="bi bi-info-circle"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@type.Id" class="btn btn-danger btn-sm mr-2">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-<table class="table table-striped table-bordered">
-    <thead class="thead-light">
-        <tr class="bg-light-orange">
-            <th>Id</th>
-            <th>Employee Type</th>
-            <th>Leave Allocation</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var type in Model)
-        {
-            <tr>
-                <td>@type.Id</td>
-                <td>@type.EmpType</td>
-                <td>@type.LeaveAllocation</td>
-                <td>
-                    <div class="d-flex justify-content-md-evenly">
-                        <a asp-action="Edit" asp-route-id="@type.Id" class="btn btn-primary btn-sm mr-2">
-                            <i class="bi bi-pencil-square"></i>
-                        </a> |
-                        <a asp-action="Details" asp-route-id="@type.Id" class="btn btn-info btn-sm mr-2">
-                            <i class="bi bi-info-circle"></i>
-                        </a> |
-                        <a asp-action="Delete" asp-route-id="@type.Id" class="btn btn-danger btn-sm mr-2">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>

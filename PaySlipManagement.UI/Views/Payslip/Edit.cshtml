@@ -4,73 +4,163 @@
     ViewData["Title"] = "Edit Payslip";
 }
 
-<h2>Edit Payslip</h2>
+<h2 class="form-heading">Edit Payslip</h2>
+<h4 class="sub-heading">Payslip Details</h4>
+<hr class="custom-hr" />
 
-<h4>PayslipDetails</h4>
-<hr />
-<div class="row">
-    <div class="col-md-12">
-        <form asp-action="Edit">
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" readonly />
-            </div>
-            <div class="form-group">
-                <label asp-for="Emp_Code" class="control-label"></label>
-                <input asp-for="Emp_Code" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="PaySlipForMonth" class="control-label"></label>
-                <input asp-for="PaySlipForMonth" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="DaysPaid" class="control-label"></label>
-                <input asp-for="DaysPaid" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="AbsentDays" class="control-label"></label>
-                <input asp-for="AbsentDays" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="EarnedBasic" class="control-label"></label>
-                <input asp-for="EarnedBasic" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="HRA" class="control-label"></label>
-                <input asp-for="HRA" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="SpecialAllowance" class="control-label"></label>
-                <input asp-for="SpecialAllowance" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="PFEmployeeShare" class="control-label"></label>
-                <input asp-for="PFEmployeeShare" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="ProfessionalTax" class="control-label"></label>
-                <input asp-for="ProfessionalTax" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="TDS" class="control-label"></label>
-                <input asp-for="TDS" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="EarningTotal" class="control-label"></label>
-                <input asp-for="EarningTotal" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalDeductions" class="control-label"></label>
-                <input asp-for="TotalDeductions" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="NetPay" class="control-label"></label>
-                <input asp-for="NetPay" class="form-control" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-            </div>
-        </form>
-    </div>
+<div class="container form-container">
+    <form asp-action="Edit">
+        <div class="form-group">
+            <label asp-for="Id" class="form-label"></label>
+            <input asp-for="Id" class="form-control" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="Emp_Code" class="form-label"></label>
+            <input asp-for="Emp_Code" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="PaySlipForMonth" class="form-label"></label>
+            <input asp-for="PaySlipForMonth" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="DaysPaid" class="form-label"></label>
+            <input asp-for="DaysPaid" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="AbsentDays" class="form-label"></label>
+            <input asp-for="AbsentDays" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="EarnedBasic" class="form-label"></label>
+            <input asp-for="EarnedBasic" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="HRA" class="form-label"></label>
+            <input asp-for="HRA" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="SpecialAllowance" class="form-label"></label>
+            <input asp-for="SpecialAllowance" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="PFEmployeeShare" class="form-label"></label>
+            <input asp-for="PFEmployeeShare" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="ProfessionalTax" class="form-label"></label>
+            <input asp-for="ProfessionalTax" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="TDS" class="form-label"></label>
+            <input asp-for="TDS" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="EarningTotal" class="form-label"></label>
+            <input asp-for="EarningTotal" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="TotalDeductions" class="form-label"></label>
+            <input asp-for="TotalDeductions" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="NetPay" class="form-label"></label>
+            <input asp-for="NetPay" class="form-control" />
+        </div>
+        <div class="form-actions">
+            <input type="submit" value="Save" class="btn btn-save" />
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
 </div>
+
+<style>
+    .form-heading {
+        font-size: 2rem;
+        color: #5dcaff;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .sub-heading {
+        text-align: center;
+        color: #888;
+        font-weight: 400;
+        margin-bottom: 20px;
+    }
+
+    .custom-hr {
+        border: 0;
+        height: 2px;
+        background: #ffa726; /* Slight orange tint */
+        margin: 20px auto;
+    }
+
+    .form-container {
+        max-width: 600px; /* Set a max width for the form */
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #444;
+        margin-bottom: 8px;
+        display: block; /* Ensure label is on its own line */
+    }
+
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        transition: border-color 0.3s;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .form-control:focus {
+        border-color: #5dcaff;
+        outline: none;
+        box-shadow: 0 0 4px rgba(93, 202, 255, 0.5);
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .btn-save {
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #fff;
+        background-color: #5dcaff; /* Button color */
+        border: none;
+        transition: background-color 0.3s;
+        cursor: pointer;
+    }
+
+    .btn-save:hover {
+        background-color: #4da7e8; /* Darker shade on hover */
+    }
+
+    .btn-secondary {
+        background-color: #f44336; /* Secondary button color */
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 8px;
+        transition: background-color 0.3s;
+    }
+
+    .btn-secondary:hover {
+        background-color: #d32f2f; /* Darker shade on hover */
+    }
+</style>

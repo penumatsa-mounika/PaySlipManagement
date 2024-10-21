@@ -3,49 +3,84 @@
 @{
     ViewData["Title"] = "Delete";
 }
+<div class="container mt-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h2 class="text-center text-danger mb-4">Delete Employee</h2>
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.Emp_Code)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Emp_Code)
+                        </dd>
 
-<h1>Delete Employee</h1>
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <dl class="row">
-            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Emp_Code)</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.Emp_Code)</dd>
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.EmployeeName)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.EmployeeName)
+                        </dd>
 
-            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.EmployeeName)</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.EmployeeName)</dd>
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.DepartmentName)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.DepartmentName)
+                        </dd>
 
-            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DepartmentName)</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.DepartmentName)</dd>
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.Designation)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Designation)
+                        </dd>
+                    </dl>
+                </div>
 
-            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Designation)</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.Designation)</dd>
-        </dl>
-    </div>
-    <div class="col-md-6">
-        <dl class="row">
-            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Division)</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.Division)</dd>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.Division)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Division)
+                        </dd>
 
-            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Email)</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
 
-            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PAN_Number)</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.PAN_Number)</dd>
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.PAN_Number)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.PAN_Number)
+                        </dd>
 
-            <dt class="col-sm-4">@Html.DisplayNameFor(model => model.JoiningDate)</dt>
-            <dd class="col-sm-8">@Html.DisplayFor(model => model.JoiningDate)</dd>
-        </dl>
-    </div>
-</div>
-<div class="mt-4">
-    <div class="row">
-        <div class="col-md-6">
-            <form asp-action="DeleteConfirm">
-                <input type="hidden" asp-for="Id" />
-                <input type="submit" value="Delete" class="btn btn-danger" />
-                <a asp-action="Index" class="btn btn-secondary ml-2">Back to List</a>
-            </form>
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.JoiningDate)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.JoiningDate)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-between">
+                <form asp-action="DeleteConfirm" class="d-inline">
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+            </div>
         </div>
     </div>
 </div>

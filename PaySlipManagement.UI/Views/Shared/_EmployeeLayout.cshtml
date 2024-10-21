@@ -41,22 +41,66 @@
         }
 
 
-        .navbar {
-            padding: 0.5rem 1rem;
-            background-color: #ebebeb;
-        }
+        
 
         .footer {
             background-color: #ebebeb;
         }
 
+        
+
+
+        .navbar {
+            padding: 0.5rem 1rem;
+            background-color: #ebebeb;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-content {
+            display: flex; /* Flexbox for horizontal alignment */
+            justify-content: flex-end; /* Align items to the right */
+            align-items: center; /* Center items vertically */
+        }
+
+        .nav-greeting {
+            color: #333; /* Dark text for better readability */
+            margin-right: 20px; /* Space between greeting and logout button */
+            font-size: 16px; /* Font size for the greeting */
+        }
+
+        .nav-button {
+            background-color: #5dcaff; /* Button color */
+            color: white; /* Text color */
+            border: none; /* No border */
+            border-radius: 20px; /* Rounded corners */
+            padding: 10px 20px; /* Padding for size */
+            font-size: 16px; /* Font size */
+            cursor: pointer; /* Pointer cursor */
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+            .nav-button:hover {
+                background-color: #ff6f00; /* Darker color on hover */
+                transform: translateY(-2px);
+            }
+
+        .logout-form {
+            margin: 0; /* Remove default margin */
+        }
+
         .navbar .nav-link {
             color: #007bff;
+            font-size: 16px; /* Font size for link */
+            text-decoration: none; /* Remove underline */
+            transition: color 0.3s;
         }
 
             .navbar .nav-link:hover {
                 color: #0056b3;
             }
+
+
+
     </style>
 </head>
 <body>
@@ -74,11 +118,19 @@
         <div class="content">
             <!-- Navbar -->
             <nav class="navbar d-flex justify-content-end">
-                
-                <a class="nav-link text-black" >Hello, @ViewData["empcode"]</a>
-                <form asp-controller="Auth" asp-action="Logout" method="post" class="form-inline">
-                    <button type="submit" class="btn btn-link nav-link">Logout</button>
-                </form>
+                <div class="navbar-content">
+                    @if (ViewData["empCode"] != null)
+                    {
+                        <span class="nav-greeting">Hello, @ViewData["empCode"]</span>
+                        <form asp-controller="Auth" asp-action="Logout" method="post" class="logout-form">
+                            <button type="submit" class="nav-button">Logout</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+                    }
+                </div>
             </nav>
 
             <!-- Main Content -->

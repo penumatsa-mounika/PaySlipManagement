@@ -1,31 +1,110 @@
 ﻿@model LeavesViewModel
 
-<h1>Edit </h1>
+<h1 class="form-heading">Edit Leaves</h1>
+<hr class="custom-hr" />
 
-<div>
+<div class="container form-container">
     <form asp-action="Edit">
         <input type="hidden" asp-for="Id" />
+
         <div class="form-group">
-            <label asp-for="Emp_Code"></label>
-            <input asp-for="Emp_Code" class="form-control" />
+            <label asp-for="Emp_Code" class="form-label"></label>
+            <input asp-for="Emp_Code" class="form-control input-field" placeholder="Enter Employee Code" />
         </div>
+
         <div class="form-group">
-            <label asp-for="TypeId"></label>
-            <input asp-for="TypeId" class="form-control" />
+            <label asp-for="TypeId" class="form-label"></label>
+            <input asp-for="TypeId" class="form-control input-field" placeholder="Enter Leave Type ID" />
         </div>
+
         <div class="form-group">
-            <label asp-for="TotalLeaves"></label>
-            <input asp-for="TotalLeaves" class="form-control" />
+            <label asp-for="TotalLeaves" class="form-label"></label>
+            <input asp-for="TotalLeaves" class="form-control input-field" placeholder="Enter Total Leaves" />
         </div>
+
         <div class="form-group">
-            <label asp-for="LeavesAvailable"></label>
-            <input asp-for="LeavesAvailable" class="form-control" />
+            <label asp-for="LeavesAvailable" class="form-label"></label>
+            <input asp-for="LeavesAvailable" class="form-control input-field" placeholder="Enter Leaves Available" />
         </div>
+
         <div class="form-group">
-            <label asp-for="LeavesUsed"></label>
-            <input asp-for="LeavesUsed" class="form-control" />
+            <label asp-for="LeavesUsed" class="form-label"></label>
+            <input asp-for="LeavesUsed" class="form-control input-field" placeholder="Enter Leaves Used" />
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
+
+        <hr class="custom-hr" />
+
+        <div class="form-group mt-3">
+            <div class="d-flex justify-content-between">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+            </div>
+        </div>
     </form>
 </div>
-<a asp-action="Index" class="btn btn-secondary">Back to List</a>
+
+<style>
+    .form-heading {
+        font-size: 2rem;
+        color: #5dcaff;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .custom-hr {
+        border: 0;
+        height: 2px;
+        background: #ffa726; /* Slight orange tint */
+        margin: 20px auto;
+    }
+
+    .form-container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #444;
+    }
+
+    .input-field {
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        width: 100%;
+        transition: border-color 0.3s;
+    }
+
+    .input-field:focus {
+        border-color: #5dcaff;
+        outline: none;
+        box-shadow: 0 0 4px rgba(93, 202, 255, 0.5);
+    }
+
+    .btn-primary {
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: background-color 0.3s;
+    }
+
+    .btn-outline-secondary {
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        border: 1px solid #ccc;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #e2e2e2;
+    }
+</style>
