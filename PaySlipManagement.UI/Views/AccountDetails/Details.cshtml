@@ -1,29 +1,56 @@
 ﻿@model AccountDetailsViewModel
 
-<h1>Account Details</h1>
+@{
+    ViewData["Title"] = "Details";
+}
 
-<div>
-    <h4>Account Information</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">Id</dt>
-        <dd class="col-sm-10">@Model.Id</dd>
 
-        <dt class="col-sm-2">Employee Code</dt>
-        <dd class="col-sm-10">@Model.Emp_Code</dd>
+<div class="container mt-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h2 class="mb-4 text-center text-primary">Account Details</h2>
+            <hr />
+            <dl class="row mb-0">
+                <dt class="col-sm-3 fw-bold text-muted">
+                    @Html.DisplayNameFor(model => model.Emp_Code)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Emp_Code)
+                </dd>
 
-        <dt class="col-sm-2">Bank Name</dt>
-        <dd class="col-sm-10">@Model.BankName</dd>
+                <dt class="col-sm-3 fw-bold text-muted">
+                    @Html.DisplayNameFor(model => model.BankName)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.BankName)
+                </dd>
 
-        <dt class="col-sm-2">Bank Account Number</dt>
-        <dd class="col-sm-10">@Model.BankAccountNumber</dd>
+                <dt class="col-sm-3 fw-bold text-muted">
+                    @Html.DisplayNameFor(model => model.BankAccountNumber)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.MaskedBankAccountNumber)
+                </dd>
 
-        <dt class="col-sm-2">UAN Number</dt>
-        <dd class="col-sm-10">@Model.UANNumber</dd>
+                <dt class="col-sm-3 fw-bold text-muted">
+                    @Html.DisplayNameFor(model => model.UANNumber)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.MaskedUanNumber)
+                </dd>
 
-        <dt class="col-sm-2">PF Account Number</dt>
-        <dd class="col-sm-10">@Model.PFAccountNumber</dd>
-    </dl>
+                <dt class="col-sm-3 fw-bold text-muted">
+                    @Html.DisplayNameFor(model => model.PFAccountNumber)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.MaskedPfAccountNumber)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-between">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+    </div>
 </div>
-<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a> |
-<a asp-action="Index" class="btn btn-secondary">Back to List</a>

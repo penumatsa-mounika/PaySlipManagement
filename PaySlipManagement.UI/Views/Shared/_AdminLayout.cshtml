@@ -195,35 +195,26 @@
                            asp-area="" asp-controller="Department" asp-action="Index">Department</a>
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "CompanyDetails" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
                            asp-area="" asp-controller="CompanyDetails" asp-action="Index">Company</a>
-
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Roles" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
                            asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
-
-
                         <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "SalaryMetadata" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
                             asp-area="" asp-controller="SalaryMetadata" asp-action="Index">Salary</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "User" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="User" asp-action="Index">User</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Holiday" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="Holiday" asp-action="Index">Holiday </a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Payslip" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="Payslip" asp-action="Index">Payslip Details</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "CTCDetails" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="CTCDetails" asp-action="Index">CTC Details</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "LeaveRequests" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="LeaveRequests" asp-action="Index">Leave Requests</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Leaves" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="Leaves" asp-action="Index">Leaves</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeType" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" asp-area="" asp-controller="EmployeeType" asp-action="Index">Employee Type</a>
-
-                        <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
-                        <a class="nav-link" asp-area="" asp-controller="AccountDetails" asp-action="Index">Account</a>
-                        <a class="nav-link" asp-area="" asp-controller="Department" asp-action="Index">Department</a>
-                        <a class="nav-link" asp-area="" asp-controller="CompanyDetails" asp-action="Index">Company</a>
-                        <a class="nav-link" asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
-                        <a class="nav-link" asp-area="" asp-controller="SalaryMetadata" asp-action="Index">Salary</a>
-                        <a class="nav-link" asp-area="" asp-controller="User" asp-action="Index">User</a>
-                        <a class="nav-link" asp-area="" asp-controller="Holiday" asp-action="Index">Holiday </a>
-                        <a class="nav-link" asp-area="" asp-controller="Payslip" asp-action="Index">Payslip Details</a>
-                        <a class="nav-link" asp-area="" asp-controller="CTCDetails" asp-action="Index">CTC Details</a>
-                        <a class="nav-link" asp-area="" asp-controller="LeaveRequests" asp-action="Index">Leave Requests</a>
-                        <a class="nav-link" asp-area="" asp-controller="Leaves" asp-action="Index">Leaves</a>
-                        <a class="nav-link" asp-area="" asp-controller="EmployeeType" asp-action="Index">Employee Type</a>
-                        <a class="nav-link" asp-area="" asp-controller="Manager" asp-action="Index">Manager</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "User" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
+                        asp-area="" asp-controller="User" asp-action="Index">User</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Holiday" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
+                        asp-area="" asp-controller="Holiday" asp-action="Index">Holiday </a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Payslip" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
+                        asp-area="" asp-controller="Payslip" asp-action="Index">Payslip Details</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "CTCDetails" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
+                        asp-area="" asp-controller="CTCDetails" asp-action="Index">CTC Details</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "LeaveRequests" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
+                        asp-area="" asp-controller="LeaveRequests" asp-action="Index">Leave Requests</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Leaves" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
+                        asp-area="" asp-controller="Leaves" asp-action="Index">Leaves</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeType" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
+                        asp-area="" asp-controller="EmployeeType" asp-action="Index">Employee Type</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Manager" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="Manager" asp-action="Index">Manager</a>
                     }
                     @if (isEmployeeRole)
                     {

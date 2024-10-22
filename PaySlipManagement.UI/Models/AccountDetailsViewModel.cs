@@ -7,9 +7,11 @@ namespace PaySlipManagement.UI.Models
     public class AccountDetailsViewModel
     {
         public int? Id { get; set; }
-        public String Emp_Code { get; set; }
-        [Display(Name = "Bank Name")]
 
+        [Display(Name = "Employee Code")]
+        public String Emp_Code { get; set; }
+
+        [Display(Name = "Bank Name")]
         public String BankName { get; set; }
 
         [Display(Name = "Bank Account Number")]
