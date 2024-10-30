@@ -25,7 +25,7 @@
             padding-left: var(--bs-gutter-x, 0rem);
         }
 
-        <!-- 
+        <!--
 
         .sidebar {
             min-width: 200px;
@@ -36,7 +36,7 @@
             padding-top: 1rem;
         }
 
-        
+
 
             .sidebar .nav-link {
                 color: rgba(255, 255, 255, 0.8);
@@ -53,22 +53,40 @@
 
         /* Sidebar container */
         .sidebar {
-            width: 250px; /* Sidebar width */
-            background-color: #ebebeb; /* Light grey background */
-            padding: 20px; /* Padding around the sidebar */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a floating effect */
+            
+
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(to bottom, #f0f0f0, #343a40); /* Gradient from light to dark gray */
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for a modern look */
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
         }
+
+            .sidebar::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .sidebar::-webkit-scrollbar-thumb {
+                background: linear-gradient(180deg, rgba(128, 128, 128, 0.8), rgba(192, 192, 192, 0.8)); /* Grey gradient color */
+                border-radius: 5px;
+            }
 
             /* Sidebar logo */
             .sidebar .logo {
-                width: 100%; /* Make the logo responsive */
-                margin-bottom: 20px; /* Space below the logo */
+                width: 200px;
+                margin: 0 auto 20px auto;
+                display: block;
             }
+
+           
 
             /* Sidebar nav link styles */
             .sidebar .nav-link {
                 font-size: 16px; /* Font size for links */
-                color: #333; /* Dark text color for links */
+                color: white; /* Dark text color for links */
                 padding: 10px; /* Padding for clickable area */
                 text-decoration: none; /* Remove underline */
                 border-radius: 5px; /* Rounded corners */
@@ -79,6 +97,7 @@
                 .sidebar .nav-link:hover {
                     background-color: #ff6f00; /* Orange background on hover */
                     color: white; /* White text on hover */
+                    font-weight: bold;
                 }
 
                 /* Active or focused link state */
@@ -96,15 +115,36 @@
 
 
 
+
         .content {
             flex: 1;
+            padding: 20px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.9); 
+         
         }
+
+            .content::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-image: url('/images/whiztek_transparent_logo.png'); /* Path to your logo */
+                background-repeat: repeat; /* Repeat the logo */
+                background-size: 60px 50px; /* Adjust size */
+                background-position: 0 0; /* Start from the top-left */
+                opacity: 0.09; /* Set a low opacity for the background logo */
+                pointer-events: none; /* Ensure it doesn't interfere with content interactions */
+                z-index: 1; /* Send it to the back */
+            }
+
 
         img {
             display: right;
             margin: 0 auto;
             opacity: 0.8;
-
         }
 
         .logo {
@@ -120,12 +160,19 @@
         .footer {
             background-color: #ebebeb;
             padding: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .navbar + .container {
+            margin-top: 10px; /* Ensure there's space between navbar and main content */
         }
 
         .navbar {
             padding: 0.5rem 1rem;
-            background-color: #ebebeb;
+            background: linear-gradient(to right, #f0f0f0, #343a40);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            
         }
 
         .navbar-content {
@@ -135,7 +182,8 @@
         }
 
         .nav-greeting {
-            color: #333; /* Dark text for better readability */
+            color: white; /* Dark text for better readability */
+            font-weight: bold;
             margin-right: 20px; /* Space between greeting and logout button */
             font-size: 16px; /* Font size for the greeting */
         }
@@ -176,10 +224,12 @@
     <div class="container-fluid d-flex">
         @{
             bool isAdminRole = Convert.ToBoolean(ViewContext.HttpContext.Items["IsAdminRole"]);
+
             bool isEmployeeRole = Convert.ToBoolean(ViewContext.HttpContext.Items["IsEmployeeRole"]);
         }
         <!-- Sidebar -->
         @if (isAdminRole || isEmployeeRole)
+
         {
             <div class="sidebar p-3">
                 <img src="@Url.Content("~/images/whiztek_transparent_logo.png")" class="logo" alt="Logo" />
@@ -197,22 +247,22 @@
                            asp-area="" asp-controller="CompanyDetails" asp-action="Index">Company</a>
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Roles" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
                            asp-area="" asp-controller="Roles" asp-action="Index">Roles</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "SalaryMetadata" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
-                            asp-area="" asp-controller="SalaryMetadata" asp-action="Index">Salary</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "User" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
-                        asp-area="" asp-controller="User" asp-action="Index">User</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Holiday" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
-                        asp-area="" asp-controller="Holiday" asp-action="Index">Holiday </a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Payslip" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
-                        asp-area="" asp-controller="Payslip" asp-action="Index">Payslip Details</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "CTCDetails" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
-                        asp-area="" asp-controller="CTCDetails" asp-action="Index">CTC Details</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "LeaveRequests" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
-                        asp-area="" asp-controller="LeaveRequests" asp-action="Index">Leave Requests</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Leaves" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
-                        asp-area="" asp-controller="Leaves" asp-action="Index">Leaves</a>
-                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeType" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
-                        asp-area="" asp-controller="EmployeeType" asp-action="Index">Employee Type</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "SalaryMetadata" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="SalaryMetadata" asp-action="Index">Salary</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "User" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="User" asp-action="Index">User</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Holiday" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="Holiday" asp-action="Index">Holiday </a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Payslip" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="Payslip" asp-action="Index">Payslip Details</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "CTCDetails" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="CTCDetails" asp-action="Index">CTC Details</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "LeaveRequests" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="LeaveRequests" asp-action="Index">Leave Requests</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Leaves" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="Leaves" asp-action="Index">Leaves</a>
+                        <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeType" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="EmployeeType" asp-action="Index">Employee Type</a>
                         <a class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString() == "Manager" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
                            asp-area="" asp-controller="Manager" asp-action="Index">Manager</a>
                     }
@@ -232,13 +282,16 @@
                 <nav class="navbar d-flex justify-content-end">
                     <div class="navbar-content">
                         @if (Context.Session.GetString("empCode") != null)
+
                         {
                             <span class="nav-greeting">Hello, @Context.Session.GetString("empCode")</span>
                             <form asp-controller="Auth" asp-action="Logout" method="post" class="logout-form">
                                 <button type="submit" class="nav-button">Logout</button>
                             </form>
                         }
+
                         else
+
                         {
                             <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
                         }
@@ -260,6 +313,9 @@
             &copy; @DateTime.Now.Year - Whiztek Private Limited - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+   
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
@@ -268,3 +324,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
