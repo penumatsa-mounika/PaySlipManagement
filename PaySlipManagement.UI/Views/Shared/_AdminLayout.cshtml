@@ -129,16 +129,20 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-                right: 0;
-                bottom: 0;
+                width: 100%;
+                height: 100%;
                 background-image: url('/images/whiztek_transparent_logo.png'); /* Path to your logo */
-                background-repeat: repeat; /* Repeat the logo */
-                background-size: 60px 50px; /* Adjust size */
-                background-position: 0 0; /* Start from the top-left */
-                opacity: 0.09; /* Set a low opacity for the background logo */
-                pointer-events: none; /* Ensure it doesn't interfere with content interactions */
-                z-index: 1; /* Send it to the back */
+                background-repeat: no-repeat;
+                background-size: 90vw 80vh; /* Adjust to cover a large portion of the page */
+                background-position: 50px 90px;
+                background-attachment: fixed; /* Ensures the logo stays in place while scrolling */
+                opacity: 0.07; /* Adjust opacity for subtlety */
+                pointer-events: none;
+                z-index: 1;
+                transform: rotate(-17deg); /* Rotate to display diagonally */
             }
+
+
 
 
         img {
@@ -270,6 +274,8 @@
                     {
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "GeneratePdf" ? "active" : "")"
                            asp-area="" asp-controller="Employee" asp-action="GeneratePdf">Employee Details</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "LeaveRequests" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="LeaveRequests" asp-action="Index">Leaves Approval</a>
                     }
                 </nav>
             </div>

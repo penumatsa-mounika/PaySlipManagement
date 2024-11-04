@@ -25,9 +25,6 @@
         <li class="nav-item" role="presentation">
             <a class="nav-link" id="apply-leave-tab" data-bs-toggle="tab" href="#apply-leave" role="tab" aria-controls="apply-leave" aria-selected="false" style="color: #424242; font-weight: 500;">Leaves Request</a>
         </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link" id="manager-tab" data-bs-toggle="tab" href="#manager" role="tab" aria-controls="manager" aria-selected="false" style="color: #424242; font-weight: 500;">Manager Approval</a>
-        </li>
     </ul>
 
     <!-- Updated Styles for Tabs -->
@@ -71,11 +68,11 @@
         <!-- Employee Details Tab -->
         <div class="tab-pane fade show active" id="employee-details" role="tabpanel" aria-labelledby="employee-details-tab">
             <h2 class="employee-dashboard-heading">Employee Dashboard - @Model.Employee.EmployeeName</h2>
-            <div class="card mb-4">
-                <div class="card-header bg-dark-gray">
-                    <h5 class="mb-0">Employee Details</h5>
+            <div class="card mb-4" style="border: none; border-radius: 12px;">
+                <div class="card-header text-white" style="background-color: #ff9800; border-radius: 12px 12px 0 0; padding: 15px;">
+                    <h5 class="mb-0" style="font-weight: 500;">Employee Details</h5>
                 </div>
-                <div class="card-body bg-light-gray">
+                <div class="card-body" style="background-color: #fff8e1; padding: 20px;">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <p class="text-muted"><strong>Employee Code:</strong> @Model.Employee.Emp_Code</p>
@@ -97,22 +94,23 @@
         <!-- Minimalist Styles -->
         <style>
             .employee-dashboard-heading {
-                font-size: 1.6rem;
-                color: #616161; /* Dark gray */
-                font-weight: 500;
-                margin-bottom: 20px;
-                border-bottom: 2px solid #9e9e9e; /* Light gray underline */
-                padding-bottom: 10px;
-                text-align: left;
-                letter-spacing: 0.5px;
+                font-size: 1.6rem; /* Slim, modern font size */
+                color: #5dcaff; /* Subtle orange text for a clean look */
+                font-weight: 500; /* Medium weight for simplicity */
+                margin-bottom: 20px; /* Spacing below the heading */
+                border-bottom: 2px solid #ffa726; /* Thin orange underline for visual separation */
+                padding-bottom: 10px; /* Slight padding to give the heading space */
+                text-align: left; /* Left-aligned for professional appearance */
+                letter-spacing: 0.5px; /* Slight spacing between letters for modern feel */
             }
 
                 .employee-dashboard-heading:hover {
-                    color: #424242; /* Darker gray on hover */
-                    border-bottom-color: #424242;
-                    transition: color 0.3s ease, border-color 0.3s ease;
+                    color: #ff7043; /* Slightly darker orange on hover */
+                    border-bottom: 2px solid #ff7043; /* Darker underline on hover for subtle effect */
+                    transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
                 }
 
+            /* General card styles for modern and minimalistic feel */
             .card {
                 border: none;
                 border-radius: 12px;
@@ -125,22 +123,26 @@
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 }
 
-            .bg-dark-gray {
-                background-color: #424242; /* Dark gray */
-                color: #fff; /* White text */
+            /* Header styling */
+            .card-header {
+                background-color: #ff9800;
                 border-radius: 12px 12px 0 0;
                 padding: 15px;
+                color: #fff;
                 text-align: center;
                 font-size: 1.25rem;
                 font-weight: 500;
             }
 
-            .bg-light-gray {
-                background-color: #f5f5f5; /* Very light gray */
+            /* Body background with soft tone */
+            .card-body {
+                background-color: #fff8e1;
                 padding: 20px;
-                color: #424242; /* Dark gray text */
+                color: #424242;
+                font-size: 1rem;
             }
 
+            /* Typography */
             p {
                 margin-bottom: 10px;
                 color: #424242;
@@ -149,13 +151,15 @@
             }
 
             .text-muted {
-                color: #616161 !important; /* Slightly lighter gray */
+                color: #616161 !important;
                 font-size: 0.95rem;
             }
 
+            /* Remove excess margin and padding */
             h5 {
                 margin-bottom: 0;
             }
+
         </style>
 
 
@@ -217,7 +221,7 @@
             {
                 <p>No holiday PDF available.</p>
             }
-            <br/>
+            <br />
             @if (Model.Holiday.HolidayImage != null)
             {
                 <img src="data:@Model.Holiday.HolidayImage.ContentType;base64,@Convert.ToBase64String(Model.Holiday.HolidayImage.ImageData)" alt="Holiday Image" class="holiday-image">
@@ -226,22 +230,22 @@
             {
                 <p>No holiday image available.</p>
             }
-        </div> 
+        </div>
         <!-- Leaves Details Tab -->
         <div class="tab-pane fade" id="leaves-details" role="tabpanel" aria-labelledby="leaves-details-tab">
 
             <!-- Leave Information Section -->
             <div class="card shadow-sm mb-4">
-                <div class="card-header bg-dark-gray">
-                    <h5 class="mb-0">Leave Information</h5>
+                <div class="card-header text-white" style="background-color: #ff9800; border-radius: 12px 12px 0 0; padding: 15px;">
+                    <h5 class="mb-0" style="font-weight: 500;">Leave Information</h5>
                 </div>
-                <div class="card-body bg-light-gray">
+                <div class="card-body">
                     <div class="row">
                         <!-- Total Leaves -->
                         <div class="col-md-4">
                             <div class="info-box">
                                 <h6 class="text-secondary">Total Leaves</h6>
-                                <p class="h5 text-dark-gray">@Model.Leaves.TotalLeaves</p>
+                                <p class="h5">@Model.Leaves.TotalLeaves</p>
                             </div>
                         </div>
 
@@ -249,7 +253,7 @@
                         <div class="col-md-4">
                             <div class="info-box">
                                 <h6 class="text-secondary">Leave Balance</h6>
-                                <p class="h5 text-dark-gray">@Model.Leaves.LeavesAvailable</p>
+                                <p class="h5">@Model.Leaves.LeavesAvailable</p>
                             </div>
                         </div>
 
@@ -257,7 +261,7 @@
                         <div class="col-md-4">
                             <div class="info-box">
                                 <h6 class="text-secondary">Leaves Used</h6>
-                                <p class="h5 text-dark-gray">@Model.Leaves.LeavesUsed</p>
+                                <p class="h5">@Model.Leaves.LeavesUsed</p>
                             </div>
                         </div>
                     </div> <!-- End row -->
@@ -265,13 +269,13 @@
             </div> <!-- End card -->
             <!-- Leave Requests (Approved) Section -->
             <div class="card shadow-sm">
-                <div class="card-header bg-dark-gray">
-                    <h5 class="mb-0">Approved Leave Requests</h5>
+                <div class="card-header text-white" style="background-color: #ff9800; border-radius: 12px 12px 0 0; padding: 15px;">
+                    <h5 class="mb-0" style="font-weight: 500;">Approved Leave Requests</h5>
                 </div>
-                <div class="card-body bg-light-gray">
-                    <table class="table table-striped">
-                        <thead class="bg-medium-gray text-white">
-                            <tr>
+                <div class="card-body">
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-light">
+                            <tr style="background-color: #ffd699; color: #424242; border-radius: 12px 12px 0 0; padding: 15px;">
                                 <th>Id</th>
                                 <th>Employee Code</th>
                                 <th>Leave Type</th>
@@ -324,72 +328,9 @@
             </div> <!-- End card -->
         </div>
 
-        <!-- CSS Styling -->
-        <style>
-            /* General card styles for consistency */
-            .card {
-                border: none;
-                border-radius: 12px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                transition: transform 0.2s ease, box-shadow 0.2s ease;
-            }
-
-                .card:hover {
-                    transform: scale(1.01);
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                }
-
-            /* Dark gray header styling */
-            .bg-dark-gray {
-                background-color: #424242; /* Dark gray */
-                color: #fff;
-                border-radius: 12px 12px 0 0;
-                padding: 15px;
-                text-align: center;
-                font-size: 1.25rem;
-                font-weight: 500;
-            }
-
-            /* Light gray body styling */
-            .bg-light-gray {
-                background-color: #f5f5f5; /* Light gray */
-                padding: 20px;
-                color: #424242;
-            }
-
-            /* Medium gray header for tables */
-            .bg-medium-gray {
-                background-color: #616161; /* Medium gray */
-            }
-
-            /* Typography */
-            h6.text-secondary {
-                color: #757575; /* Medium gray text */
-            }
-
-            p.h5.text-dark-gray {
-                color: #424242; /* Dark gray text */
-            }
-
-            /* Table styles for consistent design */
-            .table thead th {
-                background-color: #616161; /* Medium gray */
-                color: #fff; /* White text */
-                font-weight: bold;
-            }
-
-            .table tbody tr:nth-child(even) {
-                background-color: #e0e0e0; /* Alternate light gray */
-            }
-
-            .table tbody tr:hover {
-                background-color: #d0d0d0; /* Slightly darker gray on hover */
-            }
-        </style>
-
         <!-- Apply Leave Tab-->
         <div class="tab-pane fade" id="apply-leave" role="tabpanel" aria-labelledby="apply-leave-tab">
-            <h4 >Apply Leave</h4>
+            <h4>Apply Leave</h4>
             <form asp-action="ApplyLeave" asp-controller="LeaveRequests" method="post">
                 <div class="form-group">
                     <p><strong>Employee:</strong> @Model.Employee.EmployeeName</p>
@@ -424,132 +365,22 @@
                 </div>
             </form>
         </div>
-
-        <!-- Manager Approval -->
-        <div class="tab-pane fade" id="manager" role="tabpanel" aria-labelledby="manager-tab">
-            <!-- Leave Requests (Approval) Section -->
-            <div class="card shadow-sm">
-                <div class="card-header bg-dark-gray">
-                    <h5 class="mb-0">Manager Leave Requests</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table table-striped table-bordered">
-                        <thead class="thead-light">
-                            <tr style="background-color: #ffd699; color: #424242; border-radius: 12px 12px 0 0; padding: 15px;">
-                                <th>Id</th>
-                                <th>Employee Code</th>
-                                <th>Leave Type</th>
-                                <th>Reason</th>
-                                <th>From Date</th>
-                                <th>To Date</th>
-                                <th>Leaves Count</th>
-                                <th>Approval Person</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.LeaveRequests != null && Model.LeaveRequests.Any())
-                            {
-                                foreach (var request in Model.LeaveRequests)
-                                {
-                                    <tr>
-                                        <td>@request.Id</td>
-                                        <td>@request.Emp_Code</td>
-                                        <td>@request.LeaveType</td>
-                                        <td>@request.Reason</td>
-                                        <td>@request.FromDate?.ToString("yyyy-MM-dd")</td>
-                                        <td>@request.ToDate?.ToString("yyyy-MM-dd")</td>
-                                        <td>@request.LeavesCount</td>
-                                        <td>@request.ApprovalPerson</td>
-                                        <td><span>@request.Status</span></td>
-                                        <td>
-                                            <!-- Buttons for Approve/Cancel -->
-                                            <button class="btn btn-success" onclick="approveRequest(@request.Id)"><i class="bi bi-check"></i></button>
-                                            <button class="btn btn-danger" onclick="cancelRequest(@request.Id)"><i class="bi bi-x"></i></button>
-                                        </td>
-                                    </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="10" class="text-center">No leave requests available</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div> <!-- End card-body -->
-            </div> <!-- End card -->
-        </div>
-        <style>
-            /* Dark gray header styling for consistency with Department Details */
-            .bg-dark-gray {
-                background-color: #424242; /* Dark gray background */
-                color: #ffffff; /* White text for contrast */
-                border-radius: 12px 12px 0 0; /* Rounded corners */
-                padding: 15px; /* Consistent padding */
-                font-size: 1.25rem; /* Font size similar to other headers */
-                font-weight: 500; /* Medium weight for clean look */
-                text-align: center;
-            }
-        </style>
-        <script>
-            function approveRequest(requestId) {
-                if (confirm('Are you sure you want to approve this request?')) {
-                    $.ajax({
-                        url: '@Url.Action("ApproveRequest", "LeaveRequests")',
-                        type: 'POST',
-                        data: {
-                            id: requestId,
-                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
-                        },
-                        success: function (response) {
-                            alert('Request approved successfully!');
-                            window.location.href = '@Url.Action("Index", "LeaveRequests")';
-                        },
-                        error: function (error) {
-                            alert('An error occurred while approving the request.');
-                        }
-                    });
-                }
-            }
-
-            function cancelRequest(requestId) {
-                if (confirm('Are you sure you want to cancel this request?')) {
-                    $.ajax({
-                        url: '@Url.Action("CancelRequest", "LeaveRequests")',
-                        type: 'POST',
-                        data: {
-                            id: requestId,
-                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
-                        },
-                        success: function (response) {
-                            alert('Request canceled successfully!');
-                            window.location.href = '@Url.Action("Index", "LeaveRequests")';
-                        },
-                        error: function (error) {
-                            alert('An error occurred while canceling the request.');
-                        }
-                    });
-                }
-            }
-        </script>
-
-
-        <script>
-            function calculateTotalDays() {
-                var fromDate = document.getElementById("fromDate").value;
-                var toDate = document.getElementById("toDate").value;
-                var fromDateParts = fromDate.split("-");
-                var toDateParts = toDate.split("-");
-                var fromDateDate = new Date(fromDateParts[0], fromDateParts[1] - 1, fromDateParts[2]);
-                var toDateDate = new Date(toDateParts[0], toDateParts[1] - 1, toDateParts[2]);
-                var totalDays = Math.round((toDateDate - fromDateDate) / (1000 * 3600 * 24)) + 1;
-                document.getElementById("totalDays").value = totalDays;
-            }
-        </script>
     </div>
+
+
+    <script>
+        function calculateTotalDays() {
+            var fromDate = document.getElementById("fromDate").value;
+            var toDate = document.getElementById("toDate").value;
+            var fromDateParts = fromDate.split("-");
+            var toDateParts = toDate.split("-");
+            var fromDateDate = new Date(fromDateParts[0], fromDateParts[1] - 1, fromDateParts[2]);
+            var toDateDate = new Date(toDateParts[0], toDateParts[1] - 1, toDateParts[2]);
+            var totalDays = Math.round((toDateDate - fromDateDate) / (1000 * 3600 * 24)) + 1;
+            document.getElementById("totalDays").value = totalDays;
+        }
+    </script>
+</div>
 </div>
 
 <!-- Custom Styles -->
@@ -566,9 +397,9 @@
         transition: transform 0.2s;
     }
 
-    .btn-outline-primary:hover {
-        transform: scale(1.05);
-    }
+        .btn-outline-primary:hover {
+            transform: scale(1.05);
+        }
 
     .card .btn {
         margin: 0;
@@ -624,7 +455,7 @@
             cursor: pointer;
         }
 
-        #apply-leave button[type="submit"]:hover {
+            #apply-leave button[type="submit"]:hover {
                 background-color: #3e8e41; /* darker green color on hover */
             }
 </style>
