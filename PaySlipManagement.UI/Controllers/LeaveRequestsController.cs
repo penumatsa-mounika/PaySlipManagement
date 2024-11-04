@@ -18,33 +18,25 @@ namespace PaySlipManagement.UI.Controllers
             _apiServices = apiServices;
             _apiSettings = apiSettings.Value;
         }
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 8)
+        public async Task<IActionResult> Index(string ApprovalPerson, int page = 1, int pageSize = 8)
         {
+            var empCode = Request.Cookies["empCode"];
+            ApprovalPerson = empCode;
             // Fetch all leave requests
-            var leaveRequests = await _apiServices.GetAllAsync<LeaveRequestsViewModel>($"{_apiSettings.LeaveRequestsEndpoint}/GetAllLeaveRequests");
+            var leaveRequests = await _apiServices.GetAllAsync<PaySlipManagement.UI.Models.LeaveRequestsViewModel>($"{_apiSettings.LeaveRequestsEndpoint}/GetLeaveRequestsByManager/{ApprovalPerson}");
 
-            // Calculate total number of items
-            int totalItems = leaveRequests.Count();
+            // Filter only "Pending" requests
+            var pendingRequests = leaveRequests?.Where(r => r.Status == "Pending").ToList();
 
-            // Calculate total pages
-            int totalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
+            // Pagination logic
+            var totalPending = pendingRequests.Count();
+            var totalPages = (int)Math.Ceiling(totalPending / (double)pageSize);
+            var pagedPendingRequests = pendingRequests.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-            // Ensure current page is within bounds
-            int currentPage = page > totalPages ? totalPages : page;
-            currentPage = currentPage < 1 ? 1 : currentPage;
-
-            // Calculate the items to skip
-            int skipItems = (currentPage - 1) * pageSize;
-
-            // Get the paginated list of leave requests
-            var pagedLeaveRequests = leaveRequests.Skip(skipItems).Take(pageSize).ToList();
-
-            // Pass pagination-related data to the View
-            ViewBag.CurrentPage = currentPage;
             ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = page;
 
-            // Return the paginated list to the view
-            return View(pagedLeaveRequests);
+            return View(pagedPendingRequests);
         }
 
         public async Task<IActionResult> Index1(string Emp_Code)
@@ -53,15 +45,6 @@ namespace PaySlipManagement.UI.Controllers
             Emp_Code = empCode;
             var leaveRequests = await _apiServices.GetAllAsync<PaySlipManagement.UI.Models.LeaveRequestsViewModel>($"{_apiSettings.LeaveRequestsEndpoint}/GetLeaveRequestsByEmpCode/{Emp_Code}");
             return View(leaveRequests);
-        }
-
-        public async Task<IActionResult> ManagerIndex(string ApprovalPerson)
-        {
-            var empCode = Request.Cookies["empCode"];
-            ApprovalPerson = empCode;
-            var leaveRequests = await _apiServices.GetAllAsync<LeaveRequestsViewModel>($"{_apiSettings.LeaveRequestsEndpoint}/GetLeaveRequestsByManager/{ApprovalPerson}");
-            return View(leaveRequests);
-
         }
         public async Task<IActionResult> Details(int id)
         {
