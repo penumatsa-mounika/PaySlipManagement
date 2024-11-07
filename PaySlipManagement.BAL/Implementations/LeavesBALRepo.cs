@@ -43,5 +43,15 @@ namespace PaySlipManagement.BAL.Implementations
             return await _leavesDALRepo.DeleteLeaves(leaves);
 
         }
+
+        public async Task CarryForwardLeavesAsync()
+        {
+            await _leavesDALRepo.CarryForwardLeavesAsync();
+        }
+
+        public async Task MonthlyLeaveAdditionAsync()
+        {
+            await _leavesDALRepo.MonthlyLeaveAdditionAsync();
+        }
     }
 }

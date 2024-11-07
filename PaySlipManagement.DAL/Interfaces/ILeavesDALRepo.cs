@@ -15,5 +15,7 @@ namespace PaySlipManagement.DAL.Interfaces
         Task<bool> CreateLeaves(Leaves _leaves);
         Task<bool> UpdateLeaves(Leaves _leaves);
         Task<bool> DeleteLeaves(Leaves leaves);
+        Task CarryForwardLeavesAsync();
+        Task MonthlyLeaveAdditionAsync();
     }
 }
