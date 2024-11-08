@@ -50,5 +50,19 @@ namespace PaySlipManagement.API.Controllers
             leaves.Id = id;
             return await _leavesBALRepo.DeleteLeaves(leaves);
         }
+
+        [HttpPost("CarryForwardLeaves")]
+        public async Task<IActionResult> CarryForwardLeaves()
+        {
+            await _leavesBALRepo.CarryForwardLeavesAsync();
+            return Ok("Leaves carried forward successfully");
+        }
+
+        [HttpPost("MonthlyLeaveAddition")]
+        public async Task<IActionResult> MonthlyLeaveAddition()
+        {
+            await _leavesBALRepo.MonthlyLeaveAdditionAsync();
+            return Ok("Monthly Additon is done succesfully");
+        }
     }
 }
