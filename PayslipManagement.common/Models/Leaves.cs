@@ -16,5 +16,6 @@ namespace PaySlipManagement.Common.Models
         public decimal LeavesUsed { get; set; }
         public int Year { get; set; }
         public decimal? CarriedForwardLeaves { get; set; }
+
     }
 }
