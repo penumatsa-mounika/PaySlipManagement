@@ -52,6 +52,7 @@ namespace PaySlipManagement.API.Controllers
             return await _leavesBALRepo.DeleteLeaves(leaves);
         }
 
+
         [HttpPost("carry-forward")]
         public async Task<IActionResult> CarryForwardLeavesAsync()
         {
@@ -128,6 +129,7 @@ namespace PaySlipManagement.API.Controllers
                     return StatusCode(500, $"Error: {ex.Message}");
                 }
             }
+
         }
     }
 }
