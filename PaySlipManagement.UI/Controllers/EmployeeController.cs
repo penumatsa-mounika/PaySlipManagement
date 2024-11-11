@@ -54,6 +54,8 @@ namespace PaySlipManagement.UI.Controllers
                 Designation = e.Designation,
                 Division = e.Division,
                 Email = e.Email,
+                IsActive = e.IsActive,
+                PhoneNumber = e.PhoneNumber,
                 PAN_Number = e.PAN_Number,
                 JoiningDate = DateTime.TryParseExact(e.JoiningDate, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime joiningDateTime)
                     ? joiningDateTime.ToString("MM/dd/yyyy")
@@ -105,6 +107,8 @@ namespace PaySlipManagement.UI.Controllers
                 employee.Email = model.Email;
                 employee.PAN_Number = model.PAN_Number;
                 employee.JoiningDate = model.JoiningDate;
+                employee.IsActive = model.IsActive;
+                employee.PhoneNumber = model.PhoneNumber;
 
                 // Make a POST request to the Web API
                 var response = await _apiServices.PostAsync($"{_apiSettings.EmployeeEndpoint}/CreateEmployee", model);
