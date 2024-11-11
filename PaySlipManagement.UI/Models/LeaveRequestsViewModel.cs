@@ -12,7 +12,9 @@ namespace PaySlipManagement.UI.Models
         public string? Reason { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "From Date")]
+        [Required(ErrorMessage = "From Date is required.")]
         public DateTime? FromDate { get; set; }
+        [Required(ErrorMessage = "To Date is required.")]
         [DataType(DataType.Date)]
         [Display(Name = "To Date")]
         public DateTime? ToDate { get; set; }

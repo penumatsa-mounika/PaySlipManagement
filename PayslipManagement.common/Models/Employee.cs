@@ -21,5 +21,7 @@ namespace PaySlipManagement.Common.Models
         public string PAN_Number { get; set; }
         public string JoiningDate { get; set; }
         public bool IsActive { get; set; } = true;
+        public long PhoneNumber { get; set; }
+
     }
 }

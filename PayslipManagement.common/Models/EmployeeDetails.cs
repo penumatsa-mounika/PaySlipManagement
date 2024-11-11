@@ -17,6 +17,8 @@ namespace PayslipManagement.Common.Models
         public string ManagerCode { get; set; }
         public string Division { get; set; }
         public string Email { get; set; }
+        public long PhoneNumber { get; set; }
+        public bool IsActive { get; set; } = true;
         public string PAN_Number { get; set; }
         // Nullable DateTime to handle null values
         private DateTime? _joiningDate;

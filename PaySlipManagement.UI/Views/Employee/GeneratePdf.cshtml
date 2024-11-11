@@ -401,11 +401,11 @@
                 </div>
                 <div class="form-group">
                     <label for="fromDate">From:</label>
-                    <input type="date" id="fromDate" name="FromDate" class="form-control" onchange="calculateTotalDays()" />
+                    <input type="date" id="fromDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" name="FromDate" class="form-control" onchange="calculateTotalDays()" required />
                 </div>
                 <div class="form-group">
                     <label for="toDate">To:</label>
-                    <input type="date" id="toDate" name="ToDate" class="form-control" onchange="calculateTotalDays()" />
+                    <input type="date" id="toDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" name="ToDate" class="form-control" onchange="calculateTotalDays()" required />
                 </div>
                 <div class="form-group">
                     <label for="totalDays">Total Days:</label>
@@ -421,22 +421,47 @@
             </form>
         </div>
     </div>
+</div>
 
 
-    <script>
-        function calculateTotalDays() {
-            var fromDate = document.getElementById("fromDate").value;
-            var toDate = document.getElementById("toDate").value;
-            var fromDateParts = fromDate.split("-");
-            var toDateParts = toDate.split("-");
-            var fromDateDate = new Date(fromDateParts[0], fromDateParts[1] - 1, fromDateParts[2]);
-            var toDateDate = new Date(toDateParts[0], toDateParts[1] - 1, toDateParts[2]);
-            var totalDays = Math.round((toDateDate - fromDateDate) / (1000 * 3600 * 24)) + 1;
-            document.getElementById("totalDays").value = totalDays;
+<script>
+    function calculateTotalDays() {
+        var fromDate = document.getElementById("fromDate").value;
+        var toDate = document.getElementById("toDate").value;
+
+        // Parse dates
+        var fromDateParts = fromDate.split("-");
+        var toDateParts = toDate.split("-");
+        var fromDateDate = new Date(fromDateParts[0], fromDateParts[1] - 1, fromDateParts[2]);
+        var toDateDate = new Date(toDateParts[0], toDateParts[1] - 1, toDateParts[2]);
+
+        var totalDays = 0;
+
+        // Loop through each day from the start to end date
+        for (var date = new Date(fromDateDate); date <= toDateDate; date.setDate(date.getDate() + 1)) {
+            var dayOfWeek = date.getDay();
+
+            // Skip weekends (0 = Sunday, 6 = Saturday)
+            if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+                totalDays++;
+            }
         }
-    </script>
-</div>
-</div>
+
+        // Update the total days element with the calculated value
+        document.getElementById("totalDays").value = totalDays;
+    }
+
+        // Set minimum "To Date" based on selected "From Date"
+        document.getElementById("fromDate").addEventListener("change", function () {
+            const fromDateValue = this.value;
+            const toDateInput = document.getElementById("toDate");
+
+            // Set the "min" attribute of "To Date" to the selected "From Date"
+            toDateInput.min = fromDateValue;
+        });
+
+</script>
+
 
 <!-- Custom Styles -->
 <style>

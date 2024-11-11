@@ -18,6 +18,8 @@ namespace PaySlipManagement.UI.Models
         public List<string> Role { get; set; }  // To store the employee roles
 
         public String Division { get; set; }
+        [Required]
+        [EmailAddress]
         public String Email { get; set; }
         [Display(Name = "PAN Number")]
         public string PAN_Number { get; set; }
@@ -30,6 +32,10 @@ namespace PaySlipManagement.UI.Models
         // New property to track if the employee is active
         [Display(Name = "Active")]
         public bool IsActive { get; set; } = true; // Default to true (active)
+
+        [Display(Name = "Phone Number")]
+        public long PhoneNumber { get; set; }
+
     }
     public class EmployeePayPeriodsViewModel
     {
