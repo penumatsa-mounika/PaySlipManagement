@@ -181,6 +181,14 @@
                 transform: translate(-50%, -50%);
             }
 
+
+
+    .action-buttons {
+        display: flex;
+        gap: 8px; /* Adds uniform space between buttons */
+        justify-content: center; /* Centers the buttons horizontally */
+    }
+
 </style>
 
 
@@ -251,7 +259,11 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Emp_Code)</td>
+                            <td>
+                                <a href="@Url.Action("Details", "Employee", new { id = item.Id})">
+                                @Html.DisplayFor(modelItem => item.Emp_Code)
+                                </a>
+                            </td>
                             <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
                             <td>@Html.DisplayFor(modelItem => item.DepartmentName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Designation)</td>
@@ -265,10 +277,12 @@
                                 <input type="checkbox" disabled class="status-checkbox @(item.IsActive ? "active" : "inactive")" @(item.IsActive ? "checked" : "") />
                             </td>
                             <td>
-                                <div class="d-flex justify-content-md-evenly">
+                                <div class ="action-buttons">
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm mr-2">
                                         <i class="bi bi-pencil-square"></i>
                                     </a> |
+
+                                   
                                    
                                     <div class="col-auto">
                                         <form asp-action="SetEmployeeInactive" method="post" style="display:inline;">

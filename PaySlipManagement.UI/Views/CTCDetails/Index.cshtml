@@ -116,6 +116,12 @@
         color: #424242;
     }
 
+    .action-buttons {
+        display: flex;
+        gap: 8px; /* Adds uniform space between buttons */
+        justify-content: center; /* Centers the buttons horizontally */
+    }
+
 </style>
 
 <div class="mt-2">
@@ -183,13 +189,13 @@
                             <td>@details.TotalDeductions</td>
                             <td>@details.NetPay</td>
                             <td>
-                                <div class="d-flex justify-content-md-evenly">
+                                <div class="action-buttons">
                                 <a asp-action="Edit" asp-route-id="@details.Id" class="btn btn-primary btn-sm">
                                     <i class="bi bi-pencil-square"></i>
-                                </a>
+                                </a> |
                                 <a asp-action="Details" asp-route-id="@details.Id" class="btn btn-info btn-sm">
                                     <i class="bi bi-info-circle"></i>
-                                </a>
+                                </a> |
                                 <a asp-action="Delete" asp-route-id="@details.Id" class="btn btn-danger btn-sm">
                                     <i class="bi bi-trash"></i>
                                 </a>
