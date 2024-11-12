@@ -251,7 +251,11 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Emp_Code)</td>
+                            <td>
+                                <a href="@Url.Action("Details", "Employee", new { id = item.Id})">
+                                @Html.DisplayFor(modelItem => item.Emp_Code)
+                                </a>
+                            </td>
                             <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
                             <td>@Html.DisplayFor(modelItem => item.DepartmentName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Designation)</td>
@@ -268,7 +272,9 @@
                                 <div class="d-flex justify-content-md-evenly">
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm mr-2">
                                         <i class="bi bi-pencil-square"></i>
-                                    </a> |
+                                    </a>
+
+                                   
                                    
                                     <div class="col-auto">
                                         <form asp-action="SetEmployeeInactive" method="post" style="display:inline;">
