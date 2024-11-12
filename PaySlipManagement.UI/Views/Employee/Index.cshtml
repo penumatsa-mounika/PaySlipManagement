@@ -102,10 +102,10 @@
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .card:hover {
+   /*  .card:hover {
         transform: scale(1.01);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+    } */
 
     .card-header {
         background-color: #424242; /* Dark gray */
@@ -271,7 +271,7 @@
                             <td>@Html.DisplayFor(modelItem => item.Division)</td>
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
                             <td>@Html.DisplayFor(modelItem => item.MaskedPanNumber)</td>
-                            <td>@Html.DisplayFor(modelItem => item.JoiningDate)</td>
+                            <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.JoiningDate)</td>
                             <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
                             <td>
                                 <input type="checkbox" disabled class="status-checkbox @(item.IsActive ? "active" : "inactive")" @(item.IsActive ? "checked" : "") />
@@ -281,9 +281,6 @@
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm mr-2">
                                         <i class="bi bi-pencil-square"></i>
                                     </a> |
-
-                                   
-                                   
                                     <div class="col-auto">
                                         <form asp-action="SetEmployeeInactive" method="post" style="display:inline;">
                                             <input type="hidden" name="id" value="@item.Id" />  <!-- Hidden field to pass employee ID -->
@@ -315,44 +312,42 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <span id="toggleButton-@item.Id" class="btn btn-danger btn-sm" onclick="toggleDetails(@item.Id)">
-                                        <i class="bi bi-plus"></i>
+                                    <!-- Download Payslip Button -->
+                                    <span class="btn btn-primary btn-sm" onclick="showDownloadModal('@item.Emp_Code', '@item.Id')">
+                                        <i class="bi bi-download"></i>
                                     </span>
                                 </div>
                             </td>
                         </tr>
-                        <tr id="detailsSection-@item.Id" style="display: none;">
-                            <td colspan="10">
-                                <div class="bg-secondary bg-opacity-25">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-6 p-2">
-                                                <div class="d-flex align-items-center justify-content-start">
-                                                    <h6 class="mx-1">Payslip</h6>
-                                                    <div class="mx-1 w-50">
-                                                        <select class="form-control" id="payslipMonth">
-                                                            <option>--Select Month--</option>
-                                                            @foreach (var month in ViewBag.PaySlips)
-                                                            {
-                                                                <option>@month</option>
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                    <form asp-action="GenerateEmployeePdf" method="post" class="d-inline-flex mx-2 p-0">
-                                                        <input type="hidden" name="empCode" value="@item.Emp_Code" />
-                                                        <input type="hidden" name="month" value="month" />
-                                                        <button type="submit" class="btn btn-primary">Download</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 text-right p-2">
-                                            </div>
-                                        </div>
+                        <!-- Modal for selecting month and downloading payslip -->
+                        <div class="modal fade" id="downloadPayslipModal" tabindex="-1" aria-labelledby="downloadPayslipModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="downloadPayslipModalLabel">Download Payslip</h5>
+                                        @* <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Dropdown to select month -->
+                                        <label for="payslipMonth">Select Month:</label>
+                                        <select class="form-control" id="payslipMonth">
+                                            <option value="">--Select Month--</option>
+                                            @foreach (var month in ViewBag.PaySlips)
+                                            {
+                                                <option value="@month">@month</option>
+                                            }
+                                        </select>
+                                        <!-- Hidden fields to store Emp Code and Emp ID -->
+                                        <input type="hidden" id="empCode" />
+                                        <input type="hidden" id="empId" />
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary" onclick="downloadPayslip()">Download</button>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
                     }
                 </tbody>
             </table>
@@ -391,7 +386,48 @@
         // Show the modal
         $('#deactivateModal').modal('show');
     }
+    function showDownloadModal(empCode, empId) {
+        // Set employee code and ID in the hidden fields
+        document.getElementById('empCode').value = empCode;
+        document.getElementById('empId').value = empId;
 
+        // Show the modal
+        $('#downloadPayslipModal').modal('show');
+    }
+    function downloadPayslip() {
+        var empCode = document.getElementById('empCode').value;
+        var empId = document.getElementById('empId').value;
+        var month = document.getElementById('payslipMonth').value;
+
+        // Validate if month is selected
+        if (!month) {
+            alert("Please select a month.");
+            return;
+        }
+        // Create a form dynamically to submit the selected month for the payslip download
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = '@Url.Action("GenerateEmployeePdf", "Employee")'; // Update with your action and controller
+
+        // Add empCode and month as hidden inputs
+        var empCodeInput = document.createElement("input");
+        empCodeInput.type = "hidden";
+        empCodeInput.name = "empCode";
+        empCodeInput.value = empCode;
+        form.appendChild(empCodeInput);
+
+        var monthInput = document.createElement("input");
+        monthInput.type = "hidden";
+        monthInput.name = "month";
+        monthInput.value = month;
+        form.appendChild(monthInput);
+
+        document.body.appendChild(form);
+        form.submit(); // Submit the form to generate and download the payslip
+
+        // Hide the modal after form submission
+        $('#downloadPayslipModal').modal('hide');
+    }
 </script>
 
 <!-- jQuery -->
