@@ -135,6 +135,12 @@
     .pagination .page-link {
         color: #424242; /* Dark gray pagination numbers */
     }
+
+    .action-buttons {
+        display: flex;
+        gap: 8px; /* Adds uniform space between buttons */
+        justify-content: center; /* Centers the buttons horizontally */
+    }
 </style>
 
 <div class="container mt-5">
@@ -171,7 +177,7 @@
                             <td>@leaves.LeavesAvailable</td>
                             <td>@leaves.LeavesUsed</td>
                             <td>
-                                <div class="d-flex justify-content-md-evenly">
+                                <div class="action-buttons">
                                     <a asp-action="Edit" asp-route-id="@leaves.Id" class="btn btn-primary btn-sm mr-2">
                                         <i class="bi bi-pencil-square"></i>
                                     </a> |
