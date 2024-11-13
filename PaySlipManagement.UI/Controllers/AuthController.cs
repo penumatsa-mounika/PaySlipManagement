@@ -46,6 +46,9 @@ namespace PaySlipManagement.UI.Controllers
                 };
 
                 var response = await _apiServices.PostAsync($"{_apiSettings.UserEndpoint}/Login",user);
+                var empcode = user.Emp_Code;
+                var data = await _apiServices.GetAllAsync<ManagerViewModel>($"{_apiSettings.ManagerEndPoint}/GetAllManager");
+                var manager = data.Select(d => d.ManagerCode).Distinct().ToList();
                 if (!string.IsNullOrEmpty(response))
                 {
                     var jsonresponse = JsonConvert.DeserializeObject<ApiResponse>(response);
@@ -84,6 +87,11 @@ namespace PaySlipManagement.UI.Controllers
                     //        return RedirectToAction("GeneratePdf", "Employee");
                     //    }
                     //}
+                    if (manager.Contains(empcode))
+                    {
+                        var mng = empcode;
+                        SetCookie("ManagerCode", mng);
+                    }
                     if (roleClaim != null)
                     {
                         var role = roleClaim.Value;

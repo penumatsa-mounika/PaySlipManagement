@@ -234,6 +234,7 @@
             bool isAdminRole = Convert.ToBoolean(ViewContext.HttpContext.Items["IsAdminRole"]);
 
             bool isEmployeeRole = Convert.ToBoolean(ViewContext.HttpContext.Items["IsEmployeeRole"]);
+            bool isManager = Convert.ToBoolean(ViewContext.HttpContext.Items["IsManager"]);
         }
         <!-- Sidebar -->
         @if (isAdminRole || isEmployeeRole)
@@ -278,8 +279,11 @@
                     {
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Employee" && ViewContext.RouteData.Values["Action"].ToString() == "GeneratePdf" ? "active" : "")"
                            asp-area="" asp-controller="Employee" asp-action="GeneratePdf">Employee Details</a>
-                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "LeaveRequests" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
-                           asp-area="" asp-controller="LeaveRequests" asp-action="Index">Leaves Approval</a>
+                        @if (isManager) // Check if the employee is a manager
+                        {
+                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "LeaveRequests" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                               asp-area="" asp-controller="LeaveRequests" asp-action="Index">Leaves Approval</a>
+                        }
                     }
                 </nav>
             </div>

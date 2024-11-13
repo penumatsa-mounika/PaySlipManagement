@@ -187,7 +187,7 @@ namespace PaySlipManagement.UI.Controllers
             data.DepartmentName = departments.DepartmentName;
             return View(data);
         }
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
