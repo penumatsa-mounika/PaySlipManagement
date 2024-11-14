@@ -5,6 +5,11 @@
     var currentPage = (int)ViewBag.CurrentPage;
     var totalPages = (int)ViewBag.TotalPages;
 }
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success">
@@ -217,7 +222,9 @@
                                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">
                                     <i class="bi bi-info-circle"></i>
                                 </a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">
+                                <a href="javascript:void(0);"
+                                   onclick="confirmDelete(@item.Id)"
+                                   class="btn btn-danger btn-sm mr-2">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>
@@ -241,3 +248,43 @@
         </ul>
     </nav>
 </div>
+
+
+
+<script>
+    function confirmDelete(payslipId) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this payslip!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Payslip")',
+                        type: 'POST',
+                        data: {
+                            id: payslipId,
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        success: function (response) {
+                            swal("The payslip has been deleted!", {
+                                icon: "success",
+                            }).then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function () {
+                            swal("Error deleting payslip.", {
+                                icon: "error",
+                            });
+                        }
+                    });
+                } else {
+                    swal("Your payslip data is safe!");
+                }
+            });
+    }
+</script>

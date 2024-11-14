@@ -5,6 +5,9 @@
     var currentPage = (int)ViewBag.CurrentPage;
     var totalPages = (int)ViewBag.TotalPages;
 }
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <style>
     .custom-select {
         width: 250px;
@@ -228,9 +231,11 @@
                                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm mr-2">
                                     <i class="bi bi-info-circle"></i>
                                 </a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm mr-2">
-                                    <i class="bi bi-trash"></i>
-                                </a>
+                                    <a href="javascript:void(0);"
+                                       onclick="confirmDelete(@item.Id)"
+                                       class="btn btn-danger btn-sm mr-2">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
                             </div>
                         </td>
                     </tr>
@@ -252,3 +257,41 @@
         </ul>
     </nav>
 </div>
+
+    <script>
+        function confirmDelete(salaryId) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this salary metadata!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: '@Url.Action("Delete", "SalaryMetadata")',
+                            type: 'POST',
+                            data: {
+                                id: salaryId,
+                                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                            },
+                            success: function (response) {
+                                swal("The salary metadata has been deleted!", {
+                                    icon: "success",
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            },
+                            error: function () {
+                                swal("Error deleting salary metadata.", {
+                                    icon: "error",
+                                });
+                            }
+                        });
+                    } else {
+                        swal("Your salary data is safe!");
+                    }
+                });
+        }
+    </script>

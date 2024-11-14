@@ -179,7 +179,7 @@
                                     <i class="bi bi-info-circle"></i>
                                 </a> |
                                 <a href="javascript:void(0);"
-                                   onclick="confirmDelete('@Url.Action("Delete", new { id = role.Id })')"
+                                   onclick="confirmDelete(@role.Id)"
                                    class="btn btn-danger btn-sm mr-2">
                                     <i class="bi bi-trash"></i>
                                 </a>
@@ -207,39 +207,39 @@
 
 
 <script>
-    function confirmDelete(roleID) {
+    function confirmDelete(roleId) {
         swal({
             title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this department!",
+            text: "Once deleted, you will not be able to recover this role!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
         })
-            .then((willDelete) => {
-                if (willDelete) {
-                    $.ajax({
-                        url: '@Url.Action("Delete", "Roles")',
-                        type: 'POST',
-                        data: {
-                            id: roleId,
-                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
-                        },
-                        success: function (response) {
-                            swal("The department has been deleted!", {
-                                icon: "success",
-                            }).then(() => {
-                                location.reload();
-                            });
-                        },
-                        error: function () {
-                            swal("Error deleting department.", {
-                                icon: "error",
-                            });
-                        }
-                    });
-                } else {
-                    swal("Your department data is safe!");
-                }
-            });
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: '@Url.Action("Delete", "Roles")',
+                    type: 'POST',
+                    data: {
+                        id: roleId,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        swal("The role has been deleted!", {
+                            icon: "success",
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function () {
+                        swal("Error deleting role.", {
+                            icon: "error",
+                        });
+                    }
+                });
+            } else {
+                swal("Your role data is safe!");
+            }
+        });
     }
 </script>

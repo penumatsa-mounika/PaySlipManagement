@@ -5,6 +5,7 @@
     var currentPage = (int)ViewBag.CurrentPage;
     var totalPages = (int)ViewBag.TotalPages;
 }
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -184,7 +185,9 @@
                                     <a asp-action="Details" asp-route-id="@leaves.Id" class="btn btn-info btn-sm mr-2">
                                         <i class="bi bi-info-circle"></i>
                                     </a> |
-                                    <a asp-action="Delete" asp-route-id="@leaves.Id" class="btn btn-danger btn-sm mr-2">
+                                    <a href="javascript:void(0);"
+                                       onclick="confirmDelete(@leaves.Id)"
+                                       class="btn btn-danger btn-sm mr-2">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
@@ -209,4 +212,42 @@
     </nav>
 </div>
 
+
+<script>
+    function confirmDelete(leavesId) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this leaves!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Leaves")',
+                        type: 'POST',
+                        data: {
+                            id: leavesId,
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        success: function (response) {
+                            swal("The leaves has been deleted!", {
+                                icon: "success",
+                            }).then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function () {
+                            swal("Error deleting leaves.", {
+                                icon: "error",
+                            });
+                        }
+                    });
+                } else {
+                    swal("Your leaves data is safe!");
+                }
+            });
+    }
+</script>
 

@@ -10,6 +10,7 @@
         @TempData["SuccessMessage"]
     </div>
 }
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <style>
    
@@ -194,9 +195,11 @@
                                 <a asp-action="Details" asp-route-id="@type.Id" class="btn btn-info btn-sm mr-2">
                                     <i class="bi bi-info-circle"></i>
                                 </a> |
-                                <a asp-action="Delete" asp-route-id="@type.Id" class="btn btn-danger btn-sm mr-2">
-                                    <i class="bi bi-trash"></i>
-                                </a>
+                            <a href="javascript:void(0);"
+                               onclick="confirmDelete(@type.Id)"
+                               class="btn btn-danger btn-sm mr-2">
+                                <i class="bi bi-trash"></i>
+                            </a>
                             </td>
                         </tr>
                     }
@@ -204,4 +207,43 @@
             </table>
         </div>
     </div>
+
+
+<script>
+    function confirmDelete(typeId) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this employee type!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "EmployeeType")',
+                        type: 'POST',
+                        data: {
+                            id: typeId,
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        success: function (response) {
+                            swal("The employee type has been deleted!", {
+                                icon: "success",
+                            }).then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function () {
+                            swal("Error deleting employee type.", {
+                                icon: "error",
+                            });
+                        }
+                    });
+                } else {
+                    swal("Your employee type data is safe!");
+                }
+            });
+    }
+</script>
 
