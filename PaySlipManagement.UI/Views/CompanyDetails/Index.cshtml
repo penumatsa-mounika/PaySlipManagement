@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "Company Details";
 }
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <style>
     .custom-select {
         width: 250px;
@@ -189,7 +192,9 @@
                                 <a asp-action="Details" asp-route-id="@details.Id" class="btn btn-info btn-sm mr-2">
                                     <i class="bi bi-info-circle"></i>
                                 </a> |
-                                <a asp-action="Delete" asp-route-id="@details.Id" class="btn btn-danger btn-sm mr-2">
+                                <a href="javascript:void(0);"
+                                   onclick="confirmDelete(@details.Id)"
+                                   class="btn btn-danger btn-sm mr-2">
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </div>
@@ -214,3 +219,43 @@
     </nav>
 </div>
 
+
+
+
+<script>
+    function confirmDelete(companyId) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this company!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "CompanyDetails")',
+                        type: 'POST',
+                        data: {
+                            id: companyId,
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        success: function () {
+                            swal("The company has been deleted!", {
+                                icon: "success",
+                            }).then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function () {
+                            swal("Error deleting company.", {
+                                icon: "error",
+                            });
+                        }
+                    });
+                } else {
+                    swal("Your company data is safe!");
+                }
+            });
+    }
+</script>
