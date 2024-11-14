@@ -46,5 +46,16 @@
             // Masking all but the last 4 characters
             return "xxxxxxxxxxxx" + uanString.Substring(uanString.Length - 4);
         }
+
+        //Mask Phone number
+        public static string MaskPhoneNumber(long PhoneNumber)
+        {
+            var phoneNumberString = PhoneNumber.ToString();
+            if (string.IsNullOrEmpty(phoneNumberString) || phoneNumberString.Length < 10)
+            {
+                return phoneNumberString;
+            }
+            return "xxxxxx" + phoneNumberString.Substring(6);
+        }
     }
 }

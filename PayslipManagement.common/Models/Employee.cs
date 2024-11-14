@@ -19,7 +19,8 @@ namespace PaySlipManagement.Common.Models
         [EmailAddress(ErrorMessage = "Invalid email address.")]
         public String Email { get; set; }
         public string PAN_Number { get; set; }
-        public string JoiningDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? JoiningDate { get; set; }
         public bool IsActive { get; set; } = true;
         public long PhoneNumber { get; set; }
 

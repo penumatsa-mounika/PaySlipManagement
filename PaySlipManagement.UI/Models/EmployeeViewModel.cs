@@ -25,8 +25,7 @@ namespace PaySlipManagement.UI.Models
         public string PAN_Number { get; set; }
         public string MaskedPanNumber => StringHelpers.MaskPanNumber(PAN_Number);
         [Display(Name = "Joining Date")]
-        public string JoiningDate { get; set; }
-        
+        public DateTime? JoiningDate { get; set; }
         [Display(Name = "Department Name")]
         public string? DepartmentName { get; set; }
         // New property to track if the employee is active
@@ -35,6 +34,8 @@ namespace PaySlipManagement.UI.Models
 
         [Display(Name = "Phone Number")]
         public long PhoneNumber { get; set; }
+        public string MaskedPhoneNumber => StringHelpers.MaskPhoneNumber(PhoneNumber);
+
 
     }
     public class EmployeePayPeriodsViewModel

@@ -57,9 +57,7 @@ namespace PaySlipManagement.UI.Controllers
                 IsActive = e.IsActive,
                 PhoneNumber = e.PhoneNumber,
                 PAN_Number = e.PAN_Number,
-                JoiningDate = DateTime.TryParseExact(e.JoiningDate, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime joiningDateTime)
-                    ? joiningDateTime.ToString("MM/dd/yyyy")
-                    : string.Empty,
+                JoiningDate = e.JoiningDate,
             }).ToList();
 
             // Filter employees if departmentId is provided

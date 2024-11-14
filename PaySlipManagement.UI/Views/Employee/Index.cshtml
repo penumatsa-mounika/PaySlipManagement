@@ -272,7 +272,7 @@
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
                             <td>@Html.DisplayFor(modelItem => item.MaskedPanNumber)</td>
                             <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.JoiningDate)</td>
-                            <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.MaskedPhoneNumber)</td>
                             <td>
                                 <input type="checkbox" disabled class="status-checkbox @(item.IsActive ? "active" : "inactive")" @(item.IsActive ? "checked" : "") />
                             </td>
@@ -285,29 +285,30 @@
                                         <form asp-action="SetEmployeeInactive" method="post" style="display:inline;">
                                             <input type="hidden" name="id" value="@item.Id" />  <!-- Hidden field to pass employee ID -->
                                             <button type="button" class="btn btn-danger"
-                                                    onclick="showDeactivateModal('@item.EmployeeName', '@item.DepartmentName')">
-                                                Inactivate
+                                                        onclick="showDeactivateModal('@item.Id','@item.EmployeeName', '@item.DepartmentName')">
+                                                Inactive
                                             </button>
                                         </form>
                                     </div> | 
+                                        <!-- Modal (placed outside the loop) -->
                                     <div class="modal fade" id="deactivateModal" tabindex="-1" aria-labelledby="deactivateModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="deactivateModalLabel">Confirm Deactivation</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+                                                   <h5 class="modal-title" id="deactivateModalLabel">Confirm Deactivation</h5>
+                                                   @* <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                      </button> *@
                                                 </div>
                                                 <div class="modal-body">
-                                                    Are you sure you want to deactivate <span id="employeeName"></span> from <span id="employeeDepartment"></span>?
+                                                     Are you sure you want to deactivate <span id="employeeName"></span> from <span id="employeeDepartment"></span>?
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                    <form asp-action="SetEmployeeInactive" method="post" style="display:inline;">
-                                                        <input type="hidden" name="id" value="@item.Id" />
-                                                        <button type="submit" class="btn btn-danger">Yes,Deactivate</button>
-                                                    </form>
+                                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                   <form id="deactivateForm" asp-action="SetEmployeeInactive" method="post" style="display:inline;">
+                                                       <input type="hidden" name="id" id="employeeId" />  <!-- Hidden field to store the selected employee ID -->
+                                                       <button type="submit" class="btn btn-danger">Yes, Deactivate</button>
+                                                   </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -378,10 +379,13 @@
             detailsSection.style.display = 'none';
         }
     }
-    function showDeactivateModal(name, department) {
+    function showDeactivateModal(id, name, department) {
         // Set the content inside the modal
         document.getElementById('employeeName').textContent = name;
         document.getElementById('employeeDepartment').textContent = department;
+
+        // Set the employee ID in the hidden input field
+        document.getElementById('employeeId').value = id;
 
         // Show the modal
         $('#deactivateModal').modal('show');
