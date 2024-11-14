@@ -13,7 +13,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Emp_Code" class="form-label"></label>
-                    <input asp-for="Emp_Code" class="form-control input-field" />
+                    <input asp-for="Emp_Code" class="form-control input-field" readonly />
                     <span asp-validation-for="Emp_Code" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -22,21 +22,21 @@
                     <span asp-validation-for="EmployeeName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="DepartmentId" class="form-label"></label>
-                    <input asp-for="DepartmentId" class="form-control input-field" />
-                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="Designation" class="form-label"></label>
                     <input asp-for="Designation" class="form-control input-field" />
                     <span asp-validation-for="Designation" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Division" class="form-label"></label>
                     <input asp-for="Division" class="form-control input-field" />
                     <span asp-validation-for="Division" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" class="form-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control input-field" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Email" class="form-label"></label>
@@ -45,13 +45,13 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="PAN_Number" class="form-label"></label>
-                    <input asp-for="PAN_Number" class="form-control input-field" />
+                    <input asp-for="PAN_Number" class="form-control input-field" readonly />
                     <span asp-validation-for="PAN_Number" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="JoiningDate" class="form-label"></label>
-                    <input asp-for="JoiningDate" class="form-control input-field" />
-                    <span asp-validation-for="JoiningDate" class="text-danger"></span>
+                    <input asp-for="JoiningDate" class="form-control input-field" readonly />
+                    <span asp-validation-for="JoiningDate" class="text-danger" ></span>
                 </div>
             </div>
         </div>
