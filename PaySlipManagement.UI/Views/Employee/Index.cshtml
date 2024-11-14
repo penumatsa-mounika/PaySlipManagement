@@ -207,26 +207,50 @@
 <div class="mt-1 mb-1 py-2">
     <form method="get" asp-action="Index" class="form-inline">
         <div class="form-group">
-            <select id="departmentId" name="departmentId" class="form-control custom-select" onchange="this.form.submit()">
-                @if (ViewBag.SelectedDepartmentId == null)
-                {
-                    <option value="" selected>All</option>
-                }
-                else
-                {
-                    <option value="">All</option>
-                }
-                @foreach (var department in (SelectList)ViewBag.Departments)
-                {
-                    var isSelected = ViewBag.SelectedDepartmentId?.ToString() == department.Value ? "selected" : "";
-                    <option value="@department.Value" selected=@isSelected>
-                        @department.Text
-                    </option>
-                }
-            </select>
+            <div class="input-group">
+                <!-- Dropdown button that displays selected department name -->
+                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    @if (ViewBag.SelectedDepartmentId != null)
+                    {
+                        var selectedDepartment = ((SelectList)ViewBag.Departments)
+                        .FirstOrDefault(d => d.Value == ViewBag.SelectedDepartmentId.ToString());
+                        @selectedDepartment?.Text
+                    }
+                    else
+                    {
+                        @:Select Department
+                    }
+                </button>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <!-- "All" option -->
+                    <li><a class="dropdown-item" href="?departmentId=">All</a></li>
+
+                    <!-- Selected department if any -->
+                    @if (ViewBag.SelectedDepartmentId != null)
+                    {
+                        var selectedDepartment = ((SelectList)ViewBag.Departments)
+                        .FirstOrDefault(d => d.Value == ViewBag.SelectedDepartmentId.ToString());
+                        if (selectedDepartment != null)
+                        {
+                            <li><a class="dropdown-item" href="?departmentId=@selectedDepartment.Value">@selectedDepartment.Text</a></li>
+                        }
+                    }
+
+                    <!-- Remaining departments -->
+                    @foreach (var department in (SelectList)ViewBag.Departments)
+                    {
+                        if (department.Value != ViewBag.SelectedDepartmentId?.ToString())
+                        {
+                            <li><a class="dropdown-item" href="?departmentId=@department.Value">@department.Text</a></li>
+                        }
+                    }
+                </ul>
+            </div>
         </div>
     </form>
 </div>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 
 <div class="card mb-4">
@@ -338,6 +362,10 @@
                                                 <option value="@month">@month</option>
                                             }
                                         </select>
+                                        <!-- Error message will be displayed here if no month is selected -->
+                                        <div id="errorMessage" style="color: red; display: none;">
+                                            <strong>Please select a month.</strong>
+                                        </div>
                                         <!-- Hidden fields to store Emp Code and Emp ID -->
                                         <input type="hidden" id="empCode" />
                                         <input type="hidden" id="empId" />
@@ -405,7 +433,8 @@
 
         // Validate if month is selected
         if (!month) {
-            alert("Please select a month.");
+            // Display error message inside the modal
+            document.getElementById('errorMessage').style.display = 'block';
             return;
         }
         // Create a form dynamically to submit the selected month for the payslip download
