@@ -57,6 +57,9 @@ namespace PaySlipManagement.UI.Controllers
                 IsActive = e.IsActive,
                 PhoneNumber = e.PhoneNumber,
                 PAN_Number = e.PAN_Number,
+                //JoiningDate = DateTime.TryParseExact(e.JoiningDate, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime joiningDateTime)
+                    //? joiningDateTime.ToString("MM/dd/yyyy")
+                    //: string.Empty,
                 JoiningDate = e.JoiningDate,
             }).ToList();
 
@@ -141,12 +144,12 @@ namespace PaySlipManagement.UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EmployeeViewModel model)
+        public async Task<IActionResult> Edit(Employee model)
         {
             if (ModelState.IsValid)
             {
                 // Make a POST request to the Web API
-                var response = await _apiServices.PutAsync<EmployeeViewModel>($"{_apiSettings.EmployeeEndpoint}/UpdateEmployee", model);
+                var response = await _apiServices.PutAsync<Employee>($"{_apiSettings.EmployeeEndpoint}/UpdateEmployee", model);
 
                 if (!string.IsNullOrEmpty(response) && response == "Employee Updated Successfully" || response == "true")
                 {
