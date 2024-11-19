@@ -9,7 +9,7 @@
 
         <div class="form-group">
             <label asp-for="Emp_Code" class="form-label"></label>
-            <input asp-for="Emp_Code" class="form-control input-field" />
+            <input asp-for="Emp_Code" class="form-control input-field" readonly />
         </div>
 
         <div class="form-group">
@@ -19,12 +19,12 @@
 
         <div class="form-group">
             <label asp-for="BankAccountNumber" class="form-label"></label>
-            <input asp-for="BankAccountNumber" class="form-control input-field" />
+            <input asp-for="BankAccountNumber" class="form-control input-field" type="number"/>
         </div>
 
         <div class="form-group">
             <label asp-for="UANNumber" class="form-label"></label>
-            <input asp-for="UANNumber" class="form-control input-field" />
+            <input asp-for="UANNumber" class="form-control input-field" type="number"/>
         </div>
 
         <div class="form-group">
@@ -120,4 +120,13 @@
     .btn-secondary:hover {
         background-color: #5a6268;
     }
+    input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* For Firefox */
+}
 </style>
