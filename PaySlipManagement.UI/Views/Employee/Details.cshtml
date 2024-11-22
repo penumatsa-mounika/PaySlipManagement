@@ -10,14 +10,13 @@
         <div class="card-body">
             <h2 class="mb-4 text-center text-primary">Employee Details</h2>
             <hr />
+
+            <!-- Employee Information Section -->
+            <h4 class="text-primary">Employee Information</h4>
             <div class="row">
                 <div class="col-md-3 mb-0">
                     <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.Emp_Code):</label>
                     <p>@Html.DisplayFor(model => model.Emp_Code)</p>
-                </div>
-                <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.FirstName):</label>
-                    <p>@Html.DisplayFor(model => model.FirstName)</p>
                 </div>
                 <div class="col-md-3 mb-0">
                     <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.EmployeeName):</label>
@@ -28,60 +27,35 @@
                     <p>@Html.DisplayFor(model => model.DepartmentName)</p>
                 </div>
                 <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.EmergencyContact):</label>
-                    <p>@Html.DisplayFor(model => model.EmergencyContact)</p>
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.Designation):</label>
+                    <p>@Html.DisplayFor(model => model.Designation)</p>
                 </div>
                 <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.CurrentAddress):</label>
-                    <p>@Html.DisplayFor(model => model.CurrentAddress)</p>
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.Division):</label>
+                    <p>@Html.DisplayFor(model => model.Division)</p>
                 </div>
                 <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.PersonalEmail):</label>
-                    <p>@Html.DisplayFor(model => model.PersonalEmail)</p>
-                </div>
-                <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.PAN_Number):</label>
-                    <p>@Html.DisplayFor(model => model.PAN_Number)</p>
-                </div>
-                <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.DateOfBirth):</label>
-                    <p>@Html.DisplayFor(model => model.DateOfBirth)</p>
-                </div>
-                <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.BloodGroup):</label>
-                    <p>@Html.DisplayFor(model => model.BloodGroup)</p>
-                </div>
-                <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.FatherName):</label>
-                    <p>@Html.DisplayFor(model => model.FatherName)</p>
-                </div>
-                <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.SpouseName):</label>
-                    <p>@Html.DisplayFor(model => model.SpouseName)</p>
-                </div>
-                <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.AccountHolderName):</label>
-                    <p>@Html.DisplayFor(model => model.AccountHolderName)</p>
-                </div>
-                <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.BankName):</label>
-                    <p>@Html.DisplayFor(model => model.BankName)</p>
-                </div>
-                <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.PreviousCompanyName):</label>
-                    <p>@Html.DisplayFor(model => model.PreviousCompanyName)</p>
-                </div>
-                <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.Tenure):</label>
-                    <p>@Html.DisplayFor(model => model.Tenure)</p>
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.Email):</label>
+                    <p>@Html.DisplayFor(model => model.Email)</p>
                 </div>
                 <div class="col-md-3 mb-0">
                     <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.JoiningDate):</label>
                     <p>@Html.DisplayFor(model => model.JoiningDate)</p>
                 </div>
                 <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.Division):</label>
-                    <p>@Html.DisplayFor(model => model.Division)</p>
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.LinkedInProfile):</label>
+                    <p>@Html.DisplayFor(model => model.LinkedInProfile)</p>
+                </div>
+            </div>
+
+            <hr />
+
+            <!-- Family Details Section -->
+            <h4 class="text-primary">Personal Information</h4>
+            <div class="row">
+                <div class="col-md-3 mb-0">
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.FirstName):</label>
+                    <p>@Html.DisplayFor(model => model.FirstName)</p>
                 </div>
                 <div class="col-md-3 mb-0">
                     <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.LastName):</label>
@@ -92,36 +66,71 @@
                     <p>@Html.DisplayFor(model => model.PhoneNumber)</p>
                 </div>
                 <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.EmergencyRelation):</label>
-                    <p>@Html.DisplayFor(model => model.EmergencyRelation)</p>
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.PersonalEmail):</label>
+                    <p>@Html.DisplayFor(model => model.PersonalEmail)</p>
                 </div>
                 <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.PermanentAddress):</label>
-                    <p>@Html.DisplayFor(model => model.PermanentAddress)</p>
-                </div>
-                <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.Email):</label>
-                    <p>@Html.DisplayFor(model => model.Email)</p>
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.PAN_Number):</label>
+                    <p>@Html.DisplayFor(model => model.PAN_Number)</p>
                 </div>
                 <div class="col-md-3 mb-0">
                     <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.AadharNumber):</label>
                     <p>@Html.DisplayFor(model => model.AadharNumber)</p>
                 </div>
                 <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.DateOfCelebration):</label>
-                    <p>@Html.DisplayFor(model => model.DateOfCelebration)</p>
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.DateOfBirth):</label>
+                    <p>@Html.DisplayFor(model => model.DateOfBirth)</p>
                 </div>
                 <div class="col-md-3 mb-0">
-                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.LinkedInProfile):</label>
-                    <p>@Html.DisplayFor(model => model.LinkedInProfile)</p>
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.BloodGroup):</label>
+                    <p>@Html.DisplayFor(model => model.BloodGroup)</p>
+                </div>
+                <div class="col-md-3 mb-0">
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.CurrentAddress):</label>
+                    <p>@Html.DisplayFor(model => model.CurrentAddress)</p>
+                </div>
+                <div class="col-md-3 mb-0">
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.PermanentAddress):</label>
+                    <p>@Html.DisplayFor(model => model.PermanentAddress)</p>
+                </div>
+                <div class="col-md-3 mb-0">
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.FatherName):</label>
+                    <p>@Html.DisplayFor(model => model.FatherName)</p>
                 </div>
                 <div class="col-md-3 mb-0">
                     <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.MotherName):</label>
                     <p>@Html.DisplayFor(model => model.MotherName)</p>
                 </div>
                 <div class="col-md-3 mb-0">
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.SpouseName):</label>
+                    <p>@Html.DisplayFor(model => model.SpouseName)</p>
+                </div>
+                <div class="col-md-3 mb-0">
                     <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.ChildrenNames):</label>
                     <p>@Html.DisplayFor(model => model.ChildrenNames)</p>
+                </div>
+                <div class="col-md-3 mb-0">
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.EmergencyContact):</label>
+                    <p>@Html.DisplayFor(model => model.EmergencyContact)</p>
+                </div>
+                <div class="col-md-3 mb-0">
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.EmergencyRelation):</label>
+                    <p>@Html.DisplayFor(model => model.EmergencyRelation)</p>
+                </div>
+            </div>
+
+            <hr />
+
+            <!-- Account Information Section -->
+            <h4 class="text-primary">Account Information</h4>
+            <div class="row">
+                <div class="col-md-3 mb-0">
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.AccountHolderName):</label>
+                    <p>@Html.DisplayFor(model => model.AccountHolderName)</p>
+                </div>
+                <div class="col-md-3 mb-0">
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.BankName):</label>
+                    <p>@Html.DisplayFor(model => model.BankName)</p>
                 </div>
                 <div class="col-md-3 mb-0">
                     <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.BankAccountNumber):</label>
@@ -130,6 +139,21 @@
                 <div class="col-md-3 mb-0">
                     <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.IFSCCode):</label>
                     <p>@Html.DisplayFor(model => model.IFSCCode)</p>
+                </div>
+            </div>
+
+            <hr />
+
+            <!-- Previous Company Details Section -->
+            <h4 class="text-primary">Previous Company Details</h4>
+            <div class="row">
+                <div class="col-md-3 mb-0">
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.PreviousCompanyName):</label>
+                    <p>@Html.DisplayFor(model => model.PreviousCompanyName)</p>
+                </div>
+                <div class="col-md-3 mb-0">
+                    <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.Tenure):</label>
+                    <p>@Html.DisplayFor(model => model.Tenure)</p>
                 </div>
                 <div class="col-md-3 mb-0">
                     <label class="fw-bold text-muted">@Html.DisplayNameFor(model => model.ReportingManager):</label>
@@ -143,6 +167,7 @@
         </div>
     </div>
 </div>
+
 
     <div class="mt-4 d-flex justify-content-between">
         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Edit</a>
