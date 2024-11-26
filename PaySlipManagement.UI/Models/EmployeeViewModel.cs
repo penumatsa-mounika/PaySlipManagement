@@ -19,7 +19,7 @@ namespace PaySlipManagement.UI.Models
         public int DepartmentId { get; set; }
         [Display(Name = "Designation")]
         public string Designation { get; set; }
-        public List<string> Role { get; set; }  // To store the employee roles
+        public List<string>? Role { get; set; }  // To store the employee roles
 
         public String Division { get; set; }
         [Required]
