@@ -98,31 +98,34 @@ namespace PaySlipManagement.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                Employee employee = new Employee();
-                employee.Id = model.Id;
-                employee.Emp_Code = model.Emp_Code;
-                employee.EmployeeName = model.EmployeeName;
-                employee.DepartmentId = model.DepartmentId;
-                employee.Designation = model.Designation;
-                employee.Division = model.Division;
-                employee.Email = model.Email;
-                employee.PAN_Number = model.PAN_Number;
-                employee.JoiningDate = model.JoiningDate;
-                employee.IsActive = model.IsActive;
-                employee.PhoneNumber = model.PhoneNumber;
+                Employee employee = new Employee
+                {
+                    Id = model.Id,
+                    Emp_Code = model.Emp_Code,
+                    EmployeeName = model.EmployeeName,
+                    DepartmentId = model.DepartmentId,
+                    Designation = model.Designation,
+                    Division = model.Division,
+                    Email = model.Email,
+                    PAN_Number = model.PAN_Number,
+                    JoiningDate = model.JoiningDate,
+                    IsActive = model.IsActive,
+                    PhoneNumber = model.PhoneNumber
+                };
 
                 // Make a POST request to the Web API
                 var response = await _apiServices.PostAsync($"{_apiSettings.EmployeeEndpoint}/CreateEmployee", model);
 
-                if (!string.IsNullOrEmpty(response) && response == "Employee Registered Successfully" || response == "true")
+                if (!string.IsNullOrEmpty(response) && (response == "Employee Registered Successfully" || response == "true"))
                 {
-                    TempData["message"] = response;
-                    // Handle a successful Register
-                    return RedirectToAction("Index");
+                    //// Redirect to the Document Create View and pass Employee Code
+                    //TempData["Emp_Code"] = employee.Emp_Code;
+                    //TempData["EmployeeName"] = employee.EmployeeName;
+
+                    return RedirectToAction("Create", "Document"); // Redirect to Document Create View
                 }
                 else
                 {
-
                     // Handle the case where the API request fails or register is unsuccessful
                     if (response != null)
                     {
