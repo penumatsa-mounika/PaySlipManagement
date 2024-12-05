@@ -211,7 +211,7 @@
             {
                 <div class="d-flex justify-content-between">
                     <h6 class="mb-4">Latest Holiday Details</h6>
-                    <a href="data:application/pdf;base64,@Convert.ToBase64String(Model.Holiday.HolidayPdf.Data)" class="text-orange" download="@Model.Holiday.HolidayPdf.FileName">@Model.Holiday.HolidayPdf.FileName</a>
+                       <a href="data:application/pdf;base64,@Convert.ToBase64String(Model.Holiday.HolidayPdf.Data)" class="text-orange" download="@Model.Holiday.HolidayPdf.FileName">@Model.Holiday.HolidayPdf.FileName</a>
                 </div>
             }
             else
