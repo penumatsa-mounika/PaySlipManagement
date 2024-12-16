@@ -107,6 +107,26 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
                 throw ex;
             }
         }
+        public async Task<T> ReadGetByTypeAsync(T entity)
+        {
+            try
+            {
+                var sql = GetSelectTypeStoredProcedureName(entity) + " @Emp_Code,@DocumentType";
+                var parameters = new DynamicParameters();
+                foreach (var property in entity.GetType().GetProperties())
+                {
+                    parameters.Add("@" + property.Name, property.GetValue(entity));
+                };
+                var result = await con.QueryFirstOrDefaultAsync<T>(sql, parameters);
+                con.Close();
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public async Task<IEnumerable<T>> ReadGetCodeByAllAsync(T entity)
         {
@@ -325,6 +345,10 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
         private string GetSelectCodeStoredProcedureName(T entity)
         {
             return $"EXEC spSelect{entity.GetType().Name}Details";
+        }
+        private string GetSelectTypeStoredProcedureName(T entity)
+        {
+            return $"EXEC spSelect{entity.GetType().Name}ValidateType";
         }
         private string GetUpdateStoredProcedureName(T entity)
         {

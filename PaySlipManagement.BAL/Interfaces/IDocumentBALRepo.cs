@@ -9,7 +9,7 @@ namespace PaySlipManagement.BAL.Interfaces
 {
     public interface IDocumentBALRepo
     {
-        Task<Document> GetByIdAsync(Document pdf);
+        Task<Document> GetByIdAsync(string empcode, string doc);
         Task<bool> Create(Document pdf);
     }
 }

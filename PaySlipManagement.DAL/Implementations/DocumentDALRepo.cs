@@ -1,4 +1,5 @@
-﻿using PaySlipManagement.Common.Models;
+﻿using PayslipManagement.Common.Models;
+using PaySlipManagement.Common.Models;
 using PaySlipManagement.DAL.DapperServices.Implementations;
 using System;
 using System.Collections.Generic;
@@ -32,12 +33,16 @@ namespace PaySlipManagement.DAL.Implementations
             }
         }
 
-        public async Task<Document> GetByIdAsync(Document pdf)
+        public async Task<Document> GetByIdAsync(string empcode, string doc)
         {
 
             try
             {
-                return await _db.ReadGetByIdAsync(pdf);
+                Document d = new Document();
+                d.Emp_Code = empcode;
+                d.DocumentType = doc;
+                DapperServices<Document> document = new DapperServices<Document>();
+                return await document.ReadGetByTypeAsync(d);
             }
             catch (Exception ex)
             {
