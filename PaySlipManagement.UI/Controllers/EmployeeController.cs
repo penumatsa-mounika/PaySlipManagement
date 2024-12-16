@@ -119,7 +119,7 @@ namespace PaySlipManagement.UI.Controllers
                 if (!string.IsNullOrEmpty(response) && (response == "Employee Registered Successfully" || response == "true"))
                 {
                     //// Redirect to the Document Create View and pass Employee Code
-                    //TempData["Emp_Code"] = employee.Emp_Code;
+                    TempData["Emp_Code"] = employee.Emp_Code;
                     //TempData["EmployeeName"] = employee.EmployeeName;
 
                     return RedirectToAction("Create", "Document"); // Redirect to Document Create View
@@ -181,6 +181,7 @@ namespace PaySlipManagement.UI.Controllers
             var data = await _apiServices.GetAsync<PaySlipManagement.UI.Models.EmployeeViewModel>($"{_apiSettings.EmployeeEndpoint}/GetEmployeeById/{id}");
             var departments = await _apiServices.GetAsync<PaySlipManagement.UI.Models.DepartmentViewModel>($"{_apiSettings.DepartmentEndpoint}/GetDepartmentById/{data.DepartmentId}");
             data.DepartmentName = departments.DepartmentName;
+            TempData["Emp_Code"] = data.Emp_Code;
             return View(data);
         }
         [HttpGet]

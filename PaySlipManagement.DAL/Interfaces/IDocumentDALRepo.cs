@@ -9,7 +9,7 @@ namespace PaySlipManagement.DAL.Interfaces
 {
     public interface IDocumentDALRepo
     {
-        Task<Document> GetByIdAsync(Document user);
+        Task<Document> GetByIdAsync(string empcode, string doc);
         Task<bool> Create(Document user);
     }
 }
