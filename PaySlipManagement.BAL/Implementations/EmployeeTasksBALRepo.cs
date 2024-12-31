@@ -21,9 +21,9 @@ namespace PaySlipManagement.BAL.Implementations
         {
             return await _employeeTasksDALRepo.GetEmployeeTasksByidAsync(_leaveRequests);
         }
-        public async Task<IEnumerable<EmployeeTasks>> GetEmployeeTasksByCodeAsync(string Emp_Code)
+        public async Task<IEnumerable<EmployeeTasks>> GetEmployeeTasksByCodeAsync(string Emp_Code, string durationfilter)
         {
-            return await _employeeTasksDALRepo.GetEmployeeTasksByCodeAsync(Emp_Code);
+            return await _employeeTasksDALRepo.GetEmployeeTasksByCodeAsync(Emp_Code, durationfilter);
         }
         public async Task<bool> CreateEmployeeTasks(EmployeeTasks _leaveRequests)
         {

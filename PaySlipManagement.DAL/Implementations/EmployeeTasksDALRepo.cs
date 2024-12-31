@@ -41,14 +41,14 @@ namespace PaySlipManagement.DAL.Implementations
             }
 
         }
-        public async Task<IEnumerable<EmployeeTasks>> GetEmployeeTasksByCodeAsync(string Emp_Code)
+        public async Task<IEnumerable<EmployeeTasks>> GetEmployeeTasksByCodeAsync(string empcode, string durationfilter)
         {
             try
             {
                 EmployeeTasks task = new EmployeeTasks();
-                task.Emp_Code = Emp_Code;
+                task.Emp_Code = empcode;
                 DapperServices<EmployeeTasks> _employeeTasksRepo = new DapperServices<EmployeeTasks>();
-                return await _employeeTasksRepo.ReadGetByAllNullCodeAsync(task);
+                return await _employeeTasksRepo.ReadGetCodeByDurationAsync(empcode, durationfilter);
             }
             catch (Exception ex)
             {
