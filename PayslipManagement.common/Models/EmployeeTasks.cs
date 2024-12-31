@@ -13,7 +13,7 @@ namespace PaySlipManagement.Common.Models
         public string Emp_Code { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime TaskDate { get; set; }
+        public DateTime TaskDate { get; set; }= DateTime.Now;
         public TimeSpan TaskFrom { get; set; }
         public TimeSpan TaskTo { get; set; } 
         public string TaskDescription { get; set; }

@@ -50,7 +50,26 @@ namespace PaySlipManagement.UI.Controllers
             return View(pagedManager);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Index1()
+        {
+            // Fetch list of employees for the dropdown
+            var employees = await _apiServices.GetAllAsync<EmployeeViewModel>(
+                $"{_apiSettings.EmployeeEndpoint}/GetAllEmployees");
+            ViewBag.Employees = employees;
 
+            // Return an empty list of tasks initially
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index1(string Emp_Code, string DurationFilter)
+        {
+            // Fetch list of employees for dropdown
+            var employees = await _apiServices.GetAllAsync<EmployeeTasksViewModel>($"{_apiSettings.EmployeeTasksEndpoint}/GetEmployeeTasksByEmpCode/{Emp_Code}/{DurationFilter}");
+
+            return View(employees);
+        }
 
         public async Task<IActionResult> Details(int id)
         {

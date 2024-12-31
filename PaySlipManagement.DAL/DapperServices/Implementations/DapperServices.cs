@@ -149,6 +149,86 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
             }
         }
 
+        //public async Task<IEnumerable<T>> ReadGetCodeByDurationAsync(T entity)
+        //{
+        //    try
+        //    {
+        //        var sql = GetSelectDurationStoredProcedureName(entity) + " @Emp_Code,@durationfilter";
+        //        var parameters = new DynamicParameters();
+        //        foreach (var property in entity.GetType().GetProperties())
+        //        {
+        //            parameters.Add("@" + property.Name, property.GetValue(entity));
+        //        };
+        //        var result = await con.QueryAsync<T>(sql, parameters);
+        //        con.Close();
+        //        return result;
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+        //public async Task<IEnumerable<T>> ReadGetCodeByDurationAsync(T entity, string empCode, string durationFilter)
+        //{
+        //    try
+        //    {
+        //        // Build the SQL query
+        //        var sql = GetSelectDurationStoredProcedureName(entity) + " @Emp_Code, @DurationFilter";
+
+        //        // Initialize parameters
+        //        var parameters = new DynamicParameters();
+
+        //        // Add explicit parameters
+        //        parameters.Add("@Emp_Code", empCode);
+        //        parameters.Add("@DurationFilter", durationFilter);
+
+        //        // Dynamically map other properties of the entity, if required
+        //        foreach (var property in entity.GetType().GetProperties())
+        //        {
+        //            if (!parameters.ParameterNames.Contains("@" + property.Name))
+        //            {
+        //                parameters.Add("@" + property.Name, property.GetValue(entity));
+        //            }
+        //        }
+
+        //        // Execute the query
+        //        var result = await con.QueryAsync<T>(sql, parameters);
+        //        con.Close();
+        //        return result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+        public async Task<IEnumerable<EmployeeTasks>> ReadGetCodeByDurationAsync(string empCode, string durationFilter)
+        {
+            try
+            {
+                // Define the SQL query
+                string sql = "spSelectEmployeeTasksDuration @Emp_Code, @DurationFilter";
+
+                // Prepare parameters
+                var parameters = new DynamicParameters();
+                parameters.Add("@Emp_Code", empCode);
+                parameters.Add("@DurationFilter", durationFilter);
+
+                // Execute the query using Dapper
+                var result = await con.QueryAsync<EmployeeTasks>(sql, parameters);
+                con.Close();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching tasks: " + ex.Message, ex);
+            }
+        }
+
+
+
         public async Task<T> ReadGetByCodeAsync(T entity)
         {
             try
@@ -346,6 +426,10 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
         {
             return $"EXEC spSelect{entity.GetType().Name}Details";
         }
+        //private string GetSelectDurationStoredProcedureName(T entity)
+        //{
+        //    return $"EXEC spSelect{entity.GetType().Name}Duration";
+        //}
         private string GetSelectTypeStoredProcedureName(T entity)
         {
             return $"EXEC spSelect{entity.GetType().Name}ValidateType";

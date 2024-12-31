@@ -25,10 +25,10 @@ namespace PaySlipManagement.API.Controllers
             _employeeTasks.Id = id;
             return await _employeeTasksBALRepo.GetEmployeeTasksByidAsync(_employeeTasks);
         }
-        [HttpGet("GetEmployeeTasksByEmpCode/{Emp_Code}")]
-        public async Task<IEnumerable<EmployeeTasks>> GetEmployeeTasksByCodeAsync(string Emp_Code)
+        [HttpGet("GetEmployeeTasksByEmpCode/{Emp_Code}/{durationfilter}")]
+        public async Task<IEnumerable<EmployeeTasks>> GetEmployeeTasksByCodeAsync(string Emp_Code, string durationfilter)
         {
-            return await _employeeTasksBALRepo.GetEmployeeTasksByCodeAsync(Emp_Code);
+            return await _employeeTasksBALRepo.GetEmployeeTasksByCodeAsync(Emp_Code, durationfilter);
         }
         [HttpPost("CreateEmployeeTasks")]
         public async Task<bool> CreateEmployeeTasks(EmployeeTasks _employeeTasks)
