@@ -57,6 +57,7 @@ builder.Services.AddScoped<IPayslipDetailsBALRepo, PayslipDetailsBALRepo>();
 builder.Services.AddScoped<ICTCDetailsBALRepo, CTCDetailsBALRepo>();
 builder.Services.AddScoped<IManagerBALRepo, ManagerBALRepo>();
 builder.Services.AddScoped<IEmployeeTasksBALRepo, EmployeeTasksBALRepo>();
+builder.Services.AddScoped<IEmployeeRegularizationBALRepo, EmployeeRegularizationBALRepo>();
 
 // Hangfire configuration
 builder.Services.AddHangfire(configuration => configuration
