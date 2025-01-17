@@ -250,6 +250,8 @@
                            asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeTasks" && ViewContext.RouteData.Values["Action"].ToString() == "Index1" ? "active" : "")"
                            asp-area="" asp-controller="EmployeeTasks" asp-action="Index1">Employee Tasks</a>
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeRegularization" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                           asp-area="" asp-controller="EmployeeRegularization" asp-action="Index">Employee Regularization</a>
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "AccountDetails" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
                            asp-area="" asp-controller="AccountDetails" asp-action="Index">Account</a>
                         <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Department" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
@@ -285,6 +287,8 @@
                         {
                             <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "LeaveRequests" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
                                asp-area="" asp-controller="LeaveRequests" asp-action="Index">Leaves Approval</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "EmployeeRegularization" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                               asp-area="" asp-controller="EmployeeRegularization" asp-action="Index">Employee Regularization</a>
                         }
                     }
                 </nav>

@@ -1,6 +1,7 @@
 ﻿using PaySlipManagement.BAL.Interfaces;
 using PaySlipManagement.Common.Models;
 using PaySlipManagement.DAL.Implementations;
+using PaySlipManagement.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,10 @@ namespace PaySlipManagement.BAL.Implementations
         public async Task<EmployeeRegularization> GetEmployeeRegularizationByidAsync(EmployeeRegularization _employee)
         {
             return await _employeeRegularizationDALRepo.GetEmployeeRegularizationByidAsync(_employee);
+        }
+        public async Task<IEnumerable<EmployeeRegularization>> GetEmployeeRegularizationByManagerAsync(string Emp_Code)
+        {
+            return await _employeeRegularizationDALRepo.GetEmployeeRegularizationByManagerAsync(Emp_Code);
         }
         public async Task<IEnumerable<EmployeeRegularization>> GetEmployeeRegularizationByCodeAsync(string Emp_Code, DateTime StartDate, DateTime EndDate)
         {

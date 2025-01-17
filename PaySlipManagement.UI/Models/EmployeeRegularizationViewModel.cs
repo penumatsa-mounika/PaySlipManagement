@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace PaySlipManagement.Common.Models
+namespace PaySlipManagement.UI.Models
 {
-    public class EmployeeRegularization
+    public class EmployeeRegularizationViewModel
     {
         public int? Id { get; set; }
         public string Emp_Code { get; set; }

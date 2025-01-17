@@ -25,7 +25,11 @@ namespace PaySlipManagement.API.Controllers
             _employeeRegularization.Id = id;
             return await _employeeRegularizationBALRepo.GetEmployeeRegularizationByidAsync(_employeeRegularization);
         }
-
+        [HttpGet("GetEmployeeRegularizationByManager/{Emp_Code}")]
+        public async Task<IEnumerable<EmployeeRegularization>> GetEmployeeRegularizationByManagerAsync(string Emp_Code)
+        {
+            return await _employeeRegularizationBALRepo.GetEmployeeRegularizationByManagerAsync(Emp_Code);
+        }
         [HttpGet("GetEmployeeRegularizationByEmpCode/{Emp_Code}/{StartDate}/{EndDate}")]
         public async Task<IEnumerable<EmployeeRegularization>> GetEmployeeRegularizationByCodeAsync(string Emp_Code, DateTime StartDate, DateTime EndDate)
         {
