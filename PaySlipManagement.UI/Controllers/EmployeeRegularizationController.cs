@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using PaySlipManagement.Common.Models;
 using PaySlipManagement.UI.Common;
 using PaySlipManagement.UI.Models;
+using System.Web.WebPages;
 
 namespace PaySlipManagement.UI.Controllers
 {
@@ -35,23 +36,41 @@ namespace PaySlipManagement.UI.Controllers
 
             return View(pagedPendingRequests);
         }
-
-        public async Task<IActionResult> Index1(string Emp_Code)
+        [HttpGet]
+        public async Task<IActionResult> Index1()
         {
-            var empCode = Request.Cookies["empCode"];
-            Emp_Code = empCode;
-            var leaveRequests = await _apiServices.GetAllAsync<PaySlipManagement.UI.Models.EmployeeRegularizationViewModel>($"{_apiSettings.EmployeeRegularizationEndpoint}/GetEmployeeRegularizationByEmpCode/{Emp_Code}");
-            return View(leaveRequests);
+            // Fetch list of employees for the dropdown
+            var employees = await _apiServices.GetAllAsync<EmployeeViewModel>(
+                $"{_apiSettings.EmployeeEndpoint}/GetAllEmployees");
+            ViewBag.Employees = employees;
+
+            ViewBag.SelectedEmpCode = null;
+            ViewBag.SelectedStartDate = null;
+            ViewBag.SelectedEndDate = null;
+
+            return View(Enumerable.Empty<EmployeeRegularizationViewModel>());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index1(string Emp_Code, string StartDate, string EndDate)
+        {
+            var employees = await _apiServices.GetAllAsync<EmployeeViewModel>($"{_apiSettings.EmployeeEndpoint}/GetAllEmployees");
+            ViewBag.Employees = employees;
+
+            // Pass the selected values back to the view
+            ViewBag.SelectedEmpCode = Emp_Code;
+            ViewBag.SelectedStartDate = StartDate;
+            ViewBag.SelectedEndDate = EndDate;
+
+            // Fetch list of employees for dropdown
+            var regularization = await _apiServices.GetAllAsync<EmployeeRegularizationViewModel>($"{_apiSettings.EmployeeRegularizationEndpoint}/GetEmployeeRegularizationByEmpCode/{Emp_Code}/{StartDate}/{EndDate}");
+
+            return View(regularization);
         }
         //public async Task<IActionResult> Details(int id)
         //{
         //    var response = await _apiServices.GetAsync<EmployeeRegularizationViewModel>($"{_apiSettings.EmployeeRegularizationEndpoint}/GetEmployeeRegularizationByid/{id}");
         //    return View(response);
-        //}
-
-        //public IActionResult Create()
-        //{
-        //    return View();
         //}
 
         //[HttpPost]
