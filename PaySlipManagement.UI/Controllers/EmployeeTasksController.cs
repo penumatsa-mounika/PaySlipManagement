@@ -54,21 +54,32 @@ namespace PaySlipManagement.UI.Controllers
         public async Task<IActionResult> Index1()
         {
             // Fetch list of employees for the dropdown
-            var employees = await _apiServices.GetAllAsync<EmployeeViewModel>(
-                $"{_apiSettings.EmployeeEndpoint}/GetAllEmployees");
+            var employees = await _apiServices.GetAllAsync<EmployeeViewModel>($"{_apiSettings.EmployeeEndpoint}/GetAllEmployees");
             ViewBag.Employees = employees;
 
             // Return an empty list of tasks initially
-            return View();
+            ViewBag.SelectedEmpCode = null;
+            ViewBag.SelectedDurationFilter = null;
+
+            return View(Enumerable.Empty<EmployeeTasksViewModel>());
         }
 
         [HttpPost]
         public async Task<IActionResult> Index1(string Emp_Code, string DurationFilter)
         {
             // Fetch list of employees for dropdown
-            var employees = await _apiServices.GetAllAsync<EmployeeTasksViewModel>($"{_apiSettings.EmployeeTasksEndpoint}/GetEmployeeTasksByEmpCode/{Emp_Code}/{DurationFilter}");
+            var employees = await _apiServices.GetAllAsync<EmployeeViewModel>($"{_apiSettings.EmployeeEndpoint}/GetAllEmployees");
+            ViewBag.Employees = employees;
 
-            return View(employees);
+            // Pass the selected values back to the view
+            ViewBag.SelectedEmpCode = Emp_Code;
+            ViewBag.SelectedDurationFilter = DurationFilter;
+
+            // Fetch employee tasks based on filters
+            var tasks = await _apiServices.GetAllAsync<EmployeeTasksViewModel>($"{_apiSettings.EmployeeTasksEndpoint}/GetEmployeeTasksByEmpCode/{Emp_Code}/{DurationFilter}");
+
+            // Return the filtered tasks to the view
+            return View(tasks);
         }
 
         public async Task<IActionResult> Details(int id)
