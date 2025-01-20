@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using PayslipManagement.Common.Models;
 using PaySlipManagement.Common.Models;
 using PaySlipManagement.UI.Common;
 using PaySlipManagement.UI.Models;
@@ -165,6 +166,41 @@ namespace PaySlipManagement.UI.Controllers
                 }
             }
             return Json(new { success = false, message = "An error occurred while canceling the request." });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubmitRegularization(EmployeeRegularizationViewModel reg)
+        {
+                try
+                {
+                    // Assuming you have a service to handle the database operations
+                    var empCode = reg.Emp_Code;
+                    var employee = await _apiServices.GetAsync<EmployeeDetails>($"{_apiSettings.EmployeeEndpoint}/GetEmployeeByEmpCode/{empCode}");
+                    if (employee != null)
+                    {
+                        reg.ApprovalPerson = employee.ManagerCode;
+                        reg.Status = "Pending"; // Set the status as needed
+
+                        // Save the regularization data to the database
+                        var response = await _apiServices.PostAsync<EmployeeRegularizationViewModel>($"{_apiSettings.EmployeeRegularizationEndpoint}/CreateEmployeeRegularization", reg);
+
+                        if (!string.IsNullOrEmpty(response))
+                        {
+                            TempData["SuccessMessage"] = "Regularization submitted successfully.";
+                        return Redirect(Request.Headers["Referer"].ToString());
+                    }
+                        else
+                        {
+                            ModelState.AddModelError("", "Failed to submit regularization.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"An error occurred: {ex.Message}");
+                }
+            return View(reg); // Return the view with the model to show validation errors
         }
     }
 }
