@@ -42,6 +42,21 @@ namespace PaySlipManagement.DAL.Implementations
 
         }
 
+        public async Task<IEnumerable<EmployeeRegularization>> GetEmployeeRegularizationByEmpCodeAsync(string Emp_Code)
+        {
+            try
+            {
+                EmployeeRegularization er = new EmployeeRegularization();
+                er.Emp_Code = Emp_Code;
+                DapperServices<EmployeeRegularization> _regularizationRepo = new DapperServices<EmployeeRegularization>();
+                return await _regularizationRepo.ReadGetByAllNullCodeAsync(er);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<IEnumerable<EmployeeRegularization>> GetEmployeeRegularizationByManagerAsync(string Emp_Code)
         {
             try

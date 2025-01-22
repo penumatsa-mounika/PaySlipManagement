@@ -12,6 +12,7 @@ namespace PaySlipManagement.DAL.Interfaces
         Task<IEnumerable<EmployeeRegularization>> GetAllEmployeeRegularizationAsync();
 
         Task<EmployeeRegularization> GetEmployeeRegularizationByidAsync(EmployeeRegularization _employee);
+        Task<IEnumerable<EmployeeRegularization>> GetEmployeeRegularizationByEmpCodeAsync(string Emp_Code);
         Task<IEnumerable<EmployeeRegularization>> GetEmployeeRegularizationByManagerAsync(string Emp_Code);
         Task<IEnumerable<EmployeeRegularization>> GetEmployeeRegularizationByCodeAsync(string Emp_Code, DateTime StartDate, DateTime EndDate);
         Task<bool> CreateEmployeeRegularization(EmployeeRegularization _employee);
