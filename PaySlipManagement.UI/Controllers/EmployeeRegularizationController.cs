@@ -168,39 +168,73 @@ namespace PaySlipManagement.UI.Controllers
             return Json(new { success = false, message = "An error occurred while canceling the request." });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> SubmitRegularization()
+        {
+            var empCode = Request.Cookies["empCode"];
+
+            // Fetch existing regularization data
+            var regularizations = await _apiServices.GetAllAsync<EmployeeRegularizationViewModel>(
+                $"{_apiSettings.EmployeeRegularizationEndpoint}/GetEmployeeRegularizationByCode/{empCode}");
+
+            return View(regularizations); // Passing the list to the view
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SubmitRegularization(EmployeeRegularizationViewModel reg)
         {
-                try
+            try
+            { 
+
+                var empCode = reg.Emp_Code;
+
+                // Check if regularization for the same date already exists
+                var existingRegularizations = await _apiServices.GetAllAsync<EmployeeRegularizationViewModel>(
+                    $"{_apiSettings.EmployeeRegularizationEndpoint}/GetEmployeeRegularizationByCode/{empCode}");
+
+                if (existingRegularizations.Any(r => r.EntryDate.Date == reg.EntryDate.Date))
                 {
-                    // Assuming you have a service to handle the database operations
-                    var empCode = reg.Emp_Code;
-                    var employee = await _apiServices.GetAsync<EmployeeDetails>($"{_apiSettings.EmployeeEndpoint}/GetEmployeeByEmpCode/{empCode}");
-                    if (employee != null)
+                    return Json(new { success = false, message = "Regularization for this date has already been submitted." });
+                }
+
+                // Get employee details to set manager code
+                var employee = await _apiServices.GetAsync<EmployeeDetails>(
+                    $"{_apiSettings.EmployeeEndpoint}/GetEmployeeByEmpCode/{empCode}");
+
+                if (employee != null)
+                {
+                    reg.ApprovalPerson = employee.ManagerCode;
+                    reg.Status = "Pending";
+
+                    // Save the regularization data
+                    var response = await _apiServices.PostAsync<EmployeeRegularizationViewModel>(
+                        $"{_apiSettings.EmployeeRegularizationEndpoint}/CreateEmployeeRegularization", reg);
+
+                    if (!string.IsNullOrEmpty(response))
                     {
-                        reg.ApprovalPerson = employee.ManagerCode;
-                        reg.Status = "Pending"; // Set the status as needed
-
-                        // Save the regularization data to the database
-                        var response = await _apiServices.PostAsync<EmployeeRegularizationViewModel>($"{_apiSettings.EmployeeRegularizationEndpoint}/CreateEmployeeRegularization", reg);
-
-                        if (!string.IsNullOrEmpty(response))
+                        // Return updated data for the newly added entry
+                        return Json(new
                         {
-                            TempData["SuccessMessage"] = "Regularization submitted successfully.";
-                        return Redirect(Request.Headers["Referer"].ToString());
-                    }
-                        else
-                        {
-                            ModelState.AddModelError("", "Failed to submit regularization.");
-                        }
+                            success = true,
+                            entryDate = reg.EntryDate.ToString("yyyy-MM-dd"),
+                            inTime = reg.InTime.ToString(@"hh\:mm"),
+                            outTime = reg.OutTime.ToString(@"hh\:mm"),
+                            workingHours = reg.WorkingHours,
+                            deviationInWorkingHours = reg.DeviationInWorkingHours,
+                            regularization = reg.Regularization
+                        });
                     }
                 }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", $"An error occurred: {ex.Message}");
-                }
-            return View(reg); // Return the view with the model to show validation errors
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return Json(new { success = false, message = $"An error occurred: {ex.Message}" });
+            }
+
+            return Json(new { success = false, message = "An unexpected error occurred." });
         }
     }
 }
