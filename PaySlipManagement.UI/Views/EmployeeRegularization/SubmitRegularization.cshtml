@@ -1,7 +1,12 @@
 ﻿@model List<PaySlipManagement.UI.Models.EmployeeRegularizationViewModel>
 
 <div class="container mt-5">
-    <h4>Employee Regularization</h4>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-primary">Employee Regularization</h3>
+        <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("GeneratePdf", "Employee")'">
+            Back
+        </button>
+    </div>
     @{
         string empCode = Model.FirstOrDefault()?.Emp_Code ?? "Unknown"; // Get the employee code from the first item
     }
@@ -159,14 +164,14 @@
                     // Update the table row with the new data
                     var row = document.getElementById('row-' + entryDate);
                     row.innerHTML = `
-                                    <td>${new Date(entryDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
-                                    <td>${data.inTime}</td>
-                                    <td>${data.outTime}</td>
-                                    <td>${data.workingHours}</td>
-                                    <td>${data.deviationInWorkingHours}</td>
-                                    <td>${data.regularization}</td>
-                                    <td class="text-muted">Already Submitted</td>
-                                `;
+    <td>${new Date(entryDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
+    <td>${data.inTime}</td>
+    <td>${data.outTime}</td>
+    <td>${data.workingHours}</td>
+    <td>${data.deviationInWorkingHours}</td>
+    <td>${data.regularization}</td>
+    <td class="text-muted">Already Submitted</td>
+                                    `;
                 } else {
                     alert('Failed to submit regularization: ' + data.message);
                 }
@@ -176,4 +181,3 @@
             });
     }
 </script>
-
