@@ -1,44 +1,110 @@
 ﻿@model AccountDetailsViewModel
 @{
-
+    ViewData["Title"] = "Create Account";
 }
-<h1>Create Account</h1>
 
-<div>
+<h1 class="form-heading">Create Account</h1>
+
+<div class="form-container">
     <form asp-action="Create">
         <div class="form-group">
-            <label asp-for="Emp_Code"></label>
-            <input asp-for="Emp_Code" class="form-control" />
+            <label asp-for="Emp_Code" class="form-label"></label>
+            <input asp-for="Emp_Code" class="form-control input-field" />
         </div>
         <div class="form-group">
-            <label asp-for="BankName"></label>
-            <input asp-for="BankName" class="form-control" />
+            <label asp-for="BankName" class="form-label"></label>
+            <input asp-for="BankName" class="form-control input-field" />
         </div>
         <div class="form-group">
-            <label asp-for="BankAccountNumber"></label>
-            <input asp-for="BankAccountNumber" class="form-control" />
+            <label asp-for="BankAccountNumber" class="form-label"></label>
+            <input asp-for="BankAccountNumber" class="form-control input-field" />
         </div>
         <div class="form-group">
-            <label asp-for="UANNumber"></label>
-            <input asp-for="UANNumber" class="form-control" />
+            <label asp-for="UANNumber" class="form-label"></label>
+            <input asp-for="UANNumber" class="form-control input-field" />
         </div>
         <div class="form-group">
-            <label asp-for="PFAccountNumber"></label>
-            <input asp-for="PFAccountNumber" class="form-control" />
+            <label asp-for="PFAccountNumber" class="form-label"></label>
+            <input asp-for="PFAccountNumber" class="form-control input-field" />
         </div>
-        <div class="mt-2">
-            <div class="row justify-content-start">
-                <div class="col-auto">
-                    <form asp-action="Create">
-                        <div class="form-group">
-                            <input type="submit" value="Create" class="btn btn-primary" />
-                        </div>
-                    </form>
-                </div>
-                <div class="col-auto">
-                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-                </div>
-            </div>
+        <div class="mt-4 button-group">
+            <button type="submit" class="btn btn-primary btn-custom">Create</button>
+            <a asp-action="Index" class="btn btn-secondary btn-custom">Back to List</a>
         </div>
     </form>
 </div>
+
+<style>
+    /* Form Container */
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9; /* Soft background for contrast */
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Form Heading */
+    .form-heading {
+        font-size: 1.8rem;
+        color: #5dcaff; /* Subtle blue for a modern touch */
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Labels */
+    .form-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #444;
+        margin-bottom: 5px;
+    }
+
+    /* Input Fields */
+    .input-field {
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        width: 100%;
+        transition: border-color 0.3s;
+    }
+
+    .input-field:focus {
+        border-color: #5dcaff;
+        outline: none;
+        box-shadow: 0 0 4px rgba(93, 202, 255, 0.5);
+    }
+
+    /* Button Group */
+    .button-group {
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    /* Buttons */
+    .btn-custom {
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: background-color 0.3s;
+    }
+
+    .btn-custom:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: #fff;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+</style>

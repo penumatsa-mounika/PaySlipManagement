@@ -1,10 +1,10 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [PayslipManagement]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Database [PayslipManagement]    Script Date: 31-12-2024 16:28:41 ******/
 CREATE DATABASE [PayslipManagement]
  CONTAINMENT = NONE
  ON  PRIMARY 
-( NAME = N'PayslipManagement', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS01\MSSQL\DATA\PayslipManagement.mdf' , SIZE = 73728KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+( NAME = N'PayslipManagement', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS01\MSSQL\DATA\PayslipManagement.mdf' , SIZE = 335872KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
  LOG ON 
 ( NAME = N'PayslipManagement_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS01\MSSQL\DATA\PayslipManagement_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
  WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
@@ -82,7 +82,10 @@ ALTER DATABASE [PayslipManagement] SET QUERY_STORE (OPERATION_MODE = READ_WRITE,
 GO
 USE [PayslipManagement]
 GO
-/****** Object:  Table [dbo].[AccountDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Schema [HangFire]    Script Date: 31-12-2024 16:28:42 ******/
+CREATE SCHEMA [HangFire]
+GO
+/****** Object:  Table [dbo].[AccountDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -100,7 +103,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CompanyDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[CompanyDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -116,7 +119,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CTCDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[CTCDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -146,7 +149,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Department]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[Department]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -160,7 +163,25 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Employee]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[Document]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Document](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Emp_Code] [varchar](255) NULL,
+	[DocumentType] [nvarchar](100) NULL,
+	[FileName] [nvarchar](255) NULL,
+	[FileData] [varbinary](max) NULL,
+	[UploadDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Employee]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -175,13 +196,63 @@ CREATE TABLE [dbo].[Employee](
 	[Email] [varchar](255) NULL,
 	[PAN_Number] [varchar](255) NULL,
 	[JoiningDate] [date] NULL,
+	[IsActive] [bit] NOT NULL,
+	[PhoneNumber] [bigint] NULL,
+	[FirstName] [nvarchar](50) NULL,
+	[LastName] [nvarchar](50) NULL,
+	[CurrentAddress] [nvarchar](255) NULL,
+	[PermanentAddress] [nvarchar](255) NULL,
+	[EmergencyContact] [bigint] NULL,
+	[EmergencyRelation] [nvarchar](50) NULL,
+	[PersonalEmail] [nvarchar](100) NULL,
+	[BloodGroup] [nvarchar](5) NULL,
+	[AadharNumber] [bigint] NULL,
+	[DateOfBirth] [date] NULL,
+	[DateOfCelebration] [date] NULL,
+	[MotherName] [nvarchar](100) NULL,
+	[FatherName] [nvarchar](100) NULL,
+	[SpouseName] [nvarchar](100) NULL,
+	[ChildrenNames] [nvarchar](100) NULL,
+	[LinkedInProfile] [nvarchar](255) NULL,
+	[AccountHolderName] [nvarchar](100) NULL,
+	[BankName] [nvarchar](100) NULL,
+	[BankAccountNumber] [bigint] NULL,
+	[IFSCCode] [nvarchar](20) NULL,
+	[PreviousCompanyName] [nvarchar](150) NULL,
+	[Tenure] [nvarchar](50) NULL,
+	[ReportingManager] [nvarchar](100) NULL,
+	[LatestCompanyReference] [nvarchar](255) NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Emp_Code] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EmployeeType]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[EmployeeTasks]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EmployeeTasks](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Emp_Code] [varchar](255) NOT NULL,
+	[TaskDate] [date] NOT NULL,
+	[TaskFrom] [time](7) NOT NULL,
+	[TaskTo] [time](7) NOT NULL,
+	[TaskDescription] [text] NOT NULL,
+	[Duration] [int] NOT NULL,
+	[Status] [varchar](50) NULL,
+	[CreatedDate] [datetime] NULL,
+	[ModifiedDate] [datetime] NULL,
+	[CreatedBy] [nvarchar](255) NULL,
+	[ModifiedBy] [nvarchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[EmployeeType]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -196,24 +267,25 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ExceptionLogs]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[ExceptionLogs]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ExceptionLogs](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[ExceptionType] [nvarchar](100) NOT NULL,
-	[ExceptionMessage] [nvarchar](max) NOT NULL,
+	[LogLevel] [nvarchar](100) NOT NULL,
+	[Message] [nvarchar](max) NOT NULL,
+	[Exception] [nvarchar](max) NULL,
 	[StackTrace] [nvarchar](max) NOT NULL,
-	[LoggedAt] [datetime] NOT NULL,
+	[LogDateTime] [datetime] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[HolidayImage]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[HolidayImage]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -229,7 +301,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[HolidayPdf]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[HolidayPdf]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -245,7 +317,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[LeaveRequests]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[LeaveRequests]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -266,7 +338,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Leaves]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[Leaves]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -278,13 +350,71 @@ CREATE TABLE [dbo].[Leaves](
 	[TotalLeaves] [decimal](3, 1) NULL,
 	[LeavesAvailable] [decimal](3, 1) NULL,
 	[LeavesUsed] [decimal](3, 1) NULL,
+	[Year] [int] NULL,
+	[CarriedForwardLeaves] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Roles]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[Logs]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Logs](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Message] [nvarchar](max) NULL,
+	[MessageTemplate] [nvarchar](max) NULL,
+	[Level] [nvarchar](max) NULL,
+	[TimeStamp] [datetime] NULL,
+	[Exception] [nvarchar](max) NULL,
+	[Properties] [nvarchar](max) NULL,
+ CONSTRAINT [PK_Logs] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Manager]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Manager](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Emp_Code] [varchar](255) NULL,
+	[ManagerCode] [varchar](255) NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PayslipDetails]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PayslipDetails](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Emp_Code] [varchar](50) NOT NULL,
+	[PaySlipForMonth] [varchar](50) NOT NULL,
+	[DaysPaid] [int] NOT NULL,
+	[AbsentDays] [int] NOT NULL,
+	[EarnedBasic] [decimal](18, 2) NOT NULL,
+	[HRA] [decimal](18, 2) NOT NULL,
+	[SpecialAllowance] [decimal](18, 2) NOT NULL,
+	[PFEmployeeShare] [decimal](18, 2) NOT NULL,
+	[ProfessionalTax] [decimal](18, 2) NOT NULL,
+	[TDS] [decimal](18, 2) NOT NULL,
+	[EarningTotal] [decimal](18, 2) NOT NULL,
+	[TotalDeductions] [decimal](18, 2) NOT NULL,
+	[NetPay] [decimal](18, 2) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Roles]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -298,7 +428,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SalaryMetadata]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[SalaryMetadata]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -333,7 +463,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserRoles]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[UserRoles]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -348,7 +478,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -364,6 +494,272 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+/****** Object:  Table [HangFire].[AggregatedCounter]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [HangFire].[AggregatedCounter](
+	[Key] [nvarchar](100) NOT NULL,
+	[Value] [bigint] NOT NULL,
+	[ExpireAt] [datetime] NULL,
+ CONSTRAINT [PK_HangFire_CounterAggregated] PRIMARY KEY CLUSTERED 
+(
+	[Key] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [HangFire].[Counter]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [HangFire].[Counter](
+	[Key] [nvarchar](100) NOT NULL,
+	[Value] [int] NOT NULL,
+	[ExpireAt] [datetime] NULL,
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+ CONSTRAINT [PK_HangFire_Counter] PRIMARY KEY CLUSTERED 
+(
+	[Key] ASC,
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [HangFire].[Hash]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [HangFire].[Hash](
+	[Key] [nvarchar](100) NOT NULL,
+	[Field] [nvarchar](100) NOT NULL,
+	[Value] [nvarchar](max) NULL,
+	[ExpireAt] [datetime2](7) NULL,
+ CONSTRAINT [PK_HangFire_Hash] PRIMARY KEY CLUSTERED 
+(
+	[Key] ASC,
+	[Field] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = ON, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [HangFire].[Job]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [HangFire].[Job](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[StateId] [bigint] NULL,
+	[StateName] [nvarchar](20) NULL,
+	[InvocationData] [nvarchar](max) NOT NULL,
+	[Arguments] [nvarchar](max) NOT NULL,
+	[CreatedAt] [datetime] NOT NULL,
+	[ExpireAt] [datetime] NULL,
+ CONSTRAINT [PK_HangFire_Job] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [HangFire].[JobParameter]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [HangFire].[JobParameter](
+	[JobId] [bigint] NOT NULL,
+	[Name] [nvarchar](40) NOT NULL,
+	[Value] [nvarchar](max) NULL,
+ CONSTRAINT [PK_HangFire_JobParameter] PRIMARY KEY CLUSTERED 
+(
+	[JobId] ASC,
+	[Name] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [HangFire].[JobQueue]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [HangFire].[JobQueue](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[JobId] [bigint] NOT NULL,
+	[Queue] [nvarchar](50) NOT NULL,
+	[FetchedAt] [datetime] NULL,
+ CONSTRAINT [PK_HangFire_JobQueue] PRIMARY KEY CLUSTERED 
+(
+	[Queue] ASC,
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [HangFire].[List]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [HangFire].[List](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[Key] [nvarchar](100) NOT NULL,
+	[Value] [nvarchar](max) NULL,
+	[ExpireAt] [datetime] NULL,
+ CONSTRAINT [PK_HangFire_List] PRIMARY KEY CLUSTERED 
+(
+	[Key] ASC,
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [HangFire].[Schema]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [HangFire].[Schema](
+	[Version] [int] NOT NULL,
+ CONSTRAINT [PK_HangFire_Schema] PRIMARY KEY CLUSTERED 
+(
+	[Version] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [HangFire].[Server]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [HangFire].[Server](
+	[Id] [nvarchar](200) NOT NULL,
+	[Data] [nvarchar](max) NULL,
+	[LastHeartbeat] [datetime] NOT NULL,
+ CONSTRAINT [PK_HangFire_Server] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [HangFire].[Set]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [HangFire].[Set](
+	[Key] [nvarchar](100) NOT NULL,
+	[Score] [float] NOT NULL,
+	[Value] [nvarchar](256) NOT NULL,
+	[ExpireAt] [datetime] NULL,
+ CONSTRAINT [PK_HangFire_Set] PRIMARY KEY CLUSTERED 
+(
+	[Key] ASC,
+	[Value] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = ON, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [HangFire].[State]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [HangFire].[State](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[JobId] [bigint] NOT NULL,
+	[Name] [nvarchar](20) NOT NULL,
+	[Reason] [nvarchar](100) NULL,
+	[CreatedAt] [datetime] NOT NULL,
+	[Data] [nvarchar](max) NULL,
+ CONSTRAINT [PK_HangFire_State] PRIMARY KEY CLUSTERED 
+(
+	[JobId] ASC,
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Index [IX_HangFire_AggregatedCounter_ExpireAt]    Script Date: 31-12-2024 16:28:42 ******/
+CREATE NONCLUSTERED INDEX [IX_HangFire_AggregatedCounter_ExpireAt] ON [HangFire].[AggregatedCounter]
+(
+	[ExpireAt] ASC
+)
+WHERE ([ExpireAt] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_HangFire_Hash_ExpireAt]    Script Date: 31-12-2024 16:28:42 ******/
+CREATE NONCLUSTERED INDEX [IX_HangFire_Hash_ExpireAt] ON [HangFire].[Hash]
+(
+	[ExpireAt] ASC
+)
+WHERE ([ExpireAt] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_HangFire_Job_ExpireAt]    Script Date: 31-12-2024 16:28:42 ******/
+CREATE NONCLUSTERED INDEX [IX_HangFire_Job_ExpireAt] ON [HangFire].[Job]
+(
+	[ExpireAt] ASC
+)
+INCLUDE([StateName]) 
+WHERE ([ExpireAt] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_HangFire_Job_StateName]    Script Date: 31-12-2024 16:28:42 ******/
+CREATE NONCLUSTERED INDEX [IX_HangFire_Job_StateName] ON [HangFire].[Job]
+(
+	[StateName] ASC
+)
+WHERE ([StateName] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_HangFire_List_ExpireAt]    Script Date: 31-12-2024 16:28:42 ******/
+CREATE NONCLUSTERED INDEX [IX_HangFire_List_ExpireAt] ON [HangFire].[List]
+(
+	[ExpireAt] ASC
+)
+WHERE ([ExpireAt] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_HangFire_Server_LastHeartbeat]    Script Date: 31-12-2024 16:28:42 ******/
+CREATE NONCLUSTERED INDEX [IX_HangFire_Server_LastHeartbeat] ON [HangFire].[Server]
+(
+	[LastHeartbeat] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_HangFire_Set_ExpireAt]    Script Date: 31-12-2024 16:28:42 ******/
+CREATE NONCLUSTERED INDEX [IX_HangFire_Set_ExpireAt] ON [HangFire].[Set]
+(
+	[ExpireAt] ASC
+)
+WHERE ([ExpireAt] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_HangFire_Set_Score]    Script Date: 31-12-2024 16:28:42 ******/
+CREATE NONCLUSTERED INDEX [IX_HangFire_Set_Score] ON [HangFire].[Set]
+(
+	[Key] ASC,
+	[Score] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_HangFire_State_CreatedAt]    Script Date: 31-12-2024 16:28:42 ******/
+CREATE NONCLUSTERED INDEX [IX_HangFire_State_CreatedAt] ON [HangFire].[State]
+(
+	[CreatedAt] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Document] ADD  DEFAULT (getdate()) FOR [UploadDate]
+GO
+ALTER TABLE [dbo].[Employee] ADD  DEFAULT ((1)) FOR [IsActive]
+GO
+ALTER TABLE [dbo].[EmployeeTasks] ADD  DEFAULT ('Pending') FOR [Status]
+GO
+ALTER TABLE [dbo].[EmployeeTasks] ADD  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[EmployeeTasks] ADD  DEFAULT (suser_sname()) FOR [CreatedBy]
+GO
+ALTER TABLE [dbo].[ExceptionLogs] ADD  DEFAULT (getdate()) FOR [LogDateTime]
+GO
 ALTER TABLE [dbo].[LeaveRequests] ADD  DEFAULT ('Pending') FOR [Status]
 GO
 ALTER TABLE [dbo].[AccountDetails]  WITH CHECK ADD FOREIGN KEY([Emp_Code])
@@ -372,8 +768,14 @@ GO
 ALTER TABLE [dbo].[CTCDetails]  WITH CHECK ADD FOREIGN KEY([Emp_Code])
 REFERENCES [dbo].[Employee] ([Emp_Code])
 GO
+ALTER TABLE [dbo].[Document]  WITH CHECK ADD FOREIGN KEY([Emp_Code])
+REFERENCES [dbo].[Employee] ([Emp_Code])
+GO
 ALTER TABLE [dbo].[Employee]  WITH CHECK ADD FOREIGN KEY([DepartmentId])
 REFERENCES [dbo].[Department] ([Id])
+GO
+ALTER TABLE [dbo].[EmployeeTasks]  WITH CHECK ADD FOREIGN KEY([Emp_Code])
+REFERENCES [dbo].[Employee] ([Emp_Code])
 GO
 ALTER TABLE [dbo].[LeaveRequests]  WITH CHECK ADD FOREIGN KEY([Emp_Code])
 REFERENCES [dbo].[Employee] ([Emp_Code])
@@ -383,6 +785,9 @@ REFERENCES [dbo].[Employee] ([Emp_Code])
 GO
 ALTER TABLE [dbo].[Leaves]  WITH CHECK ADD FOREIGN KEY([TypeId])
 REFERENCES [dbo].[EmployeeType] ([Id])
+GO
+ALTER TABLE [dbo].[Manager]  WITH CHECK ADD FOREIGN KEY([Emp_Code])
+REFERENCES [dbo].[Employee] ([Emp_Code])
 GO
 ALTER TABLE [dbo].[SalaryMetadata]  WITH CHECK ADD FOREIGN KEY([Emp_Code])
 REFERENCES [dbo].[Employee] ([Emp_Code])
@@ -396,7 +801,37 @@ GO
 ALTER TABLE [dbo].[Users]  WITH CHECK ADD FOREIGN KEY([Emp_Code])
 REFERENCES [dbo].[Employee] ([Emp_Code])
 GO
-/****** Object:  StoredProcedure [dbo].[sp_CheckEmailExists]    Script Date: 25-09-2024 17:15:22 ******/
+ALTER TABLE [HangFire].[JobParameter]  WITH CHECK ADD  CONSTRAINT [FK_HangFire_JobParameter_Job] FOREIGN KEY([JobId])
+REFERENCES [HangFire].[Job] ([Id])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+ALTER TABLE [HangFire].[JobParameter] CHECK CONSTRAINT [FK_HangFire_JobParameter_Job]
+GO
+ALTER TABLE [HangFire].[State]  WITH CHECK ADD  CONSTRAINT [FK_HangFire_State_Job] FOREIGN KEY([JobId])
+REFERENCES [HangFire].[Job] ([Id])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+ALTER TABLE [HangFire].[State] CHECK CONSTRAINT [FK_HangFire_State_Job]
+GO
+/****** Object:  StoredProcedure [dbo].[InsertLog]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[InsertLog]
+    @LogLevel NVARCHAR(50),
+    @Message NVARCHAR(MAX),
+    @Exception NVARCHAR(MAX),
+    @StackTrace NVARCHAR(MAX)
+AS
+BEGIN
+    INSERT INTO ExceptionLogs (LogLevel, Message, Exception, StackTrace, LogDateTime)
+    VALUES (@LogLevel, @Message, @Exception, @StackTrace, GETDATE())
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[sp_CheckEmailExists]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -409,20 +844,35 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_CheckEmployeeExists]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[sp_CheckEmployeeExists]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[sp_CheckEmployeeExists]
-    @Emp_Code VARCHAR(50)
-AS
-BEGIN
-   SELECT COUNT(1) FROM Employee WHERE Emp_Code = @Emp_Code
-END
 
+-- Alter sp_CheckEmployeeExists to use nvarchar(255) for @Emp_Code 
+
+CREATE PROCEDURE [dbo].[sp_CheckEmployeeExists] 
+
+    @Emp_Code NVARCHAR(255)  -- Adjusted to nvarchar(255) 
+
+AS 
+
+BEGIN 
+
+    SET NOCOUNT ON; 
+
+  
+
+    SELECT COUNT(1) 
+
+    FROM Employee 
+
+    WHERE Emp_Code = @Emp_Code; 
+
+END 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_CheckRoleExists]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[sp_CheckRoleExists]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -435,7 +885,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[spDeleteAccountDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spDeleteAccountDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -452,7 +902,7 @@ as  begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spDeleteCompanyDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spDeleteCompanyDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -469,7 +919,7 @@ as  begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spDeleteCTCDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spDeleteCTCDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -486,7 +936,7 @@ as  begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spDeleteDepartment]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spDeleteDepartment]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -504,7 +954,7 @@ Create Procedure [dbo].[spDeleteDepartment]
      END CATCH;
   End
 GO
-/****** Object:  StoredProcedure [dbo].[spDeleteEmployee]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spDeleteEmployee]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -521,7 +971,27 @@ as  begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spDeleteEmployeeType]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spDeleteEmployeeTasks]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spDeleteEmployeeTasks]
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        DELETE FROM EmployeeTasks
+        WHERE Id = @Id;
+    END TRY
+    BEGIN CATCH
+        DECLARE @ErrorMessage NVARCHAR(MAX) = ERROR_MESSAGE();
+        PRINT 'An error occurred: ' + @ErrorMessage;
+    END CATCH;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[spDeleteEmployeeType]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -538,7 +1008,7 @@ as  begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spDeleteLeaveRequests]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spDeleteLeaveRequests]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -555,7 +1025,7 @@ as  begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spDeleteLeaves]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spDeleteLeaves]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -572,7 +1042,42 @@ as  begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spDeleteRoles]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spDeleteManager]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[spDeleteManager]
+@Id int
+as  begin
+	 Begin Try
+		Delete from Manager where Id=@Id
+	 End Try 
+   BEGIN CATCH
+	 DECLARE @ErrorMessage VARCHAR(max) = ERROR_MESSAGE();
+			 PRINT 'An error occurred: ' + @ErrorMessage;
+    END CATCH;
+end
+GO
+/****** Object:  StoredProcedure [dbo].[spDeletePayslipDetails]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spDeletePayslipDetails]
+    @Id INT
+AS
+BEGIN
+	 Begin Try
+    DELETE FROM PayslipDetails WHERE Id = @Id;
+		 End Try 
+     BEGIN CATCH
+	 DECLARE @ErrorMessage VARCHAR(max) = ERROR_MESSAGE();
+			 PRINT 'An error occurred: ' + @ErrorMessage;
+    END CATCH;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spDeleteRoles]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -589,7 +1094,7 @@ as  begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spDeleteSalaryMetadata]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spDeleteSalaryMetadata]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -606,7 +1111,7 @@ as  begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spDeleteUserRoles]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spDeleteUserRoles]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -623,7 +1128,7 @@ as  begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spDeleteUsers]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spDeleteUsers]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -640,7 +1145,7 @@ as  begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertAccountDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertAccountDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -664,7 +1169,7 @@ as begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertCompanyDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertCompanyDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -684,7 +1189,7 @@ as begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertCTCDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertCTCDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -720,7 +1225,7 @@ as begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertDepartment]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertDepartment]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -739,34 +1244,133 @@ Begin
     END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertEmployee]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertDocument]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-Create Procedure [dbo].[spInsertEmployee]
-@Emp_code varchar(255),
-@EmployeeName varchar(255),
-@DepartmentId int,
-@Designation varchar(255),
-@Division varchar(255),
-@Email varchar(255),
-@PAN_Number Varchar(255),
-@Joiningdate date
+CREATE PROCEDURE [dbo].[spInsertDocument]
+    @Emp_Code varchar(255),
+    @DocumentType NVARCHAR(100),
+    @FileName NVARCHAR(255),
+    @FileData VARBINARY(MAX)
+AS
+BEGIN
+     BEGIN TRY
+    INSERT INTO Document (Emp_Code, DocumentType, FileName, FileData)
+    VALUES (@Emp_Code, @DocumentType, @FileName, @FileData);
+	SELECT SCOPE_IDENTITY() AS InsertedId;
+    END TRY
+    BEGIN CATCH
+        -- Handle errors
+        DECLARE @ErrorMessage NVARCHAR(4000);
+        DECLARE @ErrorSeverity INT;
+        DECLARE @ErrorState INT;
 
-as begin  
-	 BEGIN TRY
-		insert into Employee(Emp_code,EmployeeName,DepartmentId,Designation,Division,Email,PAN_Number,Joiningdate) values
+        SELECT 
+            @ErrorMessage = ERROR_MESSAGE(),
+            @ErrorSeverity = ERROR_SEVERITY(),
+            @ErrorState = ERROR_STATE();
 
-		(@Emp_code,@EmployeeName,@DepartmentId,@Designation,@Division,@Email,@PAN_Number,@Joiningdate)
-	 END TRY
-	 BEGIN CATCH
-			DECLARE @ErrorMessage VARCHAR(max) = ERROR_MESSAGE();
-			 PRINT 'An error occurred: ' + @ErrorMessage;
-	 END CATCH;
-End
+        -- Raise the error message
+        RAISERROR(@ErrorMessage, @ErrorSeverity, @ErrorState);
+    END CATCH
+END
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertEmployeeType]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertEmployee]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spInsertEmployee]
+    @Emp_code VARCHAR(255),
+    @FirstName NVARCHAR(50),
+    @LastName NVARCHAR(50),
+    @EmployeeName VARCHAR(255),
+    @DepartmentId INT,
+    @Designation VARCHAR(255),
+    @Division VARCHAR(255),
+    @Email VARCHAR(255),
+    @PAN_Number VARCHAR(255),
+    @JoiningDate DATE,
+    @IsActive BIT,
+    @PhoneNumber BIGINT,
+    @EmergencyContact BIGINT,
+    @EmergencyRelation NVARCHAR(50),
+    @CurrentAddress NVARCHAR(255),
+    @PermanentAddress NVARCHAR(255),
+    @PersonalEmail NVARCHAR(100),
+    @BloodGroup NVARCHAR(5),
+    @AadharNumber BIGINT,
+    @DateOfBirth DATE,
+    @DateOfCelebration DATE,
+    @MotherName NVARCHAR(100),
+    @FatherName NVARCHAR(100),
+    @SpouseName NVARCHAR(100),
+    @ChildrenNames NVARCHAR(100),
+    @LinkedInProfile NVARCHAR(255),
+	@AccountHolderName NVARCHAR(100),
+    @BankName NVARCHAR(100),
+    @BankAccountNumber BIGINT,
+    @IFSCCode NVARCHAR(20),
+    @PreviousCompanyName NVARCHAR(150),
+    @Tenure NVARCHAR(50),
+    @ReportingManager NVARCHAR(100),
+    @LatestCompanyReference NVARCHAR(255)
+AS
+BEGIN  
+    BEGIN TRY
+        INSERT INTO Employee (
+            Emp_code, FirstName, LastName, EmployeeName, DepartmentId, Designation, Division, Email, PAN_Number, JoiningDate, 
+            IsActive, PhoneNumber, EmergencyContact, EmergencyRelation, CurrentAddress, PermanentAddress, PersonalEmail, BloodGroup, AadharNumber, DateOfBirth, DateOfCelebration, 
+            MotherName, FatherName, SpouseName, ChildrenNames, LinkedInProfile,AccountHolderName, BankName, BankAccountNumber, IFSCCode, 
+            PreviousCompanyName, Tenure, ReportingManager, LatestCompanyReference
+        ) 
+        VALUES (
+            @Emp_code,@FirstName, @LastName, @EmployeeName, @DepartmentId, @Designation, @Division, @Email, @PAN_Number, 
+            @JoiningDate, @IsActive, @PhoneNumber,@EmergencyContact, @EmergencyRelation, @CurrentAddress, @PermanentAddress, @PersonalEmail, @BloodGroup, @AadharNumber, 
+            @DateOfBirth, @DateOfCelebration, @MotherName, @FatherName, @SpouseName, @ChildrenNames, 
+            @LinkedInProfile,@AccountHolderName, @BankName, @BankAccountNumber, 
+            @IFSCCode, @PreviousCompanyName, @Tenure, @ReportingManager, @LatestCompanyReference
+        );
+    END TRY
+    BEGIN CATCH
+        DECLARE @ErrorMessage VARCHAR(MAX) = ERROR_MESSAGE();
+        PRINT 'An error occurred: ' + @ErrorMessage;
+    END CATCH;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[spInsertEmployeeTasks]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spInsertEmployeeTasks]
+    @Emp_Code VARCHAR(255),
+    @TaskDate DATE,
+    @TaskFrom TIME,
+    @TaskTo TIME,
+    @TaskDescription TEXT,
+    @Duration INT,
+    @Status NVARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        -- Validate if TaskTo is later than TaskFrom
+        IF @TaskTo <= @TaskFrom
+            THROW 51000, 'TaskTo must be later than TaskFrom.', 1;
+
+        INSERT INTO EmployeeTasks (Emp_Code, TaskDate, TaskFrom, TaskTo, TaskDescription, Duration, Status)
+        VALUES (@Emp_Code, @TaskDate, @TaskFrom, @TaskTo, @TaskDescription, @Duration, @Status);
+    END TRY
+    BEGIN CATCH
+        DECLARE @ErrorMessage NVARCHAR(MAX) = ERROR_MESSAGE();
+        PRINT 'An error occurred: ' + @ErrorMessage;
+    END CATCH;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[spInsertEmployeeType]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -786,7 +1390,7 @@ as begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertHolidayImage]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertHolidayImage]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -822,7 +1426,7 @@ BEGIN
     END CATCH
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertHolidayPdf]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertHolidayPdf]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -858,7 +1462,7 @@ BEGIN
     END CATCH
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertLeaveRequests]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertLeaveRequests]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -885,7 +1489,7 @@ as begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertLeaves]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertLeaves]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -909,7 +1513,86 @@ as begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertRoles]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertManager]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create Procedure [dbo].[spInsertManager]
+@Emp_Code varchar(255),
+@ManagerCode varchar(255) 
+as begin  
+	 BEGIN TRY
+		insert into Manager(Emp_Code,ManagerCode) values
+		(@Emp_Code,@ManagerCode)
+	 END TRY
+	 BEGIN CATCH
+			DECLARE @ErrorMessage VARCHAR(max) = ERROR_MESSAGE();
+			 PRINT 'An error occurred: ' + @ErrorMessage;
+	 END CATCH;
+End
+GO
+/****** Object:  StoredProcedure [dbo].[spInsertPayslipDetails]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spInsertPayslipDetails]
+    @Emp_Code VARCHAR(50),
+    @PaySlipForMonth VARCHAR(50),
+    @DaysPaid INT,
+    @AbsentDays INT,
+    @EarnedBasic DECIMAL(18, 2),
+    @HRA DECIMAL(18, 2),
+    @SpecialAllowance DECIMAL(18, 2),
+    @PFEmployeeShare DECIMAL(18, 2),
+    @ProfessionalTax DECIMAL(18, 2),
+    @TDS DECIMAL(18, 2),
+    @EarningTotal DECIMAL(18, 2),
+    @TotalDeductions DECIMAL(18, 2),
+    @NetPay DECIMAL(18, 2)
+AS
+BEGIN
+    SET NOCOUNT ON;
+		 BEGIN TRY
+    INSERT INTO PayslipDetails (
+        Emp_Code, 
+        PaySlipForMonth, 
+        DaysPaid, 
+        AbsentDays, 
+        EarnedBasic, 
+        HRA, 
+        SpecialAllowance, 
+        PFEmployeeShare, 
+        ProfessionalTax, 
+        TDS, 
+        EarningTotal, 
+        TotalDeductions, 
+        NetPay
+    )
+    VALUES (
+        @Emp_Code, 
+        @PaySlipForMonth, 
+        @DaysPaid, 
+        @AbsentDays, 
+        @EarnedBasic, 
+        @HRA, 
+        @SpecialAllowance, 
+        @PFEmployeeShare, 
+        @ProfessionalTax, 
+        @TDS, 
+        @EarningTotal, 
+        @TotalDeductions, 
+        @NetPay
+    )
+		 END TRY
+ BEGIN CATCH
+			DECLARE @ErrorMessage VARCHAR(max) = ERROR_MESSAGE();
+			 PRINT 'An error occurred: ' + @ErrorMessage;
+	 END CATCH;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spInsertRoles]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -927,7 +1610,7 @@ as begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertSalaryMetadata]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertSalaryMetadata]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -967,7 +1650,7 @@ as begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertUserRoles]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertUserRoles]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -986,7 +1669,7 @@ as begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spInsertUsers]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spInsertUsers]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1006,7 +1689,7 @@ as begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectAccountDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectAccountDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1031,7 +1714,7 @@ begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectCompanyDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectCompanyDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1056,7 +1739,7 @@ begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectCTCDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectCTCDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1081,7 +1764,7 @@ begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectDepartment]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectDepartment]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1106,32 +1789,67 @@ begin
     END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectEmployee]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectDocumentValidateType]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-Create Procedure [dbo].[spSelectEmployee] 
-  (@Id int)
-As 
-begin
-	 Begin Try 
-	   IF @Id IS NOT NULL 
-		  Begin
-			Select Id, Emp_code, EmployeeName, DepartmentId, Designation, Division, Email, PAN_Number, JoiningDate from Employee where Id=@Id
-		  End
-	   Else
-		  Begin 
-		  Select Id, Emp_code, EmployeeName, DepartmentId, Designation, Division, Email, PAN_Number, JoiningDate from Employee 
-		  END
-     End Try 
-	 BEGIN CATCH
-		 DECLARE @ErrorMessage VARCHAR(max) = ERROR_MESSAGE();
-         PRINT 'An error occurred: ' + @ErrorMessage;
-	 END CATCH;
-End
+CREATE PROCEDURE [dbo].[spSelectDocumentValidateType]
+    @Emp_Code VARCHAR(255),
+    @DocumentType NVARCHAR(100)
+AS
+BEGIN
+        -- Fetch specific document type for the given employee
+        SELECT * 
+        FROM Document 
+        WHERE Emp_Code = @Emp_Code AND DocumentType = @DocumentType;
+END
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectEmployeeDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectEmployee]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spSelectEmployee] 
+    (@Id INT)
+AS
+BEGIN
+    BEGIN TRY
+        IF @Id IS NOT NULL 
+        BEGIN
+            SELECT 
+                Id, Emp_code,FirstName, LastName, EmployeeName, DepartmentId, Designation, Division, Email, PAN_Number, 
+                JoiningDate, IsActive, PhoneNumber,EmergencyContact, EmergencyRelation, CurrentAddress, PermanentAddress,
+                PersonalEmail, BloodGroup, AadharNumber, DateOfBirth, DateOfCelebration, MotherName, FatherName, SpouseName, ChildrenNames, 
+                LinkedInProfile, AccountHolderName, BankName, BankAccountNumber, 
+                IFSCCode, PreviousCompanyName, Tenure, ReportingManager, LatestCompanyReference
+                
+            FROM 
+                Employee 
+            WHERE 
+                Id = @Id AND IsActive = 1;
+        END
+        ELSE 
+        BEGIN
+            SELECT 
+                Id, Emp_code,FirstName, LastName, EmployeeName, DepartmentId, Designation, Division, Email, PAN_Number, 
+                JoiningDate, IsActive, PhoneNumber,EmergencyContact, EmergencyRelation, CurrentAddress, PermanentAddress,
+                PersonalEmail, BloodGroup, AadharNumber, DateOfBirth, DateOfCelebration, MotherName, FatherName, SpouseName, ChildrenNames, 
+                LinkedInProfile, AccountHolderName, BankName, BankAccountNumber, 
+                IFSCCode, PreviousCompanyName, Tenure, ReportingManager, LatestCompanyReference
+            FROM 
+                Employee 
+            WHERE 
+                IsActive = 1;
+        END
+    END TRY
+    BEGIN CATCH
+        DECLARE @ErrorMessage VARCHAR(MAX) = ERROR_MESSAGE();
+        PRINT 'An error occurred: ' + @ErrorMessage;
+    END CATCH;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[spSelectEmployeeDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1146,20 +1864,28 @@ BEGIN
         e.Emp_Code,
         e.EmployeeName,
         d.DepartmentName,
+		r.Role,
         e.Designation,
         e.Division,
         e.Email,
         e.PAN_Number,
-        e.JoiningDate
+        e.JoiningDate,
+		m.ManagerCode
     FROM 
         Employee e
     LEFT JOIN 
         Department d ON e.DepartmentId = d.Id
+	 LEFT JOIN 
+        UserRoles ur ON e.Emp_Code = ur.Emp_Code
+	 LEFT JOIN 
+        Roles r ON ur.RoleId = r.Id
+		LEFT JOIN 
+        Manager m ON e.Emp_Code = m.Emp_Code
     WHERE 
         e.Emp_Code = @Emp_Code; 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectEmployeeDetailsCTCDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectEmployeeDetailsCTCDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1201,18 +1927,24 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectEmployeeDetailsFullDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectEmployeeDetailsFullDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[spSelectEmployeeDetailsFullDetails]
     @Emp_Code VARCHAR(255),
-	@PayPeriod VARCHAR(255)
+    @PayPeriod VARCHAR(255)
 AS
 BEGIN
-	DECLARE @LastCompanyId INT;
-    SELECT TOP 1 @LastCompanyId = Id FROM CompanyDetails ORDER BY Id DESC;
+    DECLARE @LastCompanyId INT;
+    
+    -- Fetch the latest CompanyId
+    SELECT TOP 1 @LastCompanyId = Id 
+    FROM CompanyDetails 
+    ORDER BY Id DESC;
+
+    -- Fetch the latest employee and payslip details
     SELECT 
         e.Emp_Code,
         e.EmployeeName,
@@ -1234,39 +1966,32 @@ BEGIN
         sm.EarningTotal,
         sm.TotalDeductions,
         sm.NetPay,
-		sm.AnnualCTC ,
-		sm.CTCMonth ,
-		sm.PFEmployerShare ,
-		sm.PFEmployerShareAnnual ,
-		sm.AnnualGrossPay ,
-		sm.MonthGrossPay ,
-		sm.OtherAdditions ,
-		sm.OtherDeductions,
         ad.BankName,
         ad.BankAccountNumber,
         ad.UANNumber,
         ad.PFAccountNumber,
-		cd.CompanyName,
-		cd.CompanyAddress,
-		cd.Division
+        cd.CompanyName,
+        cd.CompanyAddress,
+        cd.Division
     FROM 
         Employee e
     LEFT JOIN 
         Department d ON e.DepartmentId = d.Id
     LEFT JOIN 
-        SalaryMetadata sm ON e.Emp_Code = sm.Emp_Code
+        (SELECT TOP 1 *
+         FROM PayslipDetails
+         WHERE Emp_Code = @Emp_Code AND PaySlipForMonth = @PayPeriod
+         ORDER BY Id DESC) sm
+        ON e.Emp_Code = sm.Emp_Code
     LEFT JOIN 
         AccountDetails ad ON e.Emp_Code = ad.Emp_Code
     LEFT JOIN 
-        UserRoles ur ON e.Emp_Code = ur.Emp_Code
-    LEFT JOIN 
         CompanyDetails cd ON cd.Id = @LastCompanyId
     WHERE 
-        e.Emp_Code = @Emp_Code and sm.PaySlipForMonth = @PayPeriod; 
+        e.Emp_Code = @Emp_Code;
 END
-
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectEmployeeFullDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectEmployeeFullDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1330,7 +2055,105 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectEmployeeType]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectEmployeeTasks]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spSelectEmployeeTasks]
+    @Id INT = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        IF @Id IS NOT NULL
+        BEGIN
+            SELECT Id, Emp_Code, TaskDate, TaskFrom, TaskTo, TaskDescription, Duration, Status
+            FROM EmployeeTasks
+            WHERE Id = @Id;
+        END
+        ELSE
+        BEGIN
+            SELECT Id, Emp_Code, TaskDate, TaskFrom, TaskTo, TaskDescription, Duration, Status
+            FROM EmployeeTasks;
+        END
+    END TRY
+    BEGIN CATCH
+        DECLARE @ErrorMessage NVARCHAR(MAX) = ERROR_MESSAGE();
+        PRINT 'An error occurred: ' + @ErrorMessage;
+    END CATCH;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[spSelectEmployeeTasksDuration]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spSelectEmployeeTasksDuration]
+    @Emp_Code NVARCHAR(50) = NULL,
+    @DurationFilter NVARCHAR(20) = NULL -- 'Daily', 'Weekly', 'Monthly', 'Quarterly'
+AS
+BEGIN
+    SET NOCOUNT ON;
+ 
+    BEGIN TRY
+        DECLARE @StartDate DATE, @EndDate DATE;
+ 
+        -- Determine the date range based on the duration filter
+        IF @DurationFilter = 'Daily'
+        BEGIN
+            SET @StartDate = CAST(GETDATE() AS DATE);
+            SET @EndDate = CAST(GETDATE() AS DATE);
+        END
+        ELSE IF @DurationFilter = 'Weekly'
+        BEGIN
+            SET @StartDate = DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), CAST(GETDATE() AS DATE)); -- Start of the week
+            SET @EndDate = DATEADD(DAY, 7 - DATEPART(WEEKDAY, GETDATE()), CAST(GETDATE() AS DATE)); -- End of the week
+        END
+        ELSE IF @DurationFilter = 'Monthly'
+        BEGIN
+            SET @StartDate = DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1); -- Start of the month
+            SET @EndDate = EOMONTH(GETDATE()); -- End of the month
+        END
+        ELSE IF @DurationFilter = 'Quarterly'
+        BEGIN
+            DECLARE @QuarterStartMonth INT = (DATEPART(QUARTER, GETDATE()) - 1) * 3 + 1;
+            SET @StartDate = DATEFROMPARTS(YEAR(GETDATE()), @QuarterStartMonth, 1); -- Start of the quarter
+            SET @EndDate = EOMONTH(DATEADD(MONTH, 2, @StartDate)); -- End of the quarter
+        END
+        ELSE
+        BEGIN
+            -- Default: No filter applied
+            SET @StartDate = NULL;
+            SET @EndDate = NULL;
+        END
+ 
+        -- Fetch tasks based on filters
+   --     SELECT 
+   --         TaskDate , 
+   --         TaskFrom , 
+   --         TaskTo , 
+   --         Duration, 
+   --         TaskDescription,
+			--Status
+			            SELECT Id, Emp_Code, TaskDate, TaskFrom, TaskTo, TaskDescription, Duration, Status
+
+        FROM 
+            EmployeeTasks
+        WHERE 
+            (@Emp_Code IS NULL OR Emp_Code = @Emp_Code) -- Filter by employee code if provided
+            AND (@StartDate IS NULL OR TaskDate BETWEEN @StartDate AND @EndDate) -- Filter by date range
+        ORDER BY TaskDate, TaskFrom;
+ 
+    END TRY
+    BEGIN CATCH
+        -- Error handling
+        DECLARE @ErrorMessage NVARCHAR(MAX) = ERROR_MESSAGE();
+        PRINT 'An error occurred: ' + @ErrorMessage;
+    END CATCH;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[spSelectEmployeeType]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1355,7 +2178,7 @@ begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectHolidayImage]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectHolidayImage]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1370,7 +2193,7 @@ BEGIN
     ORDER BY Id DESC;  -- Orders by Id in descending order to get the latest record
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectHolidayImageById]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectHolidayImageById]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1384,7 +2207,7 @@ BEGIN
     WHERE Id = @Id;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectHolidayPdf]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectHolidayPdf]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1399,7 +2222,7 @@ BEGIN
     ORDER BY Id DESC;  -- Orders by Id in descending order to get the latest record
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectHolidayPdfById]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectHolidayPdfById]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1414,7 +2237,7 @@ BEGIN
     WHERE Id = @Id;
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectLeaveRequests]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectLeaveRequests]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1439,7 +2262,32 @@ begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectLeaveRequestsFullDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectLeaveRequestsDetails]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spSelectLeaveRequestsDetails]
+    @ApprovalPerson VARCHAR(255)  -- This should be the code or identifier for the person logged into the application
+AS
+BEGIN
+    SELECT 
+	    lr.Id,
+        lr.Emp_Code,
+		lr.LeaveType,
+		lr.Reason,
+        lr.FromDate,
+        lr.ToDate,
+        lr.LeavesCount,
+		lr.ApprovalPerson,
+        lr.Status
+    FROM 
+        leaverequests lr
+    WHERE 
+        lr.ApprovalPerson = @ApprovalPerson;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spSelectLeaveRequestsFullDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1469,7 +2317,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectLeaves]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectLeaves]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1494,7 +2342,7 @@ begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectLeavesCTCDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectLeavesCTCDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1532,7 +2380,57 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectRoles]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectManager]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create Procedure [dbo].[spSelectManager]
+  (@Id int)
+As 
+begin
+	 Begin Try 
+	   IF @Id IS NOT NULL 
+		  Begin
+			Select Id,Emp_Code,ManagerCode from Manager where Id=@Id
+		  End
+	   Else
+		  Begin 
+		  Select Id,Emp_Code,ManagerCode from Manager 
+		  END
+     End Try 
+	 BEGIN CATCH
+		 DECLARE @ErrorMessage VARCHAR(max) = ERROR_MESSAGE();
+         PRINT 'An error occurred: ' + @ErrorMessage;
+	 END CATCH;
+End
+GO
+/****** Object:  StoredProcedure [dbo].[spSelectPayslipDetails]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spSelectPayslipDetails]
+  (@Id int)
+AS
+BEGIN
+    Begin Try 
+	   IF @Id IS NOT NULL 
+		  Begin
+        SELECT * FROM PayslipDetails WHERE Id = @Id;
+		  End
+	   Else
+		  Begin 
+        SELECT * FROM PayslipDetails 
+		  END
+     End Try 
+	 BEGIN CATCH
+		 DECLARE @ErrorMessage VARCHAR(max) = ERROR_MESSAGE();
+         PRINT 'An error occurred: ' + @ErrorMessage;
+	 END CATCH;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spSelectRoles]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1557,7 +2455,7 @@ begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectSalaryMetadata]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectSalaryMetadata]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1582,7 +2480,7 @@ begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectUserRoles]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectUserRoles]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1607,7 +2505,7 @@ begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectUsers]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectUsers]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1632,7 +2530,7 @@ begin
 	 END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spSelectUsersValidate]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spSelectUsersValidate]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1653,7 +2551,7 @@ BEGIN CATCH
     PRINT 'Error occurred: ' + ERROR_MESSAGE();
 END CATCH
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateAccountDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateAccountDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1681,7 +2579,7 @@ begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateCompanyDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateCompanyDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1705,7 +2603,7 @@ begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateCTCDetails]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateCTCDetails]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1757,7 +2655,7 @@ begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateDepartment]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateDepartment]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1779,45 +2677,134 @@ begin
     END CATCH;
 End
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateEmployee]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateEmployee]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-create procedure [dbo].[spUpdateEmployee]
-@Id int,
-@Emp_code varchar(255),
-@EmployeeName varchar(255),
-@DepartmentId int,
-@Designation varchar(255),
-@Division varchar(255),
-@Email varchar(255),
-@PAN_Number Varchar(255),
-@Joiningdate date
-
-
-as
-begin 
-   Begin Try
-		update Employee set 
-			Emp_code =@Emp_code,
-			EmployeeName=@EmployeeName,
-			DepartmentId=@DepartmentId,
-		    Designation=@Designation,
-			Division=@Division,
-			Email=@Email,
-			PAN_Number=@PAN_Number,
-			Joiningdate=@Joiningdate
-			where Id =@Id
-			
-   End Try 
+CREATE PROCEDURE [dbo].[spUpdateEmployee]
+    @Id INT,
+    @Emp_code VARCHAR(255),
+	@FirstName NVARCHAR(50),
+    @LastName NVARCHAR(50),
+    @EmployeeName VARCHAR(255),
+    @DepartmentId INT,
+    @Designation VARCHAR(255),
+    @Division VARCHAR(255),
+    @Email VARCHAR(255),
+    @PAN_Number VARCHAR(255),
+    @JoiningDate DATE,
+    @IsActive BIT,
+    @PhoneNumber BIGINT,
+    @EmergencyContact BIGINT,
+    @EmergencyRelation NVARCHAR(50),
+    @CurrentAddress NVARCHAR(255),
+    @PermanentAddress NVARCHAR(255),
+    @PersonalEmail NVARCHAR(100),
+    @BloodGroup NVARCHAR(5),
+    @AadharNumber BIGINT,
+    @DateOfBirth DATE,
+    @DateOfCelebration DATE,
+    @MotherName NVARCHAR(100),
+    @FatherName NVARCHAR(100),
+    @SpouseName NVARCHAR(100),
+    @ChildrenNames NVARCHAR(100),
+    @LinkedInProfile NVARCHAR(255),
+	@AccountHolderName NVARCHAR(100),
+    @BankName NVARCHAR(100),
+    @BankAccountNumber BIGINT,
+    @IFSCCode NVARCHAR(20),
+    @PreviousCompanyName NVARCHAR(150),
+    @Tenure NVARCHAR(50),
+    @ReportingManager NVARCHAR(100),
+    @LatestCompanyReference NVARCHAR(255)
+AS
+BEGIN
+    BEGIN TRY
+        UPDATE Employee
+        SET 
+            Emp_code = @Emp_code,
+            FirstName = @FirstName,
+            LastName = @LastName,
+            EmployeeName = @EmployeeName,
+            DepartmentId = @DepartmentId,
+            Designation = @Designation,
+            Division = @Division,
+            Email = @Email,
+            PAN_Number = @PAN_Number,
+            JoiningDate = @JoiningDate,
+            IsActive = @IsActive,
+            PhoneNumber = @PhoneNumber,
+            EmergencyContact = @EmergencyContact,
+            EmergencyRelation = @EmergencyRelation,
+            CurrentAddress = @CurrentAddress,
+            PermanentAddress = @PermanentAddress,
+            PersonalEmail = @PersonalEmail,
+            BloodGroup = @BloodGroup,
+            AadharNumber = @AadharNumber,
+            DateOfBirth = @DateOfBirth,
+            DateOfCelebration = @DateOfCelebration,
+            MotherName = @MotherName,
+            FatherName = @FatherName,
+            SpouseName = @SpouseName,
+            ChildrenNames = @ChildrenNames,
+            LinkedInProfile = @LinkedInProfile,
+            AccountHolderName = @AccountHolderName,
+            BankName = @BankName,
+            BankAccountNumber = @BankAccountNumber,
+            IFSCCode = @IFSCCode,
+            PreviousCompanyName = @PreviousCompanyName,
+            Tenure = @Tenure,
+            ReportingManager = @ReportingManager,
+            LatestCompanyReference = @LatestCompanyReference
+        WHERE 
+            Id = @Id;
+    END TRY
     BEGIN CATCH
-	 DECLARE @ErrorMessage VARCHAR(max) = ERROR_MESSAGE();
-			 PRINT 'An error occurred: ' + @ErrorMessage;
+        DECLARE @ErrorMessage VARCHAR(MAX) = ERROR_MESSAGE();
+        PRINT 'An error occurred: ' + @ErrorMessage;
     END CATCH;
-end
+END;
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateEmployeeType]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateEmployeeTasks]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spUpdateEmployeeTasks]
+    @Id INT,
+    @Emp_Code VARCHAR(255),
+    @TaskDate DATE,
+    @TaskFrom TIME,
+    @TaskTo TIME,
+    @TaskDescription TEXT,
+    @Duration INT,
+    @Status NVARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        -- Validate if TaskTo is later than TaskFrom
+        IF @TaskTo <= @TaskFrom
+            THROW 51000, 'TaskTo must be later than TaskFrom.', 1;
+
+        UPDATE EmployeeTasks
+        SET Emp_Code = @Emp_Code,
+            TaskDate = @TaskDate,
+            TaskFrom = @TaskFrom,
+            TaskTo = @TaskTo,
+            TaskDescription = @TaskDescription,
+            Duration = @Duration,
+            Status = @Status
+        WHERE Id = @Id;
+    END TRY
+    BEGIN CATCH
+        DECLARE @ErrorMessage NVARCHAR(MAX) = ERROR_MESSAGE();
+        PRINT 'An error occurred: ' + @ErrorMessage;
+    END CATCH;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[spUpdateEmployeeType]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1839,7 +2826,7 @@ begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateLeaveRequests]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateLeaveRequests]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1877,40 +2864,137 @@ begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateLeaves]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateLeaves]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
---SP for updating employee details
-create procedure [dbo].[spUpdateLeaves]
+CREATE PROCEDURE [dbo].[spUpdateLeaves]    
+
+    @Id INT,    
+
+    @Emp_code VARCHAR(255),    
+
+    @TypeId INT,    
+
+    @TotalLeaves DECIMAL(3,1),    
+
+    @LeavesAvailable DECIMAL(3,1),    
+
+    @LeavesUsed DECIMAL(3,1), 
+
+    @Year INT,  -- New parameter for Year 
+
+    @CarriedForwardLeaves DECIMAL(3,1) = NULL  -- New parameter for CarriedForwardLeaves 
+
+AS    
+
+BEGIN     
+
+    BEGIN TRY    
+
+        UPDATE Leaves  
+
+        SET     
+
+            Emp_code = @Emp_code,    
+
+            TypeId = @TypeId,    
+
+            TotalLeaves = @TotalLeaves,    
+
+            LeavesAvailable = @LeavesAvailable,    
+
+            LeavesUsed = @LeavesUsed, 
+
+            Year = @Year,  -- Update Year column 
+
+            CarriedForwardLeaves = @CarriedForwardLeaves  -- Update CarriedForwardLeaves column 
+
+        WHERE Id = @Id;    
+
+    END TRY     
+
+    BEGIN CATCH    
+
+        DECLARE @ErrorMessage VARCHAR(MAX) = ERROR_MESSAGE();    
+
+        PRINT 'An error occurred: ' + @ErrorMessage;    
+
+    END CATCH;    
+
+END; 
+GO
+/****** Object:  StoredProcedure [dbo].[spUpdateManager]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create procedure [dbo].[spUpdateManager]
 @Id int,
-@Emp_code varchar(255),
-@TypeId int,
-@TotalLeaves decimal(3,1),
-@LeavesAvailable decimal(3,1),
-@LeavesUsed decimal(3,1)
-
-
+@Emp_Code varchar(255),
+@ManagerCode varchar(255)
 as
 begin 
    Begin Try
-		update Leaves set 
-			Emp_code =@Emp_code,
-			TypeId=@TypeId,
-			TotalLeaves=@TotalLeaves,
-		    LeavesAvailable=@LeavesAvailable,
-			LeavesUsed=@LeavesUsed
-			where Id =@Id
-			
-   End Try 
+		update Manager set 
+			Emp_Code =@Emp_Code,
+			ManagerCode=@ManagerCode
+			    where Id=@Id		
+	End Try 
     BEGIN CATCH
 	 DECLARE @ErrorMessage VARCHAR(max) = ERROR_MESSAGE();
 			 PRINT 'An error occurred: ' + @ErrorMessage;
     END CATCH;
 end
+
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateResetPassword]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdatePayslipDetails]    Script Date: 31-12-2024 16:28:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[spUpdatePayslipDetails]
+    @Id INT,
+    @Emp_Code VARCHAR(50),
+    @PaySlipForMonth VARCHAR(50),
+    @DaysPaid INT,
+    @AbsentDays INT,
+    @EarnedBasic DECIMAL(18, 2),
+    @HRA DECIMAL(18, 2),
+    @SpecialAllowance DECIMAL(18, 2),
+    @PFEmployeeShare DECIMAL(18, 2),
+    @ProfessionalTax DECIMAL(18, 2),
+    @TDS DECIMAL(18, 2),
+    @EarningTotal DECIMAL(18, 2),
+    @TotalDeductions DECIMAL(18, 2),
+    @NetPay DECIMAL(18, 2)
+AS
+BEGIN
+BEGIN TRY
+    UPDATE PayslipDetails
+    SET Emp_Code = @Emp_Code,
+        PaySlipForMonth = @PaySlipForMonth,
+        DaysPaid = @DaysPaid,
+        AbsentDays = @AbsentDays,
+        EarnedBasic = @EarnedBasic,
+        HRA = @HRA,
+        SpecialAllowance = @SpecialAllowance,
+        PFEmployeeShare = @PFEmployeeShare,
+        ProfessionalTax = @ProfessionalTax,
+        TDS = @TDS,
+        EarningTotal = @EarningTotal,
+        TotalDeductions = @TotalDeductions,
+        NetPay = @NetPay
+    WHERE Id = @Id;
+	END TRY
+	BEGIN CATCH
+	 DECLARE @ErrorMessage VARCHAR(max) = ERROR_MESSAGE();
+			 PRINT 'An error occurred: ' + @ErrorMessage;
+    END CATCH;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[spUpdateResetPassword]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1939,7 +3023,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateRoles]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateRoles]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1959,7 +3043,7 @@ begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateSalaryMetadata]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateSalaryMetadata]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2021,7 +3105,7 @@ begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateUserRoles]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateUserRoles]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2044,7 +3128,7 @@ begin
     END CATCH;
 end
 GO
-/****** Object:  StoredProcedure [dbo].[spUpdateUsers]    Script Date: 25-09-2024 17:15:22 ******/
+/****** Object:  StoredProcedure [dbo].[spUpdateUsers]    Script Date: 31-12-2024 16:28:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

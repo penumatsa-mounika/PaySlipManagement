@@ -38,13 +38,6 @@ namespace PaySlipManagement.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                //AccountDetails accountDetails = new AccountDetails();
-                //accountDetails.Id = account.Id;
-                //accountDetails.Emp_Code = account.Emp_Code;
-                //accountDetails.BankName = account.BankName;
-                //accountDetails.BankAccountNumber = account.BankAccountNumber;
-                //accountDetails.UANNumber = account.UANNumber;
-                //accountDetails.PFAccountNumber = account.PFAccountNumber;
                 EmployeeTypeViewModel et = new EmployeeTypeViewModel();
                 et.Id = _employeeType.Id;
                 et.EmpType = _employeeType.EmpType;

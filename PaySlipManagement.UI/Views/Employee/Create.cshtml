@@ -3,77 +3,359 @@
 @{
     ViewData["Title"] = "Create";
 }
-<h1>Create</h1>
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="form-wrapper p-4 bg-white rounded shadow-lg" style="width: 95%; max-width: 1400px; height: 95vh; overflow-y: auto;">
+    <!-- Single Form Heading -->
+    <h1 class="form-heading text-center">Create Employee</h1>
+    <hr class="custom-hr mb-4">
 
-<h4>Employee</h4>
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <div class="form-group">
-                <label asp-for="Emp_Code" class="control-label"></label>
-                <input asp-for="Emp_Code" class="form-control" />
-                <span asp-validation-for="Emp_Code" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeeName" class="control-label"></label>
-                <input asp-for="EmployeeName" class="form-control" />
-                <span asp-validation-for="EmployeeName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <input asp-for="DepartmentId" class="form-control" />
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Designation" class="control-label"></label>
-                <input asp-for="Designation" class="form-control" />
-                <span asp-validation-for="Designation" class="text-danger"></span>
-            </div>
-        </form>
-    </div>
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <div class="form-group">
-                <label asp-for="Division" class="control-label"></label>
-                <input asp-for="Division" class="form-control" />
-                <span asp-validation-for="Division" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PAN_Number" class="control-label"></label>
-                <input asp-for="PAN_Number" class="form-control" />
-                <span asp-validation-for="PAN_Number" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="JoiningDate" class="control-label"></label>
-                <input asp-for="JoiningDate" class="form-control" />
-                <span asp-validation-for="JoiningDate" class="text-danger"></span>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="mt-2">
-    <div class="row justify-content-start">
-        <div class="col-auto">
-            <form asp-action="Create">
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+    <form asp-action="Create">
+        <!-- Personal Information Section -->
+        <fieldset class="mb-4">
+            <legend class="section-heading">Employee Information</legend>
+            <div class="row g-3 form-group">
+                <div class="col-md-4 form-group ">
+                    <label asp-for="Emp_Code" class="form-label"></label>
+                    <input asp-for="Emp_Code" class="form-control input-field" />
+                    <span asp-validation-for="Emp_Code" class="text-danger"></span>
                 </div>
-            </form>
+                <div class="col-md-4 form-group">
+                    <label asp-for="DepartmentId" class="form-label"></label>
+                    <input asp-for="DepartmentId" class="form-control input-field" />
+                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="Designation" class="form-label"></label>
+                    <input asp-for="Designation" class="form-control input-field" />
+                    <span asp-validation-for="Designation" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="FirstName" class="form-label"></label>
+                    <input asp-for="FirstName" class="form-control input-field" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="LastName" class="form-label"></label>
+                    <input asp-for="LastName" class="form-control input-field" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="EmployeeName" class="form-label"></label>
+                    <input asp-for="EmployeeName" class="form-control input-field" />
+                    <span asp-validation-for="EmployeeName" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="PhoneNumber" class="form-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control input-field" type="number" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="EmergencyContact" class="form-label"></label>
+                    <input asp-for="EmergencyContact" class="form-control input-field" type="number" />
+                    <span asp-validation-for="EmergencyContact" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="EmergencyRelation" class="form-label"></label>
+                    <input asp-for="EmergencyRelation" class="form-control input-field" />
+                    <span asp-validation-for="EmergencyRelation" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="CurrentAddress" class="form-label"></label>
+                    <input asp-for="CurrentAddress" class="form-control input-field" />
+                    <span asp-validation-for="CurrentAddress" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="PermanentAddress" class="form-label"></label>
+                    <input asp-for="PermanentAddress" class="form-control input-field" />
+                    <span asp-validation-for="PermanentAddress" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control input-field" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="PersonalEmail" class="form-label"></label>
+                    <input asp-for="PersonalEmail" class="form-control input-field" />
+                    <span asp-validation-for="PersonalEmail" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="PAN_Number" class="form-label"></label>
+                    <input asp-for="PAN_Number" class="form-control input-field" />
+                    <span asp-validation-for="PAN_Number" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="AadharNumber" class="form-label"></label>
+                    <input asp-for="AadharNumber" class="form-control input-field" type="number" />
+                    <span asp-validation-for="AadharNumber" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="DateOfBirth" class="form-label"></label>
+                    <input asp-for="DateOfBirth" type="Date" class="form-control input-field" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="DateOfCelebration" class="form-label"></label>
+                    <input asp-for="DateOfCelebration" type ="Date" class="form-control input-field" />
+                    <span asp-validation-for="DateOfCelebration" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="LinkedInProfile" class="form-label"></label>
+                    <input asp-for="LinkedInProfile" class="form-control input-field" />
+                    <span asp-validation-for="LinkedInProfile" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="Division" class="form-label"></label>
+                    <input asp-for="Division" class="form-control input-field" />
+                    <span asp-validation-for="Division" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="BloodGroup" class="form-label"></label>
+                    <select asp-for="BloodGroup" class="form-control input-field">
+                        <option value="">-- Select Blood Group --</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                    <span asp-validation-for="BloodGroup" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="JoiningDate" class="form-label"></label>
+                    <input asp-for="JoiningDate" type="date" class="form-control input-field" />
+                    <span asp-validation-for="JoiningDate" class="text-danger"></span>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Account Details Section -->
+        <fieldset class="mb-4">
+            <legend class="section-heading">Account Details</legend>
+            <div class="row g-3 form-group">
+                <div class="col-md-4 form-group">
+                    <label asp-for="AccountHolderName" class="form-label"></label>
+                    <input asp-for="AccountHolderName" class="form-control input-field" />
+                    <span asp-validation-for="AccountHolderName" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="BankName" class="form-label"></label>
+                    <input asp-for="BankName" class="form-control input-field" />
+                    <span asp-validation-for="BankName" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="BankAccountNumber" class="form-label"></label>
+                    <input asp-for="BankAccountNumber" class="form-control input-field" type="number" />
+                    <span asp-validation-for="BankAccountNumber" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="IFSCCode" class="form-label"></label>
+                    <input asp-for="IFSCCode" class="form-control input-field" />
+                    <span asp-validation-for="IFSCCode" class="text-danger"></span>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Family Details Section -->
+        <fieldset class="mb-4">
+            <legend class="section-heading">Family Details</legend>
+            <div class="row g-3 form-group">
+                <div class="col-md-4 form-group">
+                    <label asp-for="MotherName" class="form-label"></label>
+                    <input asp-for="MotherName" class="form-control input-field" />
+                    <span asp-validation-for="MotherName" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="FatherName" class="form-label"></label>
+                    <input asp-for="FatherName" class="form-control input-field" />
+                    <span asp-validation-for="FatherName" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="SpouseName" class="form-label"></label>
+                    <input asp-for="SpouseName" class="form-control input-field" />
+                    @* <span asp-validation-for="SpouseName" class="text-danger"></span> *@
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="ChildrenNames" class="form-label"></label>
+                    <input asp-for="ChildrenNames" class="form-control input-field" />
+                    @* <span asp-validation-for="ChildrenNames" class="text-danger"></span> *@
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Previous Employment Section -->
+        <fieldset class="mb-4">
+            <legend class="section-heading">Previous Employment</legend>
+            <div class="row g-3 form-group">
+                <div class="col-md-4 form-group">
+                    <label asp-for="PreviousCompanyName" class="form-label"></label>
+                    <input asp-for="PreviousCompanyName" class="form-control input-field" />
+                    <span asp-validation-for="PreviousCompanyName" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="Tenure" class="form-label"></label>
+                    <input asp-for="Tenure" class="form-control input-field" />
+                    <span asp-validation-for="Tenure" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="ReportingManager" class="form-label"></label>
+                    <input asp-for="ReportingManager" class="form-control input-field" />
+                    <span asp-validation-for="ReportingManager" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="LatestCompanyReference" class="form-label"></label>
+                    <input asp-for="LatestCompanyReference" class="form-control input-field" />
+                    <span asp-validation-for="LatestCompanyReference" class="text-danger"></span>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- Submit Button -->
+        <div class="text-center form-group">
+            <button type="submit" class="btn btn-primary btn-custom" >Create</button>
+            <a asp-action="Index" class="btn btn-secondary btn-custom">Back to List</a>
         </div>
-        <div class="col-auto">
-            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-        </div>
-    </div>
+    </form>
+  </div>
 </div>
+
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+<style>
+    /* Form Heading */
+    .form-heading {
+        font-size: 1.8rem;
+        color: #5dcaff; /* Subtle blue for a modern touch */
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Custom Horizontal Line */
+    .custom-hr {
+        border: 0;
+        height: 2px;
+        background: #ffa726; /* Slight orange tint */
+        margin-bottom: 20px;
+    }
+
+    /* Form Container */
+    .form-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9; /* Light background for clean look */
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Labels */
+    .form-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #444;
+        margin-bottom: 5px;
+    }
+
+    /* Input Fields */
+    .input-field {
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        width: 100%;
+        transition: border-color 0.3s;
+    }
+
+    .input-field:focus {
+        border-color: #5dcaff;
+        outline: none;
+        box-shadow: 0 0 4px rgba(93, 202, 255, 0.5);
+    }
+
+    /* Button Group */
+    .button-group {
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    /* Buttons */
+    .btn-custom {
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: background-color 0.3s;
+    }
+
+    .btn-custom:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: #fff;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield; /* For Firefox */
+        .container
+
+    {
+        max-width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .form-heading {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        text-transform: uppercase;
+    }
+
+    .custom-hr {
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+
+    fieldset {
+        border: 1px solid #ccc;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    .section-heading {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+
+    button {
+        width: 150px;
+    }
+</style>

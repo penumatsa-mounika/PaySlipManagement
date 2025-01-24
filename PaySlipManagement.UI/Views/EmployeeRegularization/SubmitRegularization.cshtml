@@ -1,0 +1,183 @@
+﻿@model List<PaySlipManagement.UI.Models.EmployeeRegularizationViewModel>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-primary">Employee Regularization</h3>
+        <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("GeneratePdf", "Employee")'">
+            Back
+        </button>
+    </div>
+    @{
+        string empCode = Model.FirstOrDefault()?.Emp_Code ?? "Unknown"; // Get the employee code from the first item
+    }
+    <input type="hidden" id="empCode" value="@empCode" />
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>In Time</th>
+                    <th>Out Time</th>
+                    <th>Working Hours</th>
+                    <th>Deviation</th>
+                    <th>Regularization</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var currentMonth = DateTime.Now.Month;
+                    var currentYear = DateTime.Now.Year;
+                    var daysInMonth = DateTime.DaysInMonth(currentYear, currentMonth);
+                }
+                @for (int day = 1; day <= daysInMonth; day++)
+                {
+                    var entryDate = new DateTime(currentYear, currentMonth, day);
+                    var existingEntry = Model.FirstOrDefault(r => r.EntryDate.Date == entryDate.Date);
+                    <tr id="row-@entryDate.ToString("yyyy-MM-dd")">
+                        <td>@entryDate.ToString("dd-MMM-yyyy")</td>
+                        @if (existingEntry != null)
+                        {
+                            // Display existing entry in read-only format
+                            <td>@existingEntry.InTime.ToString(@"hh\:mm")</td>
+                            <td>@existingEntry.OutTime.ToString(@"hh\:mm")</td>
+                            <td>@existingEntry.WorkingHours</td>
+                            <td>@existingEntry.DeviationInWorkingHours</td>
+                            <td>@existingEntry.Regularization</td>
+                            <td class="text-muted">Already Submitted</td>
+                        }
+                        else if (entryDate <= DateTime.Now.Date)
+                        {
+                        // Show input fields for new entries
+                            <form id="form-@entryDate.ToString("yyyy-MM-dd")" asp-action="SubmitRegularization" asp-controller="EmployeeRegularization" method="post" onsubmit="submitRegularization(event, '@entryDate.ToString("yyyy-MM-dd")')">
+                                <input type="hidden" name="Emp_Code" value="@empCode" />
+                                <input type="hidden" name="EntryDate" value="@entryDate.ToString("yyyy-MM-dd")" />
+                            <td>
+                                <input type="time" name="InTime" class="form-control" required onchange="calculateHours(this)" />
+                            </td>
+                            <td>
+                                <input type="time" name="OutTime" class="form-control" required onchange="calculateHours(this)" />
+                            </td>
+                            <td>
+                                <input type="number" name="WorkingHours" class="form-control" step="0.5" readonly />
+                            </td>
+                            <td>
+                                <input type="number" name="DeviationInWorkingHours" class="form-control" step="0.5" readonly />
+                            </td>
+                            <td>
+                                <select name="Regularization" class="form-control" required>
+                                    <option value="">Select</option>
+                                    <option value="Work from Office">Work from Office</option>
+                                    <option value="Work from Home">Work from Home</option>
+                                    <option value="Leave">Leave</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </td>
+                            </form>
+                        }
+                        else
+                        {
+                            <td colspan="6" class="text-muted text-center">Future date - Not editable</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .table-container {
+        max-height: 700px; /* Set the desired max height for scrolling */
+        overflow-y: auto; /* Enable vertical scrolling */
+        border: 1px solid #ddd; /* Add border for container */
+        border-radius: 7px; /* Rounded corners for the container */
+    }
+
+    .table thead th {
+        background-color: #424242; /* grey header */
+        color: #f5f5f5; /* Dark white text */
+        text-align: center; /* Center text in header cells */
+    }
+
+    .table tbody tr:hover {
+        background-color: #f9f9f9; /* Highlight row on hover */
+    }
+
+    .table tbody td {
+        color: #333; /* Default text color for table body */
+    }
+
+    .table {
+        margin-bottom: 0; /* Remove extra margin below the table */
+    }
+</style>
+
+<script>
+    function calculateHours(input) {
+        // Get the row of the input
+        var row = input.closest('tr');
+
+        // Get InTime and OutTime values
+        var inTimeInput = row.querySelector('input[name="InTime"]');
+        var outTimeInput = row.querySelector('input[name="OutTime"]');
+        var workingHoursInput = row.querySelector('input[name="WorkingHours"]');
+        var deviationInput = row.querySelector('input[name="DeviationInWorkingHours"]');
+
+        // Parse the time values
+        var inTime = inTimeInput.value ? new Date('1970-01-01T' + inTimeInput.value + ':00') : null;
+        var outTime = outTimeInput.value ? new Date('1970-01-01T' + outTimeInput.value + ':00') : null;
+
+        if (inTime && outTime) {
+            // Calculate Working Hours
+            var workingHours = (outTime - inTime) / (1000 * 60 * 60); // Convert milliseconds to hours
+            workingHoursInput.value = workingHours.toFixed(2); // Set the Working Hours input
+
+            // Calculate Deviation In Working Hours
+            var deviationInWorkingHours = 9 - workingHours; // Assuming 9 is the standard working hours
+            deviationInput.value = deviationInWorkingHours.toFixed(2); // Set the Deviation input
+        } else {
+            // Clear the values if InTime or OutTime is not set
+            workingHoursInput.value = '';
+            deviationInput.value = '';
+        }
+    }
+
+    function submitRegularization(event, entryDate) {
+        event.preventDefault();
+
+        var form = document.getElementById('form-' + entryDate);
+        var formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the table row with the new data
+                    var row = document.getElementById('row-' + entryDate);
+                    row.innerHTML = `
+    <td>${new Date(entryDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
+    <td>${data.inTime}</td>
+    <td>${data.outTime}</td>
+    <td>${data.workingHours}</td>
+    <td>${data.deviationInWorkingHours}</td>
+    <td>${data.regularization}</td>
+    <td class="text-muted">Already Submitted</td>
+                                    `;
+                } else {
+                    alert('Failed to submit regularization: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>

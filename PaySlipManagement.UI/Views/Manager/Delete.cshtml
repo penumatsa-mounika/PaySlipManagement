@@ -1,0 +1,39 @@
+﻿@model ManagerViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<div class="container mt-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h2 class="text-center text-danger mb-4">Delete Manager</h2>
+            <hr />
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.Emp_Code)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Emp_Code)
+                        </dd>
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.ManagerCode)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.ManagerCode)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-between">
+                <form asp-action="Delete" class="d-inline">
+                    <input type="hidden" asp-for="Id" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>

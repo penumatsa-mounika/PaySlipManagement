@@ -106,7 +106,7 @@ namespace PaySlipManagement.UI.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var response = await _apiServices.GetAsync<LeavesViewModel>($"{_apiSettings.LeavesEndpoint}/GetLeavesByidAsync/{id}");
+            var response = await _apiServices.GetAsync<LeavesViewModel>($"{_apiSettings.LeavesEndpoint}/GetLeavesByid/{id}");
             return View(response);
         }
 

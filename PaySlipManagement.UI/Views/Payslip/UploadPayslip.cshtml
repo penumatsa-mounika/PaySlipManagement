@@ -2,35 +2,86 @@
     ViewData["Title"] = "Upload Payslip Details";
 }
 
+<h2 class="form-heading">Upload Payslip Details</h2>
+<hr class="custom-hr" />
+
+<div class="container form-container">
+    <form asp-action="UploadPayslip" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="file" class="form-label">Choose Excel File</label>
+            <input type="file" name="file" class="form-control-file input-field" />
+        </div>
+        <button type="submit" class="btn btn-upload">Upload</button>
+    </form>
+</div>
+
 <style>
-    .custom-select {
-        width: 250px;
+    .form-heading {
+        font-size: 2rem;
+        color: #5dcaff;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 10px;
     }
 
-    .bg-secondary {
-        background-color: #6c757d !important;
+    .custom-hr {
+        border: 0;
+        height: 2px;
+        background: #ffa726; /* Slight orange tint */
+        margin: 20px auto;
     }
 
-    .bg-light-orange {
-        background-color: #FF8C00 !important; /* Light Orange Color */
-        color: white; /* Optional: Text color */
+    .form-container {
+        max-width: 400px; /* Set a max width for the form */
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .form-inline .form-group {
-        display: flex;
-        align-items: center;
+    .form-label {
+        font-weight: 500;
+        color: #444;
+        margin-bottom: 8px;
+        display: block; /* Ensure label is on its own line */
     }
 
-        .form-inline .form-group label {
-            margin-right: 10px;
+    .input-field {
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        transition: border-color 0.3s;
+        padding: 10px;
+        width: 100%;
+    }
+
+        .input-field:focus {
+            border-color: #5dcaff;
+            outline: none;
+            box-shadow: 0 0 4px rgba(93, 202, 255, 0.5);
+        }
+
+    .btn-upload {
+        margin-top: 15px;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #fff;
+        background-color: #5dcaff; /* Button color */
+        border: none;
+        transition: background-color 0.3s;
+        cursor: pointer;
+        width: 100%; /* Full width button */
+    }
+
+        .btn-upload:hover {
+            background-color: #4da7e8; /* Darker shade on hover */
+        }
+
+        .btn-upload:focus {
+            outline: none;
+            box-shadow: 0 0 4px rgba(93, 202, 255, 0.5);
         }
 </style>
-<h2>Upload Payslip Details</h2>
 
-<form asp-action="UploadPayslip" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="file">Choose Excel File</label>
-        <input type="file" name="file" class="form-control-file" />
-    </div>
-    <button type="submit" class="bg-light-orange">Upload</button>
-</form>

@@ -28,7 +28,11 @@ namespace PaySlipManagement.Common.Utilities
 
 
             var role = context.Request.Cookies["UserRole"];
-
+            var manager = context.Request.Cookies["ManagerCode"];
+            if (empCode == manager)
+            {
+                context.Items["IsManager"] = true;
+            }
             if (!string.IsNullOrEmpty(role))
             {
                 if (role == "Admin")

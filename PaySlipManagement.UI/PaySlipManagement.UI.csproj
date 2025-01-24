@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="7.2.2" />
+    <PackageReference Include="Hangfire" Version="1.8.15" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.8.15" />
     <PackageReference Include="itext7" Version="8.0.4" />
     <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.4" />
     <PackageReference Include="itext7.pdfhtml" Version="5.0.4" />
@@ -31,6 +33,7 @@
     <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4" />
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="7.0.1" />
+    <PackageReference Include="SweetAlert" Version="1.0.0" />
     <ProjectReference Include="..\PaySlipManagement.BAL\PaySlipManagement.BAL.csproj" />
     <ProjectReference Include="..\PayslipManagement.common\PaySlipManagement.Common.csproj" />
   </ItemGroup>

@@ -1,0 +1,224 @@
+﻿@* @model IEnumerable<EmployeeTasksViewModel>
+
+@{
+    ViewData["Title"] = "Filter Employee Tasks";
+}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<div class="container mt-4">
+    <h3>Employee Tasks</h3>
+
+    <div class="card p-3">
+        <!-- Task Filter Form -->
+        <form method="get" action="@Url.Action("Index1")">
+            <div class="form-group">
+                <label for="employeeCode">Task Empcode:</label>
+                <select id="employeeCode" name="Emp_Code" class="custom-select">
+                    <option value="">Select Employee Code</option>
+                    @foreach (var employee in ViewBag.Employees)
+                    {
+                        <option value="@employee.Emp_Code">@employee.Emp_Code</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="durationFilter">Duration:</label>
+                <select id="durationFilter" name="DurationFilter" class="custom-select">
+                    <option value="">Select Duration</option>
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Quarterly">Quarterly</option>
+                </select>
+            </div>
+
+            <div class="form-group text-right">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</div> *@
+
+@* @model IEnumerable<EmployeeTasksViewModel>
+
+@{
+    ViewData["Title"] = "Filter Employee Tasks";
+}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Card View -->
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Employee Tasks</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Task Filter Form -->
+                    <form method="post" action="@Url.Action("Index1")">
+                        <div class="form-group">
+                            <label for="employeeCode" class="font-weight-bold">Employee:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-id-badge"></i>
+                                    </span>
+                                </div>
+                                <select id="employeeCode" name="Emp_Code" class="custom-select">
+                                    <option value="">Select Employee</option>
+                                    @if (ViewBag.Employees != null)
+                                    {
+                                        foreach (var employee in ViewBag.Employees)
+                                        {
+                                            <option value="@employee.Emp_Code">@employee.Emp_Code</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="durationFilter" class="font-weight-bold">Duration:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-clock"></i>
+                                    </span>
+                                </div>
+                                <select id="durationFilter" name="DurationFilter" class="custom-select">
+                                    <option value="">Select Duration</option>
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Quarterly">Quarterly</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-4 text-center">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-filter"></i> Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> *@
+
+@model IEnumerable<EmployeeTasksViewModel>
+
+@{
+    ViewData["Title"] = "Filter Employee Tasks";
+}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Card View -->
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Employee Tasks</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Task Filter Form -->
+                    <form method="post" action="@Url.Action("Index1")">
+                        <div class="form-group">
+                            <label for="employeeCode" class="font-weight-bold">Employee:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-id-badge"></i>
+                                    </span>
+                                </div>
+                                <select id="employeeCode" name="Emp_Code" class="custom-select">
+                                    <option value="">Select Employee</option>
+                                    @if (ViewBag.Employees != null)
+                                    {
+                                        foreach (var employee in ViewBag.Employees)
+                                        {
+                                            <option value="@employee.Emp_Code">@employee.Emp_Code</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="durationFilter" class="font-weight-bold">Duration:</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-clock"></i>
+                                    </span>
+                                </div>
+                                <select id="durationFilter" name="DurationFilter" class="custom-select">
+                                    <option value="">Select Duration</option>
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Quarterly">Quarterly</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-4 text-center">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-filter"></i> Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Employee Code</th>
+                <th>Date</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Duration</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var task in Model)
+                {
+                    <tr>
+                        <td>@task.Emp_Code</td>
+                        <td>@task.TaskDate.ToShortDateString()</td>
+                        <td>@task.TaskFrom</td>
+                        <td>@task.TaskTo</td>
+                        <td>@task.Duration</td>
+                        <td>@task.TaskDescription</td>
+                        <td>@task.Status</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center">No tasks found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> 
+

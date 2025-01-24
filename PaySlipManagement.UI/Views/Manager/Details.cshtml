@@ -1,0 +1,35 @@
+﻿@model ManagerViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="container mt-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h2 class="mb-4 text-center text-primary">Employee-Manager Details</h2>
+            <hr />
+            <dl class="row mb-0">
+                <dt class="col-sm-3 fw-bold text-muted">
+                    @Html.DisplayNameFor(model => model.Emp_Code)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Emp_Code)
+                </dd>
+
+                <dt class="col-sm-3 fw-bold text-muted">
+                    @Html.DisplayNameFor(model => model.ManagerCode)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ManagerCode)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-between">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+    </div>
+</div>

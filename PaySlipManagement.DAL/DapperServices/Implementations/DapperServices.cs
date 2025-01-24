@@ -14,7 +14,7 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
 {
     public class DapperServices<T>: IDapperServices<T>
     {
-        private string constring = "Server=Sarth\\SQLEXPRESS;database=PayslipManagementDB;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true";
+        private string constring = "Server=localhost\\SQLEXPRESS01;database=PayslipManagement;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true";
         private SqlConnection con;
         public DapperServices()
         {
@@ -107,6 +107,95 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
                 throw ex;
             }
         }
+        public async Task<T> ReadGetByTypeAsync(T entity)
+        {
+            try
+            {
+                var sql = GetSelectTypeStoredProcedureName(entity) + " @Emp_Code,@DocumentType";
+                var parameters = new DynamicParameters();
+                foreach (var property in entity.GetType().GetProperties())
+                {
+                    parameters.Add("@" + property.Name, property.GetValue(entity));
+                };
+                var result = await con.QueryFirstOrDefaultAsync<T>(sql, parameters);
+                con.Close();
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<T>> ReadGetCodeByAllAsync(T entity)
+        {
+            try
+            {
+                var sql = GetSelectCodeStoredProcedureName(entity) + " @Emp_Code";
+                var parameters = new DynamicParameters();
+                foreach (var property in entity.GetType().GetProperties())
+                {
+                    parameters.Add("@" + property.Name, property.GetValue(entity));
+                };
+                var result = await con.QueryAsync<T>(sql, parameters);
+                con.Close();
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<EmployeeTasks>> ReadGetCodeByDurationAsync(string empCode, string durationFilter)
+        {
+            try
+            {
+                // Define the SQL query
+                string sql = "spSelectEmployeeTasksDuration @Emp_Code, @DurationFilter";
+
+                // Prepare parameters
+                var parameters = new DynamicParameters();
+                parameters.Add("@Emp_Code", empCode);
+                parameters.Add("@DurationFilter", durationFilter);
+
+                // Execute the query using Dapper
+                var result = await con.QueryAsync<EmployeeTasks>(sql, parameters);
+                con.Close();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching tasks: " + ex.Message, ex);
+            }
+        }
+
+        public async Task<IEnumerable<EmployeeRegularization>> ReadGetCodeByEmpCodeAsync(string empCode, DateTime StartDate, DateTime EndDate)
+        {
+            try
+            {
+                // Define the SQL query
+                string sql = "spSelectEmployeeRegularizationByCode @Emp_Code,@StartDate,@EndDate";
+
+                // Prepare parameters
+                var parameters = new DynamicParameters();
+                parameters.Add("@Emp_Code", empCode);
+                parameters.Add("@StartDate", StartDate);
+                parameters.Add("@EndDate", EndDate);
+                // Execute the query using Dapper
+                var result = await con.QueryAsync<EmployeeRegularization>(sql, parameters);
+                con.Close();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching tasks: " + ex.Message, ex);
+            }
+        }
+
+
 
         public async Task<T> ReadGetByCodeAsync(T entity)
         {
@@ -304,6 +393,14 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
         private string GetSelectCodeStoredProcedureName(T entity)
         {
             return $"EXEC spSelect{entity.GetType().Name}Details";
+        }
+        //private string GetSelectDurationStoredProcedureName(T entity)
+        //{
+        //    return $"EXEC spSelect{entity.GetType().Name}Duration";
+        //}
+        private string GetSelectTypeStoredProcedureName(T entity)
+        {
+            return $"EXEC spSelect{entity.GetType().Name}ValidateType";
         }
         private string GetUpdateStoredProcedureName(T entity)
         {

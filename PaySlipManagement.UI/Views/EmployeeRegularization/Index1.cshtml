@@ -1,0 +1,129 @@
+﻿@model IEnumerable<EmployeeRegularizationViewModel>
+
+@{
+    ViewData["Title"] = "Filter Employee Regularization";
+}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<div class="container mt-5">
+    <ul class="nav nav-tabs " id="employeeTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="employee-regularization-tab" data-bs-toggle="tab" href="#employee-regularization" role="tab" aria-controls="employee-regularization" aria-selected="true" style="color: #424242; font-weight: 500;">Filter Employee Regularization</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="employee-regularization-tab" href="@Url.Action("Index", "EmployeeRegularization")" style="color: #424242; font-weight: 500;">
+                Regularization Approval
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-pane fade show active" id="employee-regularization" role="tabpanel" aria-labelledby="employee-regularization-tab">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <!-- Card View -->
+                    <div class="card shadow-lg border-light">
+                        <div class="card-header bg-dark text-white text-center">
+                            <h4>Employee Regularization</h4>
+                        </div>
+                        <div class="card-body bg-light">
+                            <!-- Regularization Filter Form -->
+                            <form method="post" action="@Url.Action("Index1")">
+                                <div class="form-group">
+                                    <label for="employeeCode" class="font-weight-bold text-muted">Employee:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-info text-white">
+                                                <i class="fas fa-id-badge"></i>
+                                            </span>
+                                        </div>
+                                        <select id="employeeCode" name="Emp_Code" class="custom-select">
+                                            <option value="">Select Employee</option>
+                                            @if (ViewBag.Employees != null)
+                                            {
+                                                foreach (var employee in ViewBag.Employees)
+                                                {
+                                                    <option value="@employee.Emp_Code">@employee.Emp_Code</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="startDate" class="font-weight-bold text-muted">Start Date:</label>
+                                    <input type="date" id="startDate" name="StartDate" class="form-control" />
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="endDate" class="font-weight-bold text-muted">End Date:</label>
+                                    <input type="date" id="endDate" name="EndDate" class="form-control" />
+                                </div>
+
+                                <div class="form-group mt-4 text-center">
+                                    <button type="submit" class="btn btn-info btn-block text-white">
+                                        <i class="fas fa-filter"></i> Apply Filters
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Regularization Records Table -->
+            <div class="mt-5">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        <h5>Employee Regularization Records</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr class="bg-secondary text-white">
+                                    <th>Employee Code</th>
+                                    <th>Entry Date</th>
+                                    <th>In Time</th>
+                                    <th>Out Time</th>
+                                    <th>Working Hours</th>
+                                    <th>Deviation</th>
+                                    <th>Regularization</th>
+                                    <th>Approval Person</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    foreach (var reg in Model)
+                                    {
+                                        <tr>
+                                            <td>@reg.Emp_Code</td>
+                                            <td>@reg.EntryDate.ToShortDateString()</td>
+                                            <td>@reg.InTime</td>
+                                            <td>@reg.OutTime</td>
+                                            <td>@reg.WorkingHours</td>
+                                            <td>@reg.DeviationInWorkingHours</td>
+                                            <td>@reg.Regularization</td>
+                                            <td>@reg.ApprovalPerson</td>
+                                            <td>@reg.Status</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="9" class="text-center text-muted">No regularization records found.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">

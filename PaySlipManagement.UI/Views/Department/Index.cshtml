@@ -1,22 +1,38 @@
 ﻿@model IEnumerable<DepartmentViewModel>
 
 @{
-    ViewData["Title"] = "Department Details";
+    ViewData["Title"] = "Department";
     var currentPage = (int)ViewBag.CurrentPage;
     var totalPages = (int)ViewBag.TotalPages;
 }
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
 <style>
     .custom-select {
         width: 250px;
+        border-radius: 5px;
+        padding: 8px;
+        background-color: #f9f9f9;
+        border: 1px solid #ced4da;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     }
+
+        .custom-select:hover,
+        .custom-select:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, .25);
+        }
 
     .bg-secondary {
         background-color: #6c757d !important;
     }
 
     .bg-light-orange {
-        background-color: #FF8C00 !important; /* Light Orange Color */
-        color: white; /* Optional: Text color */
+        background-color: #FF6F00 !important; /* Light Orange Color */
+        color: white; /* Text color */
     }
 
     .form-inline .form-group {
@@ -24,52 +40,178 @@
         align-items: center;
     }
 
-    .form-inline .form-group label {
+        .form-inline .form-group label {
             margin-right: 10px;
         }
+
+    .table th,
+    .table td {
+        padding: 10px;
+    }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        background-color: #eeeeee; /* Very light gray card background */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.01);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .card-header {
+        background-color: #424242; /* Dark gray */
+        border-radius: 12px 12px 0 0;
+        padding: 15px;
+        color: #fff; /* White text */
+        text-align: center;
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
+
+    .card-body {
+        background-color: #f5f5f5; /* Very light gray */
+        padding: 20px;
+        color: #424242; /* Dark gray */
+    }
+
+    .section-heading {
+        font-size: 1.8rem; /* Slightly larger font for a clean modern look */
+        color: #616161; /* Dark gray heading */
+        font-weight: 500;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #9e9e9e; /* Lighter gray underline */
+        padding-bottom: 10px;
+        text-align: left;
+        letter-spacing: 0.5px;
+    }
+
+    .btn-custom {
+        border-radius: 8px;
+        padding: 6px 12px;
+        font-size: 0.9rem;
+        background-color: #616161; /* Dark gray button */
+        color: white;
+        border: none;
+    }
+
+        .btn-custom:hover {
+            background-color: #424242; /* Darker gray on hover */
+        }
+
+    .styled-hr {
+        border: none;
+        border-bottom: 2px solid #9e9e9e; /* Subtle gray underline */
+        margin: 20px 0;
+        opacity: 0.7;
+    }
+
+    /* Table Styles */
+    .table {
+        margin-bottom: 0; /* Remove bottom margin */
+        border-collapse: collapse; /* Minimalist table look */
+        width: 100%; /* Full width */
+    }
+
+        .table th,
+        .table td {
+            padding: 12px 15px;
+            text-align: center;
+            border: none; /* No borders for cleaner look */
+        }
+
+        .table thead th {
+            background-color: #616161; /* Darker gray for the header */
+            color: #fff; /* White text for headers */
+            font-weight: bold;
+        }
+
+        .table tbody tr {
+            background-color: #f0f0f0; /* Light gray row background */
+        }
+
+            .table tbody tr:nth-child(even) {
+                background-color: #e0e0e0; /* Alternate row color (slightly darker gray) */
+            }
+
+            .table tbody tr:hover {
+                background-color: #d0d0d0; /* Slightly darker gray on hover */
+            }
+
+    /* Pagination Styles */
+    .pagination .page-item.active .page-link {
+        background-color: #616161; /* Dark gray for active page */
+        border-color: #616161;
+    }
+
+    .pagination .page-link {
+        color: #424242; /* Dark gray pagination numbers */
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 8px; /* Adds uniform space between buttons */
+        justify-content: center; /* Centers the buttons horizontally */
+    }
 </style>
+
 <div class="mt-2">
     <div class="d-flex justify-content-between align-items-center">
         <div>
-            <h3>Department Details</h3>
-            <p>List of Department Details</p>
+            <h3 class="text-primary">Department Details</h3>
         </div>
         <div>
-            <a asp-action="Create" class="btn btn-primary">Create New</a>
+            <a asp-action="Create" class="btn btn-primary btn-custom">Add New</a>
         </div>
     </div>
 </div>
-<table class="table table-striped table-bordered">
-    <thead class="thead-light">
-        <tr class="bg-light-orange">
-            <th>Id</th>
-            <th>Department Name</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var details in Model)
-        {
-            <tr>
-                <td>@details.Id</td>
-                <td>@details.DepartmentName</td>
-                <td>
-                    <div class="d-flex justify-content-md-evenly">
-                        <a asp-action="Edit" asp-route-id="@details.Id" class="btn btn-primary btn-sm mr-2">
-                            <i class="bi bi-pencil-square"></i>
-                        </a> |
-                        <a asp-action="Details" asp-route-id="@details.Id" class="btn btn-info btn-sm mr-2">
-                            <i class="bi bi-info-circle"></i>
-                        </a> |
-                        <a asp-action="Delete" asp-route-id="@details.Id" class="btn btn-danger btn-sm mr-2">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0">Department Information</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-light">
+                <tr class="table-header-dark">
+                    <th>Id</th>
+                    <th>Department Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var details in Model)
+                {
+                    <tr>
+                        <td>@details.Id</td>
+                        <td>@details.DepartmentName</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a asp-action="Edit" asp-route-id="@details.Id" class="btn btn-primary btn-sm mr-2">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a> |
+                                <a asp-action="Details" asp-route-id="@details.Id" class="btn btn-info btn-sm mr-2">
+                                    <i class="bi bi-info-circle"></i>
+                                </a> |
+                                <a href="javascript:void(0);" 
+                                   onclick="confirmDelete(@details.Id)"
+                                   class="btn btn-danger btn-sm mr-2"
+                                >
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <div class="d-flex justify-content-center mt-3">
     <nav aria-label="Page navigation">
@@ -83,3 +225,51 @@
         </ul>
     </nav>
 </div>
+
+
+
+
+<script>
+    function confirmDelete(departmentId) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this department!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Department")',
+                        type: 'POST',
+                        data: {
+                            id: departmentId,
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                        },
+                        success: function (response) {
+                            swal("The department has been deleted!", {
+                                icon: "success",
+                            }).then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function () {
+                            swal("Error deleting department.", {
+                                icon: "error",
+                            });
+                        }
+                    });
+                } else {
+                    swal("Your department data is safe!");
+                }
+            });
+    }
+</script>
+
+
+
+
+
+
+

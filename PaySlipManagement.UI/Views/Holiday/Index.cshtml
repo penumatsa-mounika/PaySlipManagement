@@ -13,7 +13,7 @@
     }
 
     .bg-light-orange {
-        background-color: #FF8C00 !important; /* Light Orange Color */
+        background-color: #FF6F00 !important; /* Light Orange Color */
         color: white; /* Optional: Text color */
     }
 
@@ -33,7 +33,6 @@
             <div>
                 @if (Model.HolidayPdf != null)
                 {
-                    <h6 class="bg-light-orange">Latest Holiday Details</h6>
                     <a href="data:application/pdf;base64,@Convert.ToBase64String(Model.HolidayPdf.Data)" class="bg-light-orange" download="@Model.HolidayPdf.FileName">@Model.HolidayPdf.FileName</a>
                 }
                 else
@@ -42,10 +41,12 @@
                 }
             </div>
             <div>
-                <a asp-action="Create" class="btn btn-primary">Create New</a>
+                <a asp-action="Create" class="btn btn-primary">Insert</a>
             </div>
         </div>
     </div>
+    <hr />
+    <br />
     @if (Model.HolidayImage != null)
     {
         <div class="day holiday">

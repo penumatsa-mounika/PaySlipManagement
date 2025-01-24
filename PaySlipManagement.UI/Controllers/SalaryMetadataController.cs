@@ -19,7 +19,7 @@ namespace PaySlipManagement.UI.Controllers
         public async Task<IActionResult> Index(int page = 1, int pageSize = 8)
         {
             // Fetch all SalaryMetadata
-            var salaryMetadataList = await _apiService.GetAllAsync<SalaryMetadata>($"{_apiSettings.SalaryEndpoint}/GetAllSalaryMetadata");
+            var salaryMetadataList = await _apiService.GetAllAsync<SalaryMetadataViewModel>($"{_apiSettings.SalaryEndpoint}/GetAllSalaryMetadata");
 
             // Calculate total number of items
             int totalItems = salaryMetadataList.Count();

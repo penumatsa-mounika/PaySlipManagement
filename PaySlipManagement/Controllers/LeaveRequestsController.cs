@@ -30,6 +30,11 @@ namespace PaySlipManagement.API.Controllers
         {
             return await _leaveRequestsBALRepo.GetLeaveRequestsByCodeAsync(Emp_Code);
         }
+        [HttpGet("GetLeaveRequestsByManager/{Emp_Code}")]
+        public async Task<IEnumerable<LeaveRequests>> GetLeaveRequestsCodeAsync(string Emp_Code)
+        {
+            return await _leaveRequestsBALRepo.GetLeaveRequestsCodeAsync(Emp_Code);
+        }
         [HttpPost("CreateLeaveRequests")]
         public async Task<bool> CreateLeaveRequests(LeaveRequests _leaveRequests)
         {

@@ -4,153 +4,184 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Salary Metadata</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Emp_Code)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Emp_Code)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PaySlipForMonth)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PaySlipForMonth)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DaysPaid)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DaysPaid)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AbsentDays)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AbsentDays)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EarnedBasic)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EarnedBasic)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HRA)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HRA)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SpecialAllowance)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SpecialAllowance)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PFEmployeeShare)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PFEmployeeShare)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProfessionalTax)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProfessionalTax)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TDS)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TDS)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EarningTotal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EarningTotal)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TotalDeductions)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TotalDeductions)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NetPay)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NetPay)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AnnualCTC)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AnnualCTC)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CTCMonth)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CTCMonth)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PFEmployerShare)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PFEmployerShare)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PFEmployerShareAnnual)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PFEmployerShareAnnual)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AnnualGrossPay)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AnnualGrossPay)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MonthGrossPay)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MonthGrossPay)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OtherAdditions)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OtherAdditions)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OtherDeductions)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OtherDeductions)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LossOfPay)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LossOfPay)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+<div class="container mt-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h2 class="mb-4 text-center text-primary">Salary Details</h2>
+            <hr />
+            <div class="row">
+                <!-- Left Column -->
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.Emp_Code)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Emp_Code)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.PaySlipForMonth)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.PaySlipForMonth)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.DaysPaid)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.DaysPaid)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.AbsentDays)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.AbsentDays)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.EarnedBasic)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.EarnedBasic)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.HRA)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.HRA)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.SpecialAllowance)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.SpecialAllowance)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.PFEmployeeShare)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.PFEmployeeShare)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.ProfessionalTax)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.ProfessionalTax)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.TDS)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.TDS)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.EarningTotal)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.EarningTotal)
+                        </dd>
+                    </dl>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-md-6">
+                    <dl class="row">
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.TotalDeductions)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.TotalDeductions)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.NetPay)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.NetPay)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.AnnualCTC)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.AnnualCTC)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.CTCMonth)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.CTCMonth)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.PFEmployerShare)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.PFEmployerShare)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.PFEmployerShareAnnual)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.PFEmployerShareAnnual)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.AnnualGrossPay)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.AnnualGrossPay)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.MonthGrossPay)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.MonthGrossPay)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.OtherAdditions)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.OtherAdditions)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.OtherDeductions)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.OtherDeductions)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-muted">
+                            @Html.DisplayNameFor(model => model.LossOfPay)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.LossOfPay)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-between">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+    </div>
 </div>

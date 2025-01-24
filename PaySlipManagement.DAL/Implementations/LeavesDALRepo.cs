@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace PaySlipManagement.DAL.Implementations
 {
@@ -87,6 +88,7 @@ namespace PaySlipManagement.DAL.Implementations
             {
                 if (_leaves != null)
                 {
+                    //check employee exist code
                     var employeeExists = await leavesRepository.CheckEmployeeExistsAsync(_leaves.Emp_Code);
                     if (!employeeExists)
                     {
@@ -119,6 +121,89 @@ namespace PaySlipManagement.DAL.Implementations
                 throw ex;
             }
 
+        }
+
+        
+
+        public async Task CarryForwardLeavesAsync()
+        {
+            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                try
+                {
+                    var allLeaves = await GetAllLeavesAsync();
+
+                    foreach (var leave in allLeaves)
+                    {
+                        var unusedLeaves = leave.TotalLeaves - leave.LeavesUsed;
+
+                        if (unusedLeaves > 0)
+                        {
+                            // new year
+                            leave.CarriedForwardLeaves = Math.Min(unusedLeaves, 12); 
+                            
+                            //Jan increment if running in Dec
+                            if(DateTime.Now.Month == 12)
+                            {
+                                leave.TotalLeaves = leave.CarriedForwardLeaves.Value + 1.5m;
+                            }
+                            else
+                            {
+                                leave.TotalLeaves = leave.CarriedForwardLeaves.Value;
+                            }
+                            
+                            leave.LeavesAvailable = leave.TotalLeaves;
+
+                            //reset
+                            leave.LeavesUsed = 0;
+                            leave.Year = DateTime.Now.Year + 1;
+                            leave.CarriedForwardLeaves = null;
+
+
+                            await UpdateLeaves(leave);
+                        }
+                    }
+                    transaction.Complete();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error in CarryForwardLeavesAsync: " + ex.Message);
+                    throw;
+                }
+            }
+        }
+
+        public async Task MonthlyLeaveAdditionAsync()
+        {
+            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                try
+                {
+                    var allLeaves = await GetAllLeavesAsync();
+
+                    foreach (var leave in allLeaves)
+                    {
+                        // Skip Jan if carryforward added increment on dec 31
+                        if(DateTime.Now.Month == 1)
+                        {
+                            continue;
+                        }
+
+                        // Increment total leaves by 1.5 for the month
+                        leave.TotalLeaves += 1.5m;
+                        leave.LeavesAvailable = leave.TotalLeaves - leave.LeavesUsed;
+
+                        await UpdateLeaves(leave);
+                    }
+
+                    transaction.Complete();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error in MonthlyLeaveAdditonAsync: " + ex.Message);
+                    throw;
+                }
+            }
         }
     }
 }

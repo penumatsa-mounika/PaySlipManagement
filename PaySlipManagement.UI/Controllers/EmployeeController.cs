@@ -54,10 +54,13 @@ namespace PaySlipManagement.UI.Controllers
                 Designation = e.Designation,
                 Division = e.Division,
                 Email = e.Email,
+                IsActive = e.IsActive,
+                PhoneNumber = e.PhoneNumber,
                 PAN_Number = e.PAN_Number,
-                JoiningDate = DateTime.TryParseExact(e.JoiningDate, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime joiningDateTime)
-                    ? joiningDateTime.ToString("MM/dd/yyyy")
-                    : string.Empty,
+                //JoiningDate = DateTime.TryParseExact(e.JoiningDate, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime joiningDateTime)
+                    //? joiningDateTime.ToString("MM/dd/yyyy")
+                    //: string.Empty,
+                JoiningDate = e.JoiningDate,
             }).ToList();
 
             // Filter employees if departmentId is provided
@@ -95,29 +98,34 @@ namespace PaySlipManagement.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                Employee employee = new Employee();
-                employee.Id = model.Id;
-                employee.Emp_Code = model.Emp_Code;
-                employee.EmployeeName = model.EmployeeName;
-                employee.DepartmentId = model.DepartmentId;
-                employee.Designation = model.Designation;
-                employee.Division = model.Division;
-                employee.Email = model.Email;
-                employee.PAN_Number = model.PAN_Number;
-                employee.JoiningDate = model.JoiningDate;
+                Employee employee = new Employee
+                {
+                    Id = model.Id,
+                    Emp_Code = model.Emp_Code,
+                    EmployeeName = model.EmployeeName,
+                    DepartmentId = model.DepartmentId,
+                    Designation = model.Designation,
+                    Division = model.Division,
+                    Email = model.Email,
+                    PAN_Number = model.PAN_Number,
+                    JoiningDate = model.JoiningDate,
+                    IsActive = model.IsActive,
+                    PhoneNumber = model.PhoneNumber
+                };
 
                 // Make a POST request to the Web API
                 var response = await _apiServices.PostAsync($"{_apiSettings.EmployeeEndpoint}/CreateEmployee", model);
 
-                if (!string.IsNullOrEmpty(response) && response == "Employee Registered Successfully" || response == "true")
+                if (!string.IsNullOrEmpty(response) && (response == "Employee Registered Successfully" || response == "true"))
                 {
-                    TempData["message"] = response;
-                    // Handle a successful Register
-                    return RedirectToAction("Index");
+                    //// Redirect to the Document Create View and pass Employee Code
+                    TempData["Emp_Code"] = employee.Emp_Code;
+                    //TempData["EmployeeName"] = employee.EmployeeName;
+
+                    return RedirectToAction("Create", "Document"); // Redirect to Document Create View
                 }
                 else
                 {
-
                     // Handle the case where the API request fails or register is unsuccessful
                     if (response != null)
                     {
@@ -139,12 +147,12 @@ namespace PaySlipManagement.UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EmployeeViewModel model)
+        public async Task<IActionResult> Edit(Employee model)
         {
             if (ModelState.IsValid)
             {
                 // Make a POST request to the Web API
-                var response = await _apiServices.PutAsync<EmployeeViewModel>($"{_apiSettings.EmployeeEndpoint}/UpdateEmployee", model);
+                var response = await _apiServices.PutAsync<Employee>($"{_apiSettings.EmployeeEndpoint}/UpdateEmployee", model);
 
                 if (!string.IsNullOrEmpty(response) && response == "Employee Updated Successfully" || response == "true")
                 {
@@ -173,6 +181,7 @@ namespace PaySlipManagement.UI.Controllers
             var data = await _apiServices.GetAsync<PaySlipManagement.UI.Models.EmployeeViewModel>($"{_apiSettings.EmployeeEndpoint}/GetEmployeeById/{id}");
             var departments = await _apiServices.GetAsync<PaySlipManagement.UI.Models.DepartmentViewModel>($"{_apiSettings.DepartmentEndpoint}/GetDepartmentById/{data.DepartmentId}");
             data.DepartmentName = departments.DepartmentName;
+            TempData["Emp_Code"] = data.Emp_Code;
             return View(data);
         }
         [HttpGet]
@@ -183,7 +192,7 @@ namespace PaySlipManagement.UI.Controllers
             data.DepartmentName = departments.DepartmentName;
             return View(data);
         }
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
