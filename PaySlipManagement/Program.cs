@@ -37,7 +37,7 @@ Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine(msg));
 
 // Add services to the container.
 builder.Services.AddDbContextFactory<LoggingDbContext>(options =>
-        options.UseSqlServer("Server=Sarth\\SQLEXPRESS;database=PayslipManagementDB;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true"));
+        options.UseSqlServer("Server=LAPTOP-I5I1LRL6\\SQLEXPRESS;database=PayslipManagement;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true"));
 builder.Services.AddTransient<IExceptionLoggerService, ExceptionLoggerService>();
 
 builder.Services.AddScoped<IEmployeeTypeBALRepo, EmployeeTypeBALRepo>();
@@ -45,6 +45,7 @@ builder.Services.AddScoped<ILeaveRequestsBALRepo, LeaveRequestsBALRepo>();
 builder.Services.AddScoped<ILeavesBALRepo, LeavesBALRepo>();
 builder.Services.AddScoped<IDepartmentBALRepo, DepartmentBALRepo>();
 builder.Services.AddScoped<IDocumentBALRepo, DocumentBALRepo>();
+builder.Services.AddScoped<ICompanyDocumentsBALRepo, CompanyDocumentsBALRepo>();
 builder.Services.AddScoped<IEmployeeBALRepo,EmployeeBALRepo>();
 builder.Services.AddScoped<IAccountDetailsBALRepo, AccountDetailsBALRepo>();
 builder.Services.AddScoped<ICompanyDetailsBALRepo, CompanyDetailsBALRepo>();
