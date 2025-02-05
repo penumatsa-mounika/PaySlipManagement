@@ -1,0 +1,111 @@
+﻿@{
+    ViewData["Title"] = "Upload Company Documents";
+}
+
+<style>
+    .custom-select {
+        width: 250px;
+    }
+
+    .form-inline .form-group {
+        display: flex;
+        align-items: center;
+    }
+
+        .form-inline .form-group label {
+            margin-right: 10px;
+        }
+
+    .form-control-file {
+        display: inline-block;
+        width: auto;
+    }
+
+    .mr-2 {
+        margin-right: .5rem !important;
+    }
+</style>
+
+<h2 class="text-center text-primary mb-4">Upload Company Documents</h2>
+<div class="mb-4 card mx-auto shadow p-4" style="max-width: 800px; border-radius: 8px;">
+    <div class="mb-4 card-body">
+        <form asp-action="Create" enctype="multipart/form-data" method="post">
+
+            <!-- Hidden field to store Employee Code -->
+            <input type="hidden" id="empCode" name="empCode" value="@TempData["Emp_Code"]" />
+
+            <!-- Document Type Selection -->
+            <div class="mb-3">
+                <label for="documentType" class="form-label">Select Document Type</label>
+                <select id="documentType" name="documentType" class="form-control">
+                    <option value="">-- Select Document Type --</option>
+                    <option value="Company UAN">Company UAN</option>
+                    <option value="GST/MOI/COI/PAN/TAN/ICC">GST/MOI/COI/PAN/TAN/ICC</option>
+                    <option value="Rental Agreements">Rental Agreements</option>
+                    <option value="Broadband services">Broadband services</option>
+                    <option value="Coffee/Tea vendors">Coffee/Tea vendors</option>
+                    <option value="House keeping">House keeping</option>
+                    <option value="Stationary">Stationary</option>
+                    <option value="Welcome kit">Welcome kit</option>
+                    <option value="Laptop">Laptop</option>
+                    <option value="Electricity">Electricity</option>
+                    <option value="Water Bill">Water Bill</option>
+                    <option value="AC Bill">AC Bill</option>
+                    <option value="Rental Bills">Rental Bills</option>
+                </select>
+            </div>
+
+            <!-- File Input -->
+            <div class="mb-3">
+                <label for="fileUpload" class="form-label">Select Files</label>
+                <input type="file" name="files" id="fileUpload" class="form-control" multiple />
+            </div>
+
+            <!-- File Name Input -->
+            <div class="mb-3">
+                <label for="fileType" class="form-label">File Name</label>
+                <input type="text" id="fileType" name="fileType" class="form-control" placeholder="Enter file name">
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Upload Documents</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="location.href='@Url.Action("Index", "Employee")'">Back to List</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<script>
+    document.getElementById('fileUpload').addEventListener('change', function (event) {
+        let files = event.target.files;
+        let fileList = document.getElementById('selectedFilesList');
+        fileList.innerHTML = ""; // Clear previous selection
+
+        for (let i = 0; i < files.length; i++) {
+            let li = document.createElement("li");
+            li.classList.add("list-group-item");
+
+            let fileName = document.createElement("span");
+            fileName.textContent = files[i].name + " ";
+
+            // Create file type input field
+            let fileTypeInput = document.createElement("input");
+            fileTypeInput.type = "text";
+            fileTypeInput.name = "fileTypes[]";
+            fileTypeInput.classList.add("form-control", "d-inline-block", "ml-2");
+            fileTypeInput.placeholder = "Enter File Type";
+
+            li.appendChild(fileName);
+            li.appendChild(fileTypeInput);
+            fileList.appendChild(li);
+        }
+    });
+
+    document.querySelector("form").addEventListener("submit", function () {
+        let selectedDocumentType = document.getElementById("documentType").value;
+        document.getElementById("hiddenDocumentTypes").value = selectedDocumentType;
+    });
+</script>
