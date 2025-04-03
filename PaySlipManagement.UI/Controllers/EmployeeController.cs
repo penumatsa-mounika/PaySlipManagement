@@ -1,9 +1,14 @@
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
+using Google.Apis.Sheets.v4;
+using iText.Html2pdf;
 ﻿using iText.Html2pdf;
 using iText.Kernel.Exceptions;
 using iText.Kernel.Pdf;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using NPOI.SS.Formula.Functions;
 using PayslipManagement.Common.Models;
 using PaySlipManagement.Common.Models;
@@ -19,6 +24,163 @@ namespace PaySlipManagement.UI.Controllers
 
         private APIServices _apiServices;
         private readonly ApiSettings _apiSettings;
+        private readonly IConfiguration _configuration;
+
+
+        public EmployeeController(APIServices apiServices, IOptions<ApiSettings> apiSettings, IConfiguration configuration)
+        {
+            this._apiServices = apiServices;
+            _apiSettings = apiSettings.Value;
+            _configuration = configuration;
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ImportGoogleSheetData()
+        {
+            try
+            {
+                string apiKey = _configuration["GoogleSheets:apiKey"];
+                string spreadsheetId = _configuration["GoogleSheets:spreadsheetId"];
+                string sheetName = _configuration["GoogleSheets:sheetName"];
+
+
+                string url = $"https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{sheetName}?key={apiKey}";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.Timeout = TimeSpan.FromSeconds(10);
+                    HttpResponseMessage response;
+
+                    try
+                    {
+                        response = await client.GetAsync(url);
+                    }
+                    catch (TaskCanceledException ex) when (!ex.CancellationToken.IsCancellationRequested)
+                    {
+                        Console.WriteLine("Request timed out!");
+                        return RedirectToAction("Index"); // Or return an error view
+                    }
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                        if (!string.IsNullOrEmpty(jsonResponse))
+                        {
+                            try
+                            {
+                                var sheetData = JsonConvert.DeserializeObject<GoogleSheetResponse>(jsonResponse);
+
+                                if (sheetData?.Values != null && sheetData.Values.Count > 1) // Check for data
+                                {
+                                    List<EmployeeViewModel> employees = new List<EmployeeViewModel>();
+                                    DateTime date;
+
+                                    for(int i = 1; i < sheetData.Values.Count; i++) // Skip header row
+                                    {
+                                        var row = sheetData.Values[i];
+                                        if (row.Count < 34) continue;
+
+                                        employees.Add(new EmployeeViewModel
+                                        {
+                                            Emp_Code = row[1],
+                                            DepartmentId = int.TryParse(row[2], out int deptId) ? deptId : 0,
+                                            Designation = row[3],
+                                            FirstName = row[4],
+                                            LastName = row[5],
+                                            EmployeeName = row[6],
+                                            PhoneNumber = long.TryParse(row[7], out long phoneNumber) ? phoneNumber : 0,
+                                            EmergencyContact = long.TryParse(row[8], out long emergencyContact) ? emergencyContact : 0,
+                                            EmergencyRelation = row[9],
+                                            CurrentAddress = row[10],
+                                            PermanentAddress = row[11],
+                                            Email = row[12],
+                                            PersonalEmail = row[13],
+                                            PAN_Number = row[14],
+                                            AadharNumber = long.TryParse(row[15], out long aadharNumber) ? aadharNumber : 0,
+                                            DateOfBirth = DateTime.TryParse(row[16], out date) ? date : DateTime.MinValue,
+                                            DateOfCelebration = DateTime.TryParse(row[17], out date) ? date : DateTime.MinValue,
+                                            LinkedInProfile = row[18],
+                                            Division = row[19],
+                                            BloodGroup = row[20],
+                                            JoiningDate = DateTime.TryParse(row[21], out date) ? date : DateTime.MinValue,
+                                            AccountHolderName = row[22],
+                                            BankName = row[23],
+                                            BankAccountNumber = long.TryParse(row[24], out long bankAccountNumber) ? bankAccountNumber : 0,
+                                            IFSCCode = row[25],
+                                            MotherName = row[26],
+                                            FatherName = row[27],
+                                            SpouseName = row[28],
+                                            ChildrenNames = row[29],
+                                            PreviousCompanyName = row[30],
+                                            Tenure = row[31],
+                                            ReportingManager = row[32],
+                                            LatestCompanyReference = row[33],
+                                            DepartmentName = row[34],
+                                            Role = row[35].Split(',').Select(r => r.Trim()).ToList()
+
+                                        });
+                                    }
+
+                                   
+                                    var existingEmployeesJson = await _apiServices.GetAllAsync<EmployeeViewModel>($"{_apiSettings.EmployeeEndpoint}/GetAllEmployees");
+                                    var existingEmployees = existingEmployeesJson ?? new List<EmployeeViewModel>(); 
+
+                                    //filter new emp
+                                    var newEmployees = employees.Where(e => !existingEmployees.Any(ex => ex.Emp_Code == e.Emp_Code)).ToList();
+
+
+                                    if (newEmployees.Count > 0)
+                                    {
+                                        string apiResponse = await _apiServices.PostAsync($"{_apiSettings.EmployeeEndpoint}/BulkInsertEmployees", newEmployees);
+                                        Console.WriteLine($"API Response: {apiResponse}");
+
+                                        return RedirectToAction(nameof(Index));
+                                    }
+
+                                    else
+                                    {
+                                        ModelState.AddModelError(string.Empty, "No valid employee data found in Google Sheets.");
+                                    }
+                                }
+                                else
+                                {
+                                    ModelState.AddModelError(string.Empty, "No data found in Google Sheets or data is in incorrect format.");
+                                }
+                            }
+                            catch (JsonReaderException ex)
+                            {
+                                ModelState.AddModelError(string.Empty, $"JSON Deserialization Error: {ex.Message}");
+                            }
+                            catch (Exception ex)
+                            {
+                                ModelState.AddModelError(string.Empty, $"General Error: {ex.Message}");
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "Error: No data received from Google Sheets.");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, $"Error: HTTP request failed with status code {response.StatusCode}.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"Error: {ex.Message}");
+            }
+
+            return View(); // Or return a View() if you want to display errors
+        }
+
+
+
 
         public EmployeeController(APIServices apiService, IOptions<ApiSettings> apiSettings)
         {
@@ -94,6 +256,62 @@ namespace PaySlipManagement.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        public async Task<IActionResult> Create(EmployeeViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                await _apiServices.PostAsync($"{_apiSettings.EmployeeEndpoint}/CreateEmployee", model);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+
+
+        //public async Task<IActionResult> Create(EmployeeViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        Employee employee = new Employee
+        //        {
+        //            Id = model.Id,
+        //            Emp_Code = model.Emp_Code,
+        //            EmployeeName = model.EmployeeName,
+        //            DepartmentId = model.DepartmentId,
+        //            Designation = model.Designation,
+        //            Division = model.Division,
+        //            Email = model.Email,
+        //            PAN_Number = model.PAN_Number,
+        //            JoiningDate = model.JoiningDate,
+        //            IsActive = model.IsActive,
+        //            PhoneNumber = model.PhoneNumber
+        //        };
+
+        //        // Make a POST request to the Web API
+        //        var response = await _apiServices.PostAsync($"{_apiSettings.EmployeeEndpoint}/CreateEmployee", model);
+
+        //        if (!string.IsNullOrEmpty(response) && (response == "Employee Registered Successfully" || response == "true"))
+        //        {
+        //            //// Redirect to the Document Create View and pass Employee Code
+        //            TempData["Emp_Code"] = employee.Emp_Code;
+        //            //TempData["EmployeeName"] = employee.EmployeeName;
+
+        //            return RedirectToAction("Create", "Document"); // Redirect to Document Create View
+        //        }
+        //        else
+        //        {
+        //            // Handle the case where the API request fails or register is unsuccessful
+        //            if (response != null)
+        //            {
+        //                ModelState.AddModelError(string.Empty, response);
+        //            }
+        //            ModelState.AddModelError(string.Empty, "API request failed or Create was unsuccessful");
+        //        }
+        //    }
+
+        //    ModelState.AddModelError(string.Empty, "Invalid Create attempt");
+        //    return View();
+        //}
         public async Task<IActionResult> Create(EmployeeViewModel model)
         {
             if (ModelState.IsValid)

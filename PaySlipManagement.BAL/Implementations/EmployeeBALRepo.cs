@@ -45,6 +45,30 @@ namespace PaySlipManagement.BAL.Implementations
         {
             return await _employeeDALRepo.GetEmployeeDetailsByCodeAsync(empcode);
         }
+        public async Task<bool> CreateEmployee(Employee _employee)
+        {
+            return await _employeeDALRepo.CreateEmployee(_employee);
+
+        }
+        public async Task<bool> BulkInsertEmployees(List<Employee> employees)
+        {
+            try
+            {
+                if (employees != null && employees.Count > 0)
+                {
+                    await _employeeDALRepo.BulkInsertEmployees(employees);
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message); // Log to console
+                throw new Exception("Error inserting bulk employees: " + ex.Message, ex);
+            }
+
+        }
+
         public async Task<bool> AddEmployee(Employee _employee)
         {
             return await _employeeDALRepo.AddEmployee(_employee);

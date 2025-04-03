@@ -56,6 +56,31 @@ namespace PaySlipManagement.UI.Common
             // Handle error scenarios or throw exceptions as needed
             // For example: return default(TResponse), throw custom exceptions, etc.
         }
+        //public async Task<string> PostAsync<TRequest>(string requestUri, TRequest data)
+        //{
+        //    var jsonContent = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+        //    var response = await _httpClient.PostAsync(requestUri, jsonContent);
+
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        return await response.Content.ReadAsStringAsync();
+        //    }
+
+        //    // Handle error scenarios or throw exceptions as needed
+        //    // For example: throw custom exceptions, log the error, etc.
+        //    return null; // Or return a default value
+        //}
+
+        public async Task<string> PostAsync<TRequest>(string requestUri, TRequest data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentException("Data is null", nameof(data));
+            }
+
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PostAsync(requestUri, jsonContent);
         public async Task<string> PostAsync<TRequest>(string requestUri, TRequest data)
         {
             var jsonContent = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
@@ -65,6 +90,13 @@ namespace PaySlipManagement.UI.Common
             {
                 return await response.Content.ReadAsStringAsync();
             }
+
+            string errorMessage = $"Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}";
+            Console.WriteLine(errorMessage);
+            return null;
+        }
+
+
 
             // Handle error scenarios or throw exceptions as needed
             // For example: throw custom exceptions, log the error, etc.

@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using NPOI.SS.Formula.Functions;
@@ -15,7 +15,7 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
 {
     public class DapperServices<T>: IDapperServices<T>
     {
-        private string constring = "Server=LAPTOP-I5I1LRL6\\SQLEXPRESS;database=PayslipManagement;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true";
+        private string constring = "Server=Sarth\\SQLEXPRESS;database=PayslipManagementDB;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true";
         private SqlConnection con;
         public DapperServices()
         {
@@ -119,27 +119,6 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
                     parameters.Add("@" + property.Name, property.GetValue(entity));
                 };
                 var result = await con.QueryFirstOrDefaultAsync<T>(sql, parameters);
-                con.Close();
-                return result;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public async Task<IEnumerable<T>> ReadGetAllByTypeAsync(T entity)
-        {
-            try
-            {
-                var sql = GetSelectTypeStoredProcedureName(entity) + " @Emp_Code,@DocumentType";
-                var parameters = new DynamicParameters();
-                foreach (var property in entity.GetType().GetProperties())
-                {
-                    parameters.Add("@" + property.Name, property.GetValue(entity));
-                };
-                var result = await con.QueryAsync<T>(sql, parameters);
                 con.Close();
                 return result;
 
@@ -352,23 +331,7 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
 
 
 
-        public async Task CreateBulkAsync(IEnumerable<T> entities)
-        {
-            if (entities == null || !entities.Any())
-                throw new ArgumentException("Entities collection is empty");
 
-            try
-            {
-                var jsonData = JsonConvert.SerializeObject(entities);
-                var parameters = new DynamicParameters();   
-                parameters.Add("@EmployeeJson", jsonData, DbType.String);
-
-                var sql = GetBulkInsertStoredProcedureName();
-                await con.ExecuteAsync(sql, parameters, commandType: CommandType.StoredProcedure);
-
-            }
-            catch (Exception ex) { throw new Exception("Error while inserting bulk entities", ex); }
-        }
 
 
 
@@ -498,17 +461,10 @@ namespace PaySlipManagement.DAL.DapperServices.Implementations
         {
             return $"EXEC spInsert{entity.GetType().Name}";
         }
-        //private string GetBulkInsertStoredProcedureName(T entity)
-        //{
-        //    return $"EXEC spBulkInsert{entity.GetType().Name}";
-        //}
-
-
-        private string GetBulkInsertStoredProcedureName()
+        private string GetBulkInsertStoredProcedureName(T entity)
         {
-            return "spBulkInsertEmployees"; // Ensure this matches your stored procedure
+            return $"EXEC spBulkInsert{entity.GetType().Name}";
         }
-
 
 
         private string GetSelectStoredProcedureName(T entity)
