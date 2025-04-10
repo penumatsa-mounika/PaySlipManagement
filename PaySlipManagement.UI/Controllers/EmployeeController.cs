@@ -179,15 +179,6 @@ namespace PaySlipManagement.UI.Controllers
             return View(); // Or return a View() if you want to display errors
         }
 
-
-
-
-        public EmployeeController(APIServices apiService, IOptions<ApiSettings> apiSettings)
-        {
-            this._apiServices = apiService;
-            _apiSettings = apiSettings.Value;
-        }
-
         //GET: EmployeeController
 
         public async Task<IActionResult> Index(int? departmentId, int page = 1, int pageSize = 8)
@@ -254,18 +245,18 @@ namespace PaySlipManagement.UI.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create(EmployeeViewModel model)
-        {
-            if(ModelState.IsValid)
-            {
-                await _apiServices.PostAsync($"{_apiSettings.EmployeeEndpoint}/CreateEmployee", model);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(model);
-        }
+        //public async Task<IActionResult> Create(EmployeeViewModel model)
+        //{
+        //    if(ModelState.IsValid)
+        //    {
+        //        await _apiServices.PostAsync($"{_apiSettings.EmployeeEndpoint}/CreateEmployee", model);
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(model);
+        //}
 
 
         //public async Task<IActionResult> Create(EmployeeViewModel model)
@@ -312,6 +303,8 @@ namespace PaySlipManagement.UI.Controllers
         //    ModelState.AddModelError(string.Empty, "Invalid Create attempt");
         //    return View();
         //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(EmployeeViewModel model)
         {
             if (ModelState.IsValid)

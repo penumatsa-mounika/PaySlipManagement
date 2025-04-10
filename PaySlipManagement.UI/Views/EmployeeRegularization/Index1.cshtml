@@ -72,53 +72,59 @@
                 </div>
             </div>
 
-            <!-- Regularization Records Table -->
+            <!-- Employee Regularization Records Table -->
             <div class="mt-5">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-dark text-white">
-                        <h5>Employee Regularization Records</h5>
+                <div class="card shadow-lg">
+                    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-user-clock"></i> Employee Regularization Records</h5>
+                        <span class="badge bg-light text-dark p-2">Total Records: @(Model?.Count() ?? 0)</span>
                     </div>
                     <div class="card-body">
-                        <table class="table table-hover table-striped table-bordered">
-                            <thead>
-                                <tr class="bg-secondary text-white">
-                                    <th>Employee Code</th>
-                                    <th>Entry Date</th>
-                                    <th>In Time</th>
-                                    <th>Out Time</th>
-                                    <th>Working Hours</th>
-                                    <th>Deviation</th>
-                                    <th>Regularization</th>
-                                    <th>Approval Person</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model != null && Model.Any())
-                                {
-                                    foreach (var reg in Model)
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Scroll for large data -->
+                            <table class="table table-hover table-striped table-bordered align-middle">
+                                <thead>
+                                    <tr class="bg-dark text-white">
+                                        <th>Employee Code</th>
+                                        <th>Entry Date</th>
+                                        <th>In Time</th>
+                                        <th>Out Time</th>
+                                        <th>Working Hours</th>
+                                        <th>Deviation</th>
+                                        <th>Regularization</th>
+                                        <th>Approval Person</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null && Model.Any())
+                                    {
+                                        foreach (var reg in Model)
+                                        {
+                                            <tr>
+                                                <td class="fw-bold">@reg.Emp_Code</td>
+                                                <td>@reg.EntryDate.ToShortDateString()</td>
+                                                <td>@reg.InTime</td>
+                                                <td>@reg.OutTime</td>
+                                                <td>@reg.WorkingHours</td>
+                                                <td>@reg.DeviationInWorkingHours</td>
+                                                <td>@reg.Regularization</td>
+                                                <td>@reg.ApprovalPerson</td>
+                                                <td><span>@reg.Status</span></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
                                     {
                                         <tr>
-                                            <td>@reg.Emp_Code</td>
-                                            <td>@reg.EntryDate.ToShortDateString()</td>
-                                            <td>@reg.InTime</td>
-                                            <td>@reg.OutTime</td>
-                                            <td>@reg.WorkingHours</td>
-                                            <td>@reg.DeviationInWorkingHours</td>
-                                            <td>@reg.Regularization</td>
-                                            <td>@reg.ApprovalPerson</td>
-                                            <td>@reg.Status</td>
+                                            <td colspan="9" class="text-center text-muted">
+                                                <i class="fas fa-info-circle"></i> No regularization records found for the selected employee.
+                                            </td>
                                         </tr>
                                     }
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td colspan="9" class="text-center text-muted">No regularization records found.</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

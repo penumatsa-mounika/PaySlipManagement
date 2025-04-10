@@ -55,8 +55,8 @@ namespace PaySlipManagement.API.Controllers
         [HttpPost("CreateEmployee")]
         public async Task<bool> Create(Employee _employee)
         {
-            return await _employeeBALRepo.CreateEmployee(_employee);
-            return await _employeeBALRepo.AddEmployee(_employee);
+            //return await _employeeBALRepo.CreateEmployee(_employee);
+                return await _employeeBALRepo.AddEmployee(_employee);   
 
         }
         [HttpPut("UpdateEmployee")]
