@@ -45,11 +45,11 @@ namespace PaySlipManagement.BAL.Implementations
         {
             return await _employeeDALRepo.GetEmployeeDetailsByCodeAsync(empcode);
         }
-        public async Task<bool> CreateEmployee(Employee _employee)
-        {
-            return await _employeeDALRepo.CreateEmployee(_employee);
+        //public async Task<bool> CreateEmployee(Employee _employee)
+        //{
+        //    return await _employeeDALRepo.CreateEmployee(_employee);
 
-        }
+        //}
         public async Task<bool> BulkInsertEmployees(List<Employee> employees)
         {
             try
