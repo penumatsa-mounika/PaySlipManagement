@@ -37,7 +37,7 @@ Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine(msg));
 
 // Add services to the container.
 builder.Services.AddDbContextFactory<LoggingDbContext>(options =>
-        options.UseSqlServer("Server=LAPTOP-I5I1LRL6\\SQLEXPRESS;database=PayslipManagement;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true"));
+    options.UseSqlServer("Server=mydb-sqlexpress.ch6gk4omok56.ap-south-1.rds.amazonaws.com,1433;Database=PayslipManagement;User Id=Admin;Password=Whiztek2025;TrustServerCertificate=True;MultipleActiveResultSets=True"));
 builder.Services.AddTransient<IExceptionLoggerService, ExceptionLoggerService>();
 
 builder.Services.AddScoped<IEmployeeTypeBALRepo, EmployeeTypeBALRepo>();
