@@ -99,6 +99,8 @@ namespace PaySlipManagement.DAL.Implementations
                 throw ex;
             }
         }
+
+        //public async Task<bool> CreateEmployee(Employee _employee)
         
         public async Task<bool> AddEmployee(Employee _employee)
         {
@@ -116,6 +118,26 @@ namespace PaySlipManagement.DAL.Implementations
             {
                 throw ex;
             }
+        }
+
+
+        public async Task<bool> BulkInsertEmployees(List<Employee> employees)
+        {
+            try
+            {
+                if (employees != null && employees.Count > 0)
+                {
+                    await _employeeDALRepo.CreateBulkAsync(employees);
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message); // Log to console
+                throw new Exception("Error inserting bulk employees: " + ex.Message, ex);
+            }
+
         }
 
         public async Task<bool> DeleteEmployee(Employee _employee)

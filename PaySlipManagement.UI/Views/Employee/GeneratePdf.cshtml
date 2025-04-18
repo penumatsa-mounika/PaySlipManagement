@@ -33,6 +33,12 @@
                 Regularization
             </a>
         </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="employee-skills-tab" data-bs-toggle="tab" href="#employee-skills" role="tab" aria-controls="employee-skills" aria-selected="false" style="color: #424242; font-weight: 500;">Skills</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="employee-experiences-tab" data-bs-toggle="tab" href="#employee-experiences" role="tab" aria-controls="employee-experiences" aria-selected="false" style="color: #424242; font-weight: 500;">Experience</a>
+        </li>
     </ul>
 
     <!-- Updated Styles for Tabs -->
@@ -94,6 +100,10 @@
                             <p class="text-muted"><strong>PAN Number:</strong> @Model.Employee.PAN_Number</p>
                             <p class="text-muted"><strong>Joining Date:</strong> @Model.Employee.JoiningDate?.ToString("dd-MM-yyyy")</p>
                         </div>
+                        <a href="https://forms.gle/ouT9WceFdQswKFw27" target="_blank" class="btn btn-outline-primary mt-3">
+                            Update Personal Information
+                        </a>
+
                     </div>
                 </div>
             </div>
@@ -458,10 +468,10 @@
 
         <!-- Tasks Tab -->
         <div class="tab-pane fade" id="employee-tasks" role="tabpanel" aria-labelledby="employee-tasks-tab">
-            <div class="d-flex justify-content-between align-items-center">
+            @* <div class="d-flex justify-content-between align-items-center">
                 <h4>Employee Tasks</h4>
                 <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index1", "Tasks")'">All Tasks</button>
-            </div>
+            </div> *@
             <form asp-action="SubmitTasks" asp-controller="EmployeeTasks" method="post" id="taskform">
                 @Html.AntiForgeryToken()
                 <div class="form-group mt-3">
@@ -657,6 +667,275 @@
                 row.remove();
             }
         </script>
+        <!-- Employee Skills Tab -->
+        <div class="tab-pane fade" id="employee-skills" role="tabpanel" aria-labelledby="employee-skills-tab">
+            <form asp-action="SubmitSkills" asp-controller="EmployeeSkills" method="post" id="skillsForm">
+                @Html.AntiForgeryToken()
+                <div class="form-group mt-3">
+                    <div class="form-group">
+                        <p><strong>Employee:</strong> @Model.Employee.EmployeeName</p>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead> 
+                            <tr>
+                                <th>Skill Name</th>
+                                <th>Proficiency Level</th>
+                                <th>Years of Experience</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="skillTableBody">
+                            <tr>
+                                <td>
+                                    <input type="text" name="skills[0].SkillName" class="form-control" placeholder="Skill Name" required />
+                                </td>
+                                <td>
+                                    <select name="skills[0].ProficiencyLevel" class="form-control">
+                                        <option value="Beginner">Beginner</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="Advanced">Advanced</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" name="skills[0].YearsOfExperience" class="form-control" min="0" placeholder="Years" required />
+                                </td>
+                                <td class="action-buttons">
+                                    <button type="button" class="btn btn-success btn-sm mr-2" onclick="addSkillRow()">
+                                        <i class="bi bi-plus-circle"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteSkillRow(this)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">Submit Skills</button>
+                </div>
+            </form>
+        </div>
+        <script>
+            function addSkillRow() {
+                let tableBody = document.getElementById("skillTableBody");
+                let rowCount = tableBody.rows.length;
+
+                let newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                            <td>
+                                <input type="text" name="skills[${rowCount}].SkillName" class="form-control" placeholder="Skill Name" required />
+                            </td>
+                            <td>
+                                <select name="skills[${rowCount}].ProficiencyLevel" class="form-control">
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Advanced">Advanced</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" name="skills[${rowCount}].YearsOfExperience" class="form-control" min="0" placeholder="Years" required />
+                            </td>
+                            <td class="action-buttons">
+                                <button type="button" class="btn btn-success btn-sm mr-2" onclick="addSkillRow()">
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="deleteSkillRow(this)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        `;
+
+                tableBody.appendChild(newRow);
+            }
+            function deleteSkillRow(button) {
+                let row = button.closest("tr");
+                let tableBody = document.getElementById("skillTableBody");
+
+                if (tableBody.rows.length > 1) {
+                    row.remove();
+                } else {
+                    alert("At least one skill is required.");
+                }
+            }
+        </script>
+       
+
+        <div class="tab-pane fade" id="employee-experiences" role="tabpanel" aria-labelledby="employee-experiences-tab">
+            <form asp-action="AddExperience" asp-controller="EmployeeExperience" method="post" id="experiencesForm">
+                @Html.AntiForgeryToken()
+                <div class="form-group mt-3">
+                    <div class="mb-2">
+                        <p><strong>Employee:</strong> @Model.Employee.EmployeeName</p>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Role Name</th>
+                                <th>Company Name</th>
+                                <th>Responsibility</th>
+                                <th>Start Month</th>
+                                <th>Start Year</th>
+                                <th>End Month</th>
+                                <th>End Year</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="experienceTableBody">
+                            <tr>
+                                <td>
+                                    <input type="text" name="experiences[0].Role" class="form-control" placeholder="Role Name" required />
+                                </td>
+                                <td>
+                                    <input type="text" name="experiences[0].CompanyName" class="form-control" placeholder="Company Name" required />
+                                </td>
+                                <td>
+                                    <input type="text" name="experiences[0].Responsibility" class="form-control" placeholder="Responsibility" required />
+                                </td>
+                                <td>
+                                    <select name="experiences[0].StartMonth" class="form-control" required>
+                                        <option value="">Select Month</option>
+                                        @for (int i = 1; i <= 12; i++)
+                                        {
+                                            <option value="@i">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" name="experiences[0].StartYear" class="form-control" placeholder="e.g., 2000" min="1900" max="@DateTime.Now.Year" required />
+                                </td>
+                                <td>
+                                    <select name="experiences[0].EndMonth" class="form-control">
+                                        <option value="">Select Month</option>
+                                        @for (int i = 1; i <= 12; i++)
+                                        {
+                                            <option value="@i">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" name="experiences[0].EndYear" class="form-control" placeholder="e.g., 2020" min="1900" max="@DateTime.Now.Year" />
+                                </td>
+                                <td class="action-buttons text-center">
+                                    <button type="button" class="btn btn-success btn-sm" onclick="addexperienceRow()">
+                                        <i class="bi bi-plus-circle"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteexperienceRow(this)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">Submit Experience</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- JavaScript to handle row addition and deletion -->
+        <script>
+            function addexperienceRow() {
+                let tableBody = document.getElementById("experienceTableBody");
+                let rowCount = tableBody.rows.length;
+
+                let newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                        <td>
+                            <input type="text" name="experiences[${rowCount}].Role" class="form-control" placeholder="Role Name" required />
+                        </td>
+                        <td>
+                            <input type="text" name="experiences[${rowCount}].CompanyName" class="form-control" placeholder="Company Name" required />
+                        </td>
+                        <td>
+                            <input type="text" name="experiences[${rowCount}].Responsibility" class="form-control" placeholder="Responsibility" required />
+                        </td>
+                        <td>
+                            <select name="experiences[${rowCount}].StartMonth" class="form-control" required>
+                                <option value="">Select Month</option>
+            @for (int i = 1; i <= 12; i++)
+            {
+                                        <option value="@i">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)</option>
+            }
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" name="experiences[${rowCount}].StartYear" class="form-control" placeholder="e.g., 2000" min="1900" max="${new Date().getFullYear()}" required />
+                        </td>
+                        <td>
+                            <select name="experiences[${rowCount}].EndMonth" class="form-control">
+                                <option value="">Select Month</option>
+            @for (int i = 1; i <= 12; i++)
+            {
+                                        <option value="@i">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)</option>
+            }
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" name="experiences[${rowCount}].EndYear" class="form-control" placeholder="e.g., 2020" min="1900" max="${new Date().getFullYear()}" />
+                        </td>
+                        <td class="action-buttons text-center">
+                            <button type="button" class="btn btn-success btn-sm" onclick="addexperienceRow()">
+                                <i class="bi bi-plus-circle"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteexperienceRow(this)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                tableBody.appendChild(newRow);
+            }
+
+            function deleteexperienceRow(button) {
+                let row = button.closest("tr");
+                let tableBody = document.getElementById("experienceTableBody");
+
+                if (tableBody.rows.length > 1) {
+                    row.remove();
+                } else {
+                    alert("At least one experience is required.");
+                }
+            }
+        </script>
+
+        <style>
+            .table {
+                background-color: #f8f9fa; /* Light grey background */
+            }
+
+            .thead-light {
+                background-color: #e9ecef; /* Slightly darker grey for the header */
+            }
+
+            .form-control {
+                background-color: #f0f0f0; /* Grey input fields */
+                border: 1px solid #ced4da; /* Light border */
+            }
+
+                .form-control:focus {
+                    background-color: #fff; /* White background on focus */
+                    border-color: #80bdff; /* Blue border on focus */
+                    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); /* Blue shadow on focus */
+                }
+
+            .btn {
+                border-radius: 0.25rem; /* Rounded buttons */
+            }
+
+            .action-buttons .btn {
+                margin: 0 5px; /* Spacing between action buttons */
+            }
+
+            .action-buttons {
+                display: flex;
+                justify-content: center; /* Center the buttons */
+                align-items: center; /* Align buttons vertically */
+            }
+        </style>
+
+
     </div>
 </div>
 

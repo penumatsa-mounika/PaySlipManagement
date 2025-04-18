@@ -6,10 +6,13 @@ namespace PaySlipManagement.UI.Models
         public string BaseUrl { get; set; }
         public string AccountDetailsEndpoint { get; set; }
         public string CompanyDetailsEndpoint { get; set; }
+        public string CompanyDocumentsEndpoint { get; set; }
         public string DepartmentEndpoint { get; set; }
         public string DocumentEndpoint { get; set; }
         public string EmployeeEndpoint { get; set; }
         public string EmployeeTasksEndpoint { get; set; }
+        public string EmployeeSkillsEndpoint { get; set; }
+        public string EmployeeExperienceEndpoint { get; set; }
         public string EmployeeRegularizationEndpoint { get; set; }
         public string RolesEndpoint { get; set; }
         public string SalaryEndpoint { get; set; }

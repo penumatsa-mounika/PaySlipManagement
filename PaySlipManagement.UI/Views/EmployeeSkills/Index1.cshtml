@@ -1,0 +1,131 @@
+﻿@model IEnumerable<EmployeeSkillsViewModel>
+
+@{
+    ViewData["Title"] = "Filter Employee Skills";
+    var fromApproval = Context.Request.Query["fromApproval"]; // Detect if user came from Skills Approval tab
+}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<div class="container mt-5">
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs mb-4" id="employeeTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active fw-bold text-dark" id="employee-skills-tab" data-bs-toggle="tab" href="#employee-skills" role="tab" aria-controls="employee-skills" aria-selected="true">
+                <i class="fas fa-filter"></i> Filter Employee Skills
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link fw-bold text-dark" href="@Url.Action("Index", "EmployeeSkills", new { fromApproval = true })">
+                <i class="fas fa-tasks"></i> Skills Approval
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-pane fade show active" id="employee-skills" role="tabpanel" aria-labelledby="employee-skills-tab">
+        <div class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <!-- Reduced width to prevent extra space usage -->
+                    <!-- Card View for Filtering -->
+                    <div class="card shadow-lg border-light">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h5 class="mb-0"><i class="fas fa-search"></i> Employee Skills Filter</h5>
+                        </div>
+                        <div class="card-body bg-light">
+                            <!-- Skills Filter Form -->
+                            <form method="post" action="@Url.Action("Index1")">
+                                <div class="mb-3">
+                                    <label for="employeeCode" class="fw-bold text-muted">Select Employee:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-info text-white">
+                                            <i class="fas fa-id-badge"></i>
+                                        </span>
+                                        <select id="employeeCode" name="Emp_Code" class="form-select">
+                                            <option value="">-- Choose Employee --</option>
+                                            @if (ViewBag.Employees != null)
+                                            {
+                                                foreach (var employee in ViewBag.Employees)
+                                                {
+                                                    <option value="@employee.Emp_Code">@employee.Emp_Code</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-info btn-lg text-white shadow-sm">
+                                        <i class="fas fa-filter"></i> Apply Filters
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Records Table -->
+            <div class="mt-5">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-database"></i> Employee Skills Records</h5>
+                        <span class="badge bg-light text-dark p-2">Total Records: @(Model?.Count() ?? 0)</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Scroll for large data -->
+                            <table class="table table-hover table-striped table-bordered align-middle">
+                                <thead>
+                                    <tr class="bg-dark text-white">
+                                        <th>Employee Code</th>
+                                        <th>Skill Name</th>
+                                        <th>Proficiency Level</th>
+                                        <th>Years of Experience</th>
+                                        <th>Status</th>
+                                        <th>Approval Person</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null && Model.Any())
+                                    {
+                                        foreach (var skill in Model)
+                                        {
+                                            <tr>
+                                                <td class="fw-bold">@skill.Emp_Code</td>
+                                                <td>@skill.SkillName</td>
+                                                <td>@skill.ProficiencyLevel</td>
+                                                <td>@skill.YearsOfExperience</td>
+                                                <td><span>@skill.Status</span></td>
+                                                <td>@skill.ApprovalPerson</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted">
+                                                <i class="fas fa-info-circle"></i> No approved skills found for the selected employee.
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conditional Floating Back Button -->
+            @if (!string.IsNullOrEmpty(fromApproval))
+            {
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index1", "EmployeeSkills")'">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- FontAwesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">

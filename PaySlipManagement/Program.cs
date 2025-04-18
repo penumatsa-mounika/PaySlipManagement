@@ -17,6 +17,8 @@ using PaySlipManagement.API.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//StaticConfigurationHelper.Initialize(builder.Configuration);
+PaySlipManagement.DAL.Helper.StaticConfigurationHelper.Initialize(builder.Configuration);
 
 // Serilog setup with the connection string from the configuration
 Serilog.Log.Logger = new LoggerConfiguration()
@@ -34,10 +36,11 @@ Serilog.Log.Logger = new LoggerConfiguration()
         restrictedToMinimumLevel: LogEventLevel.Information)
     .CreateLogger();
 Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine(msg));
+var configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddDbContextFactory<LoggingDbContext>(options =>
-        options.UseSqlServer("Server=Sarth\\SQLEXPRESS;database=PayslipManagementDB;TrustServerCertificate=True;Trusted_Connection=true;MultipleActiveResultSets=true"));
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddTransient<IExceptionLoggerService, ExceptionLoggerService>();
 
 builder.Services.AddScoped<IEmployeeTypeBALRepo, EmployeeTypeBALRepo>();
@@ -45,7 +48,9 @@ builder.Services.AddScoped<ILeaveRequestsBALRepo, LeaveRequestsBALRepo>();
 builder.Services.AddScoped<ILeavesBALRepo, LeavesBALRepo>();
 builder.Services.AddScoped<IDepartmentBALRepo, DepartmentBALRepo>();
 builder.Services.AddScoped<IDocumentBALRepo, DocumentBALRepo>();
+builder.Services.AddScoped<ICompanyDocumentsBALRepo, CompanyDocumentsBALRepo>();
 builder.Services.AddScoped<IEmployeeBALRepo,EmployeeBALRepo>();
+builder.Services.AddScoped<IEmployeeSkillsBALRepo, EmployeeSkillsBALRepo>();
 builder.Services.AddScoped<IAccountDetailsBALRepo, AccountDetailsBALRepo>();
 builder.Services.AddScoped<ICompanyDetailsBALRepo, CompanyDetailsBALRepo>();
 builder.Services.AddScoped<ISalaryBALRepo, SalaryBALRepo>();
@@ -58,6 +63,7 @@ builder.Services.AddScoped<ICTCDetailsBALRepo, CTCDetailsBALRepo>();
 builder.Services.AddScoped<IManagerBALRepo, ManagerBALRepo>();
 builder.Services.AddScoped<IEmployeeTasksBALRepo, EmployeeTasksBALRepo>();
 builder.Services.AddScoped<IEmployeeRegularizationBALRepo, EmployeeRegularizationBALRepo>();
+builder.Services.AddScoped<IEmployeeExperienceBALRepo, EmployeeExperienceBALRepo>();
 
 // Hangfire configuration
 builder.Services.AddHangfire(configuration => configuration

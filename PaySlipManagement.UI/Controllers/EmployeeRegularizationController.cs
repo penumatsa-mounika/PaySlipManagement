@@ -186,10 +186,10 @@ namespace PaySlipManagement.UI.Controllers
         public async Task<IActionResult> SubmitRegularization(EmployeeRegularizationViewModel reg)
         {
             try
-            { 
+            {
 
-                var empCode = reg.Emp_Code;
-
+                var empCode = Request.Cookies["empCode"];
+                reg.Emp_Code = empCode;
                 // Check if regularization for the same date already exists
                 var existingRegularizations = await _apiServices.GetAllAsync<EmployeeRegularizationViewModel>(
                     $"{_apiSettings.EmployeeRegularizationEndpoint}/GetEmployeeRegularizationByCode/{empCode}");

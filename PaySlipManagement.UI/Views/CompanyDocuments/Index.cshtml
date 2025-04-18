@@ -1,0 +1,238 @@
+﻿@model IEnumerable<CompanyDocumentsViewModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Documents Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS for Tabs -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mt-5">
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs" id="employeeTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link " id="upload-documents-tab" data-bs-toggle="tab" href="#upload-documents" role="tab" aria-controls="upload-documents"  style="color: #424242; font-weight: 500;">
+                    Upload Documents
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="company-documents-tab" data-bs-toggle="tab" href="#company-documents" role="tab" aria-controls="company-documents" aria-selected="true" style="color: #424242; font-weight: 500;">Company Documents</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="documents-approval-tab" href="@Url.Action("Index1", "CompanyDocuments")" style="color: #424242; font-weight: 500;">
+                    Documents Approval
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="uploaded-documents-tab" href="@Url.Action("Documents", "CompanyDocuments")" style="color: #424242; font-weight: 500;">Uploaded Documents</a>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="employeeTabsContent">
+            <!-- Upload Documents Tab -->
+            <div class="tab-pane fade " id="upload-documents" role="tabpanel" aria-labelledby="upload-documents-tab">
+                <div class="mb-4 card mx-auto shadow p-4" style="max-width: 800px; border-radius: 8px;">
+                    <div class="mb-4 card-body">
+                        <form asp-action="Create" enctype="multipart/form-data" method="post">
+                            <!-- Hidden field to store Employee Code -->
+                            <input type="hidden" id="empCode" name="empCode" value="@TempData["Emp_Code"]" />
+
+                            <!-- Document Type Selection -->
+                            <div class="mb-3">
+                                <label for="documentType" class="form-label">Select Document Type</label>
+                                <select id="documentType" name="documentType" class="form-control">
+                                    <option value="">-- Select Document Type --</option>
+                                    <option value="Company UAN">Company UAN</option>
+                                    <option value="GST/MOI/COI/PAN/TAN/ICC">GST/MOI/COI/PAN/TAN/ICC</option>
+                                    <option value="Rental Agreements">Rental Agreements</option>
+                                    <option value="Broadband services">Broadband services</option>
+                                    <option value="Coffee/Tea vendors">Coffee/Tea vendors</option>
+                                    <option value="House keeping">House keeping</option>
+                                    <option value="Stationary">Stationary</option>
+                                    <option value="Welcome kit">Welcome kit</option>
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="Electricity">Electricity</option>
+                                    <option value="Water Bill">Water Bill</option>
+                                    <option value="AC Bill">AC Bill</option>
+                                    <option value="Rental Bills">Rental Bills</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+
+                            <!-- File Input -->
+                            <div class="mb-3">
+                                <label for="fileUpload" class="form-label">Select Files</label>
+                                <input type="file" name="files" id="fileUpload" class="form-control" multiple />
+                            </div>
+
+                            <!-- File Name Input -->
+                            <div class="mb-3">
+                                <label for="fileType" class="form-label">File Name</label>
+                                <input type="text" id="fileType" name="fileType" class="form-control" placeholder="Enter file name">
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-primary">Upload Documents</button>
+@*                                <button type="button" class="btn btn-outline-secondary" onclick="location.href='@Url.Action("Index", "Employee")'">Back to List</button>
+*@                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Documents Tab -->
+            <div class="tab-pane fade show active" id="company-documents" role="tabpanel" aria-labelledby="company-documents-tab">
+                <div class="max-w-4xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-6 text-center">Company Documents Management</h2>
+
+                    <form method="post" action="@Url.Action("Index")" class="space-y-4">
+                        <div>
+                            <label for="employeeCode" class="block text-sm font-medium text-gray-700">Employee</label>
+                            <select id="employeeCode" name="Emp_Code" class="w-full mt-1 p-2 border rounded-md">
+                                <option value="">Select Employee</option>
+                                @if (ViewBag.Employees != null)
+                                {
+                                    foreach (var employee in ViewBag.Employees)
+                                    {
+                                        <option value="@employee.Emp_Code">@employee.Emp_Code</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="documentType" class="block text-sm font-medium text-gray-700">Document Type</label>
+                            <select id="documentType" name="DocumentType" required class="w-full mt-1 p-2 border rounded-md">
+                                <option value="">-- Select Document Type --</option>
+                                <option value="Company UAN">Company UAN</option>
+                                <option value="GST/MOI/COI/PAN/TAN/ICC">GST/MOI/COI/PAN/TAN/ICC</option>
+                                <option value="Rental Agreements">Rental Agreements</option>
+                                <option value="Broadband services">Broadband services</option>
+                                <option value="Coffee/Tea vendors">Coffee/Tea vendors</option>
+                                <option value="House keeping">House keeping</option>
+                                <option value="Stationary">Stationary</option>
+                                <option value="Welcome kit">Welcome kit</option>
+                                <option value="Laptop">Laptop</option>
+                                <option value="Electricity">Electricity</option>
+                                <option value="Water Bill">Water Bill</option>
+                                <option value="AC Bill">AC Bill</option>
+                                <option value="Rental Bills">Rental Bills</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700">
+                                <i class="fas fa-filter"></i> Apply Filters
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="max-w-5xl mx-auto mt-6">
+                    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+                        <table class="w-full table-auto border-collapse">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="px-4 py-2">Id</th>
+                                    <th class="px-4 py-2">Employee Code</th>
+                                    <th class="px-4 py-2">Document Type</th>
+                                    <th class="px-4 py-2">File Type</th>
+                                    <th class="px-4 py-2">File Name</th>
+                                    <th class="px-4 py-2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    foreach (var task in Model)
+                                    {
+                                        <tr class="border-b">
+                                            <td class="px-4 py-2">@task.Id</td>
+                                            <td class="px-4 py-2">@task.Emp_Code</td>
+                                            <td class="px-4 py-2">@task.DocumentType</td>
+                                            <td class="px-4 py-2">@task.FileType</td>
+                                            <td class="px-4 py-2">@task.FileName</td>
+                                            <td class="px-4 py-2 flex space-x-2">
+                                                <form method="post" asp-action="ViewDocument" target="_blank">
+                                                    <input type="hidden" name="id" value="@task.Id" />
+                                                    <button type="submit" class="bg-gray-600 text-white px-3 py-1 rounded-md hover:bg-gray-700">
+                                                        <i class="bi bi-eye"></i> View
+                                                    </button>
+                                                </form>
+                                                <form method="post" asp-action="DownloadDocument" target="_blank">
+                                                    <input type="hidden" name="id" value="@task.Id" />
+                                                    <button type="submit" class="bg-indigo-600 text-white px-3 py-1 rounded-md hover:bg-indigo-700">
+                                                        <i class="bi bi-file-earmark-arrow-down"></i> Download
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">No document found.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <!-- Bootstrap JS for Tabs -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById('fileUpload').addEventListener('change', function (event) {
+            let files = event.target.files;
+            let fileList = document.getElementById('selectedFilesList');
+            fileList.innerHTML = ""; // Clear previous selection
+
+            for (let i = 0; i < files.length; i++) {
+                let li = document.createElement("li");
+                li.classList.add("list-group-item");
+
+                let fileName = document.createElement("span");
+                fileName.textContent = files[i].name + " ";
+
+                // Create file type input field
+                let fileTypeInput = document.createElement("input");
+                fileTypeInput.type = "text";
+                fileTypeInput.name = "fileTypes[]";
+                fileTypeInput.classList.add("form-control", "d-inline-block", "ml-2");
+                fileTypeInput.placeholder = "Enter File Type";
+
+                li.appendChild(fileName);
+                li.appendChild(fileTypeInput);
+                fileList.appendChild(li);
+            }
+        });
+
+        document.querySelector("form").addEventListener("submit", function () {
+            let selectedDocumentType = document.getElementById("documentType").value;
+            document.getElementById("hiddenDocumentTypes").value = selectedDocumentType;
+        });
+
+            document.addEventListener("DOMContentLoaded", function () {
+                var activeTab = '@TempData["ActiveTab"]';
+                if (activeTab) {
+                    var tabElement = document.querySelector('a[href="#' + activeTab + '"]');
+                    if (tabElement) {
+                        var tab = new bootstrap.Tab(tabElement);
+                        tab.show();
+                    }
+                }
+            });
+    </script>
+</body>
+</html>

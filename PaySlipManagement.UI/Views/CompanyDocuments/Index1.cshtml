@@ -1,0 +1,131 @@
+﻿@model List<PaySlipManagement.UI.Models.CompanyDocumentsViewModel>
+
+@{
+    ViewData["Title"] = "Company Documents";
+    var currentPage = (int)ViewBag.CurrentPage;
+    var totalPages = (int)ViewBag.TotalPages;
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-primary">Company Documents Requests</h3>
+        <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "CompanyDocuments")'">
+            Back
+        </button>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Employee Code</th>
+                        <th>Document Type</th>
+                        <th>File Type</th>
+                        <th>File Name</th>
+                        <th>File Preview</th>
+                        <th>Approval Person</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var request in Model)
+                        {
+                            <tr>
+                                <td>@request.Id</td>
+                                <td>@request.Emp_Code</td>
+                                <td>@request.DocumentType</td>
+                                <td>@request.FileType</td>
+                                <td>@request.FileName</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(request.FileName))
+                                    {
+                                        var fileUrl = Url.Action("ViewDocumentGet", "CompanyDocuments", new { id = request.Id });
+                                        <a href="@fileUrl" target="_blank" class="btn btn-primary btn-sm">View</a>
+                                    }
+                                    else
+                                    {
+                                        <span>No file available</span>
+                                    }
+                                </td>
+
+                                <td>@request.ApprovalPerson</td>
+                                <td>@request.Status</td>
+                                <td class="action-buttons">
+                                    <button class="btn btn-success btn-sm" onclick="approveRequest(@request.Id)"><i class="bi bi-check"></i></button>
+                                    <button class="btn btn-danger btn-sm" onclick="CancelRequest(@request.Id)"><i class="bi bi-x"></i></button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="9" class="text-center">No Documents requests available</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-3">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    <li class="page-item @(i == currentPage ? "active" : "")">
+                        <a class="page-link" asp-action="Index1" asp-route-page="@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script>
+    function approveRequest(id) {
+        if (confirm('Are you sure you want to approve this Document?')) {
+            $.ajax({
+                url: '@Url.Action("approveRequest", "CompanyDocuments")',
+                type: 'POST',
+                data: {
+                    id: id,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function (response) {
+                    alert('Document approved successfully!');
+                    window.location.href = '@Url.Action("Index1", "CompanyDocuments")';
+                },
+                error: function (error) {
+                    alert('An error occurred while approving the Document.');
+                }
+            });
+        }
+    }
+
+    function CancelRequest(id) {
+        if (confirm('Are you sure you want to reject this Document?')) {
+            $.ajax({
+                url: '@Url.Action("CancelRequest", "CompanyDocuments")',
+                type: 'POST',
+                data: {
+                    id: id,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function (response) {
+                    alert('Document rejected successfully!');
+                    window.location.href = '@Url.Action("Index1", "CompanyDocuments")';
+                },
+                error: function (error) {
+                    alert('An error occurred while rejecting the document.');
+                }
+            });
+        }
+    }
+</script>
+

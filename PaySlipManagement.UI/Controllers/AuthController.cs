@@ -51,70 +51,74 @@ namespace PaySlipManagement.UI.Controllers
                 var manager = data.Select(d => d.ManagerCode).Distinct().ToList();
                 if (!string.IsNullOrEmpty(response))
                 {
-                    var jsonresponse = JsonConvert.DeserializeObject<ApiResponse>(response);
-                    var token = jsonresponse.Token;
+                    ApiResponse jsonresponse = null;
 
-                    Response.Cookies.Append("AuthToken", token, new CookieOptions
+                    try
                     {
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.Strict
-                    });
-
-                    Response.Cookies.Append("empCode", jsonresponse.User.EmpCode, new CookieOptions
-                    {
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.Strict
-                    });
-
-                    var claimsPrincipal = GetClaimsPrincipalFromToken(token);
-                    var roleClaim = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
-
-                    //if (roleClaim != null)
-                    //{
-                    //    var role = roleClaim.Value;
-                    //    TempData["empcode"] = jsonresponse.User.EmpCode;
-
-                    //    if (role == "Admin")
-                    //    {
-                    //        TempData["IsAdminRole"] = true;
-                    //        return RedirectToAction("Index", "Employee");
-                    //    }
-                    //    else if (role == "Employee")
-                    //    {
-                    //        TempData["IsEmployeeRole"] = true;
-                    //        return RedirectToAction("GeneratePdf", "Employee");
-                    //    }
-                    //}
-                    if (manager.Contains(empcode))
-                    {
-                        var mng = empcode;
-                        SetCookie("ManagerCode", mng);
+                        jsonresponse = JsonConvert.DeserializeObject<ApiResponse>(response);
                     }
-                    if (roleClaim != null)
+                    catch (JsonReaderException ex)
                     {
-                        var role = roleClaim.Value;
-                        TempData["empcode"] = jsonresponse.User.EmpCode;
-
-                        // Set role and token in cookies
-                        SetCookie("AuthToken", token);
-                        SetCookie("empCode", jsonresponse.User.EmpCode);
-                        HttpContext.Session.SetString("empCode", jsonresponse.User.EmpCode);
-                        SetCookie("UserRole", role);
-
-                        if (role == "Admin")
-                        {
-                            return RedirectToAction("Index", "Employee");
-                        }
-                        else if (role == "Employee")
-                        {
-                            return RedirectToAction("GeneratePdf", "Employee");
-                        }
+                        ModelState.AddModelError(string.Empty, "Unexpected response from server. Please try again later.");
+                        return View(model);
                     }
 
-                    ModelState.AddModelError(string.Empty, "Invalid role");
-                    return RedirectToAction("Login", "Auth");
+                    if (jsonresponse != null && !string.IsNullOrEmpty(jsonresponse.Token))
+                    {
+                        var token = jsonresponse.Token;
+
+                        Response.Cookies.Append("AuthToken", token, new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict
+                        });
+
+                        Response.Cookies.Append("empCode", jsonresponse.User.EmpCode, new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict
+                        });
+
+                        var claimsPrincipal = GetClaimsPrincipalFromToken(token);
+                        var roleClaim = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+
+                        if (manager.Contains(empcode))
+                        {
+                            var mng = empcode;
+                            SetCookie("ManagerCode", mng);
+                        }
+
+                        if (roleClaim != null)
+                        {
+                            var role = roleClaim.Value;
+                            TempData["empcode"] = jsonresponse.User.EmpCode;
+
+                            // Set role and token in cookies
+                            SetCookie("AuthToken", token);
+                            SetCookie("empCode", jsonresponse.User.EmpCode);
+                            HttpContext.Session.SetString("empCode", jsonresponse.User.EmpCode);
+                            SetCookie("UserRole", role);
+
+                            if (role == "Admin")
+                            {
+                                return RedirectToAction("Index", "Employee");
+                            }
+                            else if (role == "Employee")
+                            {
+                                return RedirectToAction("GeneratePdf", "Employee");
+                            }
+                        }
+
+                        ModelState.AddModelError(string.Empty, "Invalid role");
+                        return RedirectToAction("Login", "Auth");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid API response.");
+                        return View(model);
+                    }
                 }
                 else
                 {

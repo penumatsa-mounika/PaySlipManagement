@@ -6,6 +6,8 @@ using PaySlipManagement.BAL.Interfaces;
 using PaySlipManagement.DAL.Interfaces;
 using PayslipManagement.Common.Models;
 using PaySlipManagement.DAL.Implementations;
+using Microsoft.Data.SqlClient;
+
 
 namespace PaySlipManagement.API.Controllers
 {
@@ -53,7 +55,8 @@ namespace PaySlipManagement.API.Controllers
         [HttpPost("CreateEmployee")]
         public async Task<bool> Create(Employee _employee)
         {
-            return await _employeeBALRepo.AddEmployee(_employee);
+            //return await _employeeBALRepo.CreateEmployee(_employee);
+                return await _employeeBALRepo.AddEmployee(_employee);   
 
         }
         [HttpPut("UpdateEmployee")]
@@ -69,5 +72,50 @@ namespace PaySlipManagement.API.Controllers
             emp.Id = id;
             return await _employeeBALRepo.DeleteEmployee(emp);
         }
+
+        [HttpPost("BulkInsertEmployees")]
+        public async Task<ActionResult<object>> BulkInsertEmployees([FromBody] List<Employee> employees)
+        {
+            if (employees == null || employees.Count == 0)
+            {
+                return BadRequest(new { Message = "Employee list cannot be empty." });
+            }
+
+            try
+            {
+                bool isInserted = await _employeeBALRepo.BulkInsertEmployees(employees);
+
+                if (!isInserted)
+                {
+                    return StatusCode(500, new { Message = "Bulk insert operation failed." });
+                }
+
+                return Ok(new { Message = "Employees inserted successfully." });
+            }
+            catch (SqlException sqlEx)
+            {
+                // Log SQL-specific error (if logging is available)
+                Console.WriteLine($"SQL Error: {sqlEx.Message}");
+
+                return StatusCode(500, new
+                {
+                    Message = "Database error occurred while inserting employees.",
+                    Error = sqlEx.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"General Error: {ex.Message}");
+
+                return StatusCode(500, new
+                {
+                    Message = "An unexpected error occurred while inserting employees.",
+                    Error = ex.Message
+                });
+            }
+        }
+
+
+
     }
 }
