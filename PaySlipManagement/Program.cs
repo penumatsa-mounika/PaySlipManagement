@@ -17,6 +17,8 @@ using PaySlipManagement.API.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//StaticConfigurationHelper.Initialize(builder.Configuration);
+PaySlipManagement.DAL.Helper.StaticConfigurationHelper.Initialize(builder.Configuration);
 
 // Serilog setup with the connection string from the configuration
 Serilog.Log.Logger = new LoggerConfiguration()
@@ -34,10 +36,11 @@ Serilog.Log.Logger = new LoggerConfiguration()
         restrictedToMinimumLevel: LogEventLevel.Information)
     .CreateLogger();
 Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine(msg));
+var configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddDbContextFactory<LoggingDbContext>(options =>
-    options.UseSqlServer("Server=mydb-sqlexpress.ch6gk4omok56.ap-south-1.rds.amazonaws.com,1433;Database=PayslipManagement;User Id=Admin;Password=Whiztek2025;TrustServerCertificate=True;MultipleActiveResultSets=True"));
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddTransient<IExceptionLoggerService, ExceptionLoggerService>();
 
 builder.Services.AddScoped<IEmployeeTypeBALRepo, EmployeeTypeBALRepo>();

@@ -10,13 +10,15 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PaySlipManagement.DAL.Helper;
 
 namespace PaySlipManagement.DAL.DapperServices.Implementations
 {
     public class DapperServices<T>: IDapperServices<T>
     {
-        private string constring = "Server=mydb-sqlexpress.ch6gk4omok56.ap-south-1.rds.amazonaws.com,1433;Database=EmployeeManagement;User Id=Admin;Password=Whiztek2025;TrustServerCertificate=True;MultipleActiveResultSets=True";
+        //private string constring = "Server=mydb-sqlexpress.ch6gk4omok56.ap-south-1.rds.amazonaws.com,1433;Database=EmployeeManagement;User Id=Admin;Password=Whiztek2025;TrustServerCertificate=True;MultipleActiveResultSets=True";
         private SqlConnection con;
+         private string constring = StaticConfigurationHelper.GetConnectionString();
         public DapperServices()
         {
             con = new SqlConnection(constring);
